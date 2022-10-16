@@ -9,7 +9,6 @@
   },
   "devDependencies": {
     "@css-render/vue3-ssr": "^0.15.11",
-    "@nuxtjs/tailwindcss": "^5.3.5",
     "autoprefixer": "^10.4.12",
     "naive-ui": "^2.33.5",
     "nuxt": "3.0.0-rc.11",
