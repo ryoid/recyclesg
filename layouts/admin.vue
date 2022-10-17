@@ -1,6 +1,6 @@
 <template>
   <div>
-    Default Layout
+    Admin Layout
     <slot />
   </div>
 </template>
