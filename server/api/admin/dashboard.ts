@@ -1,4 +1,4 @@
-import isToday from "date-fns/isToday";
+import { isToday } from "date-fns";
 
 import { RECYCLE_REQUESTS_DATA } from "../recyclerequests/data";
 

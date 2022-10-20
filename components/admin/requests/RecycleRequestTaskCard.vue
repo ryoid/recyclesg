@@ -24,7 +24,7 @@
 </template>
 
 <script setup lang="ts">
-import formatDistanceToNow from 'date-fns/formatDistanceToNow';
+import { formatDistanceToNow } from 'date-fns';
 import { RecycleRequest } from '~~/server';
 import { getStatusColor } from '@/components/utils';
 
