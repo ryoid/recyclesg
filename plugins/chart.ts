@@ -1,5 +1,5 @@
 import { defineNuxtPlugin } from "#app";
-import { Line } from "vue-chartjs/legacy";
+import { Line } from "vue-chartjs";
 import {
   Chart as ChartJS,
   Title,
