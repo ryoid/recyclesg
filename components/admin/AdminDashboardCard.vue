@@ -11,18 +11,17 @@ import { AccentLine } from '../../.nuxt/components';
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import AccentLine from '@/components/AccentLine.vue';
 import AccentGlow from '@/components/AccentGlow.vue';
-defineProps({
-  title: String,
-  accentLine: {
-    type: String,
-    default: ""
-  },
-  height: {
-    type: Number,
-    default: 300,
-  },
-});
+
+export type Props = {
+  title: string
+  accentLine?: string
+  height?: number
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  height: 300,
+})
 </script>
