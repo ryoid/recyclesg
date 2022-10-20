@@ -6,7 +6,7 @@
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
 definePageMeta({
   layout: "admin",
 });
