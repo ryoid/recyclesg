@@ -7,6 +7,8 @@ import Dropdown from "primevue/dropdown";
 import Checkbox from "primevue/checkbox";
 import AutoComplete from "primevue/autocomplete";
 import DataTable from "primevue/datatable";
+import Column from "primevue/column";
+import Row from "primevue/row";
 import InputText from "primevue/inputtext";
 import InputNumber from "primevue/inputnumber";
 import InputMask from "primevue/inputmask";
@@ -39,6 +41,8 @@ export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.component("Checkbox", Checkbox);
   nuxtApp.vueApp.component("AutoComplete", AutoComplete);
   nuxtApp.vueApp.component("DataTable", DataTable);
+  nuxtApp.vueApp.component("Row", Row);
+  nuxtApp.vueApp.component("Column", Column);
   nuxtApp.vueApp.component("InputText", InputText);
   nuxtApp.vueApp.component("InputNumber", InputNumber);
   nuxtApp.vueApp.component("InputMask", InputMask);

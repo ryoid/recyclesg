@@ -19,7 +19,7 @@ import { AccentLine } from '../../.nuxt/components';
       'cursor-pointer': !!link,
     }]">
       <div class="flex justify-between">
-        <h2 class="text-neutral-800 font-semibold text-lg">{{ title }}</h2>
+        <h2 v-if="title" class="text-neutral-800 font-semibold text-lg">{{ title }}</h2>
         <div v-if="link" class="transition opacity-0 group-hover:opacity-100">
           <Tag name="View all" size="sm" />
         </div>
@@ -35,7 +35,7 @@ import AccentLine from '@/components/AccentLine.vue';
 import AccentGlow from '@/components/AccentGlow.vue';
 
 export type Props = {
-  title: string
+  title?: string
   subtitle?: string
   accentLine?: string
   height?: number

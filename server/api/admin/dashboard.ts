@@ -20,5 +20,10 @@ export default defineEventHandler((event) => {
         (request.status === "completed" || request.status === "rejected") &&
         isToday(new Date(request.createdAt))
     ).length,
+    counts: {
+      users: 12,
+      bookings: 6,
+      otherthing: 15,
+    },
   };
 });
