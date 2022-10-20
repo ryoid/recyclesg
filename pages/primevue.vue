@@ -1,6 +1,6 @@
 <template>
   <h1>Prime Vue</h1>
-  <Button />
+  <Button></Button>
 </template>
 
 
