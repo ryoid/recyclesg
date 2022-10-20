@@ -3,7 +3,4 @@
 @tailwind utilities;
 
 @layer base {
-  h1 {
-    @apply text-red-400
-  }
 }
