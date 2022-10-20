@@ -5,10 +5,12 @@
       <div class="relative h-full aspect-square bg-neutral-50 rounded-lg ">
         <img class="absolute inset-0 aspect-square object-cover rounded-lg" :src="request.image" />
       </div>
-      <div>
-        <div class="inline-flex gap-1.5">
+      <div class="w-full">
+        <div class="inline-flex gap-1.5 w-full md:justify-between lg:justify-start">
           {{ request.title }}
-          <Tag :name="request.status" :color="getStatusColor(request.status)" />
+          <div class="">
+            <Tag :name="request.status" :color="getStatusColor(request.status)" />
+          </div>
         </div>
         <div class="text-sm text-neutral-400">
           <span v-if="request.status === 'completed' && request.completedAt">Completed {{
