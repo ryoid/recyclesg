@@ -90,12 +90,7 @@ hr{
   
   <script lang="ts" setup>
   
-  import Button from 'primevue/button';
-  import Calendar from 'primevue/calendar';
-  import Listbox from 'primevue/listbox';
-  import InputText from 'primevue/inputtext';
-  import InputNumber from 'primevue/inputnumber';
-  import Image from 'primevue/image';
+  
 
 
   </script>
