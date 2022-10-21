@@ -14,12 +14,13 @@ export default defineNuxtConfig({
       process.env.NODE_ENV === "production"
         ? [
             "primevue",
+            "chart.js",
             "naive-ui",
             "vueuc",
             "@css-render/vue3-ssr",
             "@juggle/resize-observer",
           ]
-        : ["primevue", "@juggle/resize-observer"],
+        : ["primevue", "chart.js", "@juggle/resize-observer"],
   },
   vite: {
     optimizeDeps: {
