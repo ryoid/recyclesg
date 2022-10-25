@@ -75,10 +75,11 @@ hr{
 
 
         <h3>Collection Items</h3>
-            <img src="./bottle2.png" alt="Girl in a jacket" width="300" height="300">
+        <FileUpload name="demo[]" url="./upload" :multiple="true" accept="image/*" />
+
         <div>
             <p>Description (optional)</p>
-            <InputText type="text" v-model="value" size = "50" style = "height:200px"/>
+            <InputText type="text" v-model="value" size = "100" style = "height:200px"/>
         </div>
         <br>
         <Button label="Submit" style = "margin-left:4px">Book Collection</Button>

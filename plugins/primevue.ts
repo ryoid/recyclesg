@@ -24,6 +24,8 @@ import AvatarGroup from "primevue/avatargroup";
 import Badge from "primevue/badge";
 import Message from "primevue/message";
 import Listbox from 'primevue/listbox';
+import FileUpload from 'primevue/fileupload';
+
 
 import ConfirmationService from "primevue/confirmationservice";
 import DialogService from "primevue/dialogservice";
@@ -59,5 +61,6 @@ export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.component("Badge", Badge);
   nuxtApp.vueApp.component("Message", Message);
   nuxtApp.vueApp.component("Listbox", Listbox);
+  nuxtApp.vueApp.component("FileUpload", FileUpload);
   //other components that you need
 });

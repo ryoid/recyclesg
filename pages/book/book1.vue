@@ -14,6 +14,11 @@ div {
 
 .inline-block{
     display: inline-block;
+    vertical-align:top;
+}
+
+.margin-right{
+    margin-right: 100px;
 }
 
 </style>
@@ -27,11 +32,13 @@ div {
         </p>
     </div>
     <br>
-    <div class = "inline-block">
-        <Calendar v-model="value" :inline="true"></Calendar>
-    </div>
-    <div class = "inline-block">
-        <Listbox v-model="selectedTiming" :options="timings"/>
+    
+        <Calendar v-model="value" :inline="true" :minDate="new Date(data.minDateValue)" :maxDate="maxDateValue" class = "inline-block margin-right" />
+        <Listbox v-model="selectedTiming" :options="data.timings" class = "inline-block"/> 
+
+    
+    <div>
+      
     </div>
 
   </template>
@@ -39,7 +46,7 @@ div {
   
   <script lang="ts" setup>
   
-  
-  
-  const timings = ["9:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00","23:00","00:00"];
+    const { data, pending, refresh, error } = await useFetch('/api/admin/book1', {
+    })
+
   </script>
