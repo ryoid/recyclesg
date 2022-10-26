@@ -1,74 +1,84 @@
 <template>
-    <div class="flex mx-auto w-5/6">
-        <n-input
-            v-model:value ="usersearch"
-            v-on:keyup.enter="searchItem"
-            class="bar"   
-            round 
-            placeholder="e.g. plastic bottle, toilet paper">
-            <template #prefix>
-                <n-icon size="30">
-                    <search-icon />
-                </n-icon>
-            </template>
-        </n-input>
-
-        <NuxtLink to="/imagesearch">
-            <n-button
-                class="upload"
-                quaternary
-                circle > 
-                <template #icon>
-                    <n-icon size="30">
-                        <arrow-up-circle-icon />
-                    </n-icon>            
-                </template>
-            </n-button>
-        </NuxtLink>        
+    <div>
+        <div class="mx-auto w-5/6">
+            <span class="p-fluid flex w-full">
+                    <i class="pi pi-search my-auto"></i>
+                    <AutoComplete 
+                        class="p-autocomplete"
+                        v-model="selectedRecyclables" 
+                        :suggestions="filteredRecyclables" 
+                        @complete="searchCountry($event)" 
+                        optionLabel="name" 
+                        placeholder="e.g. plastic bottle, toilet paper"/>
+                
+                <NuxtLink to="/imagesearch">
+                    <Button icon="pi pi-upload" class="p-button-rounded p-button-primary p-button-outlined"></Button>
+                </NuxtLink>
+            </span>
+        
+            <div v-if="length==0" id="noresults">No results found</div>
+        </div>
     </div>
-{{usersearch}}
 </template>
 
 <script>
 
-    import { defineComponent, ref } from "vue";
-    import { 
-        SearchOutline as SearchIcon,
-        ArrowUpCircleOutline as ArrowUpCircleIcon
-    } from "@vicons/ionicons5";
-    import {
-        NInput,
-        NIcon,
-        NButton,
-        NDynamicInput,
-    } from 'naive-ui'
+    import { defineComponent } from "vue";
+    import AutoComplete from 'primevue/autocomplete';
+    import json from "~~/server/api/recyclerequests/NEA_parsed.json";
 
     export default defineComponent({
 
     data(){
         return {
-            usersearch: ref(null)
+            json: json,
+            recyclables: json,
+            selectedRecyclables: null,
+			filteredRecyclables: null,
+            recyclablesList: [],
+            length: null
         }
     },
 
     methods: {
-        searchItem(){
-            let item = this.usersearch
-            redirect
-        }
+        searchCountry(event) {
+            setTimeout(() => {
+                if (!event.query.trim().length) {
+                    this.filteredRecyclables = [...this.recyclablesList];
+                }
+                else {
+                    this.length = 0
+                    this.filteredRecyclables = this.recyclablesList.filter((item) => {
+                        if (item.name.toLowerCase().includes(event.query.toLowerCase())){
+                            this.length++
+                            return item.name
+                        }
+                    });
+                }
+            }, 250);
+        },
+
+        countryList(){
+            let item = null
+            for (item of this.recyclables){
+                var obj = {}
+                obj['id'] = item.id
+                obj['name'] = item.name
+                this.recyclablesList.push(obj)
+            }
+        },
+    },
+
+    mounted(){
+        this.countryList()
     },
 
     components: {
-        SearchIcon,
-        ArrowUpCircleIcon,
-        NInput,
-        NIcon,
-        NButton,
-        NDynamicInput
+        AutoComplete,
+        json
     },
 
     });
-
 </script>
 
 <style>
@@ -79,6 +89,18 @@
 
     .bar{
         margin: 5px;
+    }
+
+    .p-autocomplete{
+        width: 100%;
+        margin-right: 10px;
+        margin-left: 10px;
+    }
+
+    #noresults{
+        color: red;
+        font-size: small;
+        font-weight: bold;
     }
 
 </style>
