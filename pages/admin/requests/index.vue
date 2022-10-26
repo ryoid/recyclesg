@@ -2,33 +2,45 @@
   <div>
     <AdminHeader title="Requests" subtitle="Recyclable Requests" />
 
+    <div class="flex flex-col gap-4" v-auto-animate="{ duration: 500 }">
+      <AdminDashboardCard title="Uncompleted Requests">
+        <div class="bg-gray-100 rounded p-2 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2">
+          <RecycleRequestTaskCard v-for="request in data.pending" :request="request" :key="request.id"
+            class="bg-white rounded border border-gray-200 hover:border-gray-300" />
+        </div>
+      </AdminDashboardCard>
 
-    <div>
-      <DataTable :value="data" scrollable scrollHeight="400px">
-        <Column field="id" header="Id" style="min-width: '200px'"></Column>
-        <Column field="image" header="Image" style="min-width: '200px'"></Column>
-        <Column field="title" header="Title" style="min-width: '200px'"></Column>
-        <Column field="description" header="Description" style="min-width: '200px'"></Column>
-        <Column field="status" header="Status" style="min-width: '200px'"></Column>
-      </DataTable>
+      <AdminDashboardCard title="Completed Requests">
+        <div class="bg-gray-100 rounded p-2 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2">
+          <RecycleRequestTaskCard v-for="request in data.completed" :request="request" :key="request.id"
+            class="bg-white rounded border border-gray-200 hover:border-gray-300" />
+
+          <hr v-if="data.rejected.length > 0" class="md:col-span-2 xl:col-span-3" />
+
+          <RecycleRequestTaskCard v-for="request in data.rejected" :request="request" :key="request.id"
+            class="bg-white rounded border border-gray-200 hover:border-gray-300" />
+        </div>
+      </AdminDashboardCard>
+
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import RecycleRequestTaskCard from '~~/components/admin/requests/RecycleRequestTaskCard.vue';
+
 definePageMeta({
   layout: "admin",
 });
 
 const route = useRoute()
-console.log(route.query)
 
-const { data, pending, refresh, error } = await useFetch('/api/admin/recyclerequests', {
+const { data, pending, refresh, error } = await useFetch('/api/admin/recyclerequests/filtered', {
 })
 
 onMounted(() => {
   window.setInterval(() => {
     refresh()
-  }, 2000)
+  }, 3000)
 })
 </script>

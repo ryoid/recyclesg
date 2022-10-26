@@ -1,4 +1,50 @@
 import { RecycleRequest } from "~~/server/types";
+import fs from "fs";
+
+const FILE_PATH = "./data/recycle_requests.json";
+
+export function reset() {
+  const dictIds = {};
+  fs.writeFileSync(
+    FILE_PATH,
+    JSON.stringify(
+      RECYCLE_REQUESTS_DATA.filter((d) => {
+        if (dictIds[d.id]) return false;
+        dictIds[d.id] = true;
+        return true;
+      })
+    )
+  );
+}
+
+export function getRecycleRequestData() {
+  return JSON.parse(fs.readFileSync(FILE_PATH, "utf8")) as RecycleRequest[];
+  // fs.writeFileSync(FILE_PATH, JSON.stringify(body));
+}
+
+export function updateRecycleRequestData(
+  req: Pick<RecycleRequest, "id"> & Omit<Partial<RecycleRequest>, "id">
+) {
+  const data = getRecycleRequestData();
+  console.log("data", data);
+
+  const index = data.findIndex((d) => {
+    return String(d.id) === String(req.id);
+  });
+
+  if (index < 0) {
+    throw new Error("Could not find req");
+  }
+
+  data[index] = {
+    ...data[index],
+    ...req,
+  };
+
+  fs.writeFileSync(FILE_PATH, JSON.stringify(data));
+
+  return data[index];
+}
 
 export const RECYCLE_REQUESTS_DATA: RecycleRequest[] = [
   {

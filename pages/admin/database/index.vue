@@ -107,9 +107,14 @@ const materialsCn: Record<string, string> = {
 }
 
 const route = useRoute()
-console.log(route.query)
 
 const { data, pending, refresh, error } = await useFetch('/api/admin/recyclable', {
+  initialCache: false
+})
+
+
+onMounted(() => {
+  refresh()
 })
 
 </script>

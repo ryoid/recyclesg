@@ -10,8 +10,5 @@ function getRecyclableData(): Recyclable[] {
 }
 
 export default defineEventHandler((event) => {
-  if (event.req.method === "GET") {
-    console.log("log get root");
-  }
   return getRecyclableData();
 });
