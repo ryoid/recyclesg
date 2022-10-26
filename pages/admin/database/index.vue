@@ -4,16 +4,23 @@
 
 
     <div>
-      <DataTable :value="data" scrollable dataKey="id" :rowHover="true" v-model:selection="selectedCustomers"
+      <DataTable :value="data" scrollable :rowHover="true" v-model:selection="selectedCustomers"
         v-model:filters="filters" filterDisplay="menu" :loading="pending" paginatorTemplate=""
-        :globalFilterFields="['name', 'description', 'tags', 'material', 'createdAt']" responsiveLayout="scroll">
+        :globalFilterFields="['name', 'description', 'tags', 'material', 'createdAt']" responsiveLayout="scroll"
+        :virtualScrollerOptions="{ itemSize: 46 }" scrollHeight="100vh" class="border border-gray-200 rounded">
         <template #header>
-          <div class="flex flex-col gap-1">
-            <h5 class="m-0">Search</h5>
-            <span class="p-input-icon-left">
-              <i class="pi pi-search" />
-              <InputText v-model="filters['global'].value" placeholder="Keyword Search" />
-            </span>
+          <div class="sticky w-full flex justify-between items-end gap-2">
+            <div class="flex flex-col gap-1 w-1/2">
+              <h5 class="m-0">Search</h5>
+              <span class="p-input-icon-left">
+                <i class="pi pi-search" />
+                <InputText v-model="filters['global'].value" placeholder="Keyword Search" class="w-full" />
+              </span>
+            </div>
+
+            <div>
+              <Button class="p-button-secondary">Add new item</Button>
+            </div>
           </div>
         </template>
         <template #empty>
@@ -30,16 +37,6 @@
             <span :class="[
               'px-1.5 rounded',
               materialsCn[data.material]
-              // {
-              //   'bg-gray-100 text-gray-500': data.material === 'Paper',
-              //   'bg-green-300 text-green-700': data.material === 'Plastic',
-              //   'bg-red-300 text-red-700': data.material === 'Non Food Plastic',
-              //   'bg-yellow-300 text-yellow-700': data.material === 'F&B Plastic',
-              //   'bg-blue-100 text-blue-700': data.material === 'Glass',
-              //   'bg-slate-700 text-slate-300': data.material === 'Metal',
-              //   'bg-slate-300 text-slate-500': data.material === 'Others'
-            
-              // }
             ]">{{ data.material }}</span>
           </template>
           <template #filter="{ filterModel }">
@@ -89,16 +86,16 @@ definePageMeta({
   layout: "admin",
 });
 
-const selectedCustomers = null
-const materials = ['Plastic', 'Paper', 'Non Food Plastic', 'F&B Plastic', 'Metal', 'Glass', 'Other']
-const filters = {
+const selectedCustomers = ref(null)
+const materials = ref(['Plastic', 'Paper', 'Non Food Plastic', 'F&B Plastic', 'Metal', 'Glass', 'Other'])
+const filters = ref({
   'global': { value: null, matchMode: FilterMatchMode.CONTAINS },
-  'name': { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }] },
-  'description': { value: null, matchMode: FilterMatchMode.IN },
-  'tags': { value: null, matchMode: FilterMatchMode.IN },
-  'createdAt': { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.DATE_IS }] },
+  'name': { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }] },
+  'description': { value: null, matchMode: FilterMatchMode.CONTAINS },
+  'tags': { value: null, matchMode: FilterMatchMode.CONTAINS },
+  // 'createdAt': { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.DATE_IS }] },
   'material': { operator: FilterOperator.OR, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
-}
+})
 const materialsCn: Record<string, string> = {
   'Paper': 'bg-gray-100 text-gray-500',
   'Plastic': 'bg-green-300 text-green-700',
