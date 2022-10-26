@@ -13,7 +13,7 @@ import InputText from "primevue/inputtext";
 import InputNumber from "primevue/inputnumber";
 import InputMask from "primevue/inputmask";
 import InputSwitch from "primevue/inputswitch";
-import RatioButton from "primevue/radiobutton";
+import RadioButton from "primevue/radiobutton";
 import Textarea from "primevue/textarea";
 import ToggleButton from "primevue/togglebutton";
 import Skeleton from "primevue/skeleton";
@@ -47,7 +47,7 @@ export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.component("InputNumber", InputNumber);
   nuxtApp.vueApp.component("InputMask", InputMask);
   nuxtApp.vueApp.component("InputSwitch", InputSwitch);
-  nuxtApp.vueApp.component("RatioButton", RatioButton);
+  nuxtApp.vueApp.component("RadioButton", RadioButton);
   nuxtApp.vueApp.component("Textarea", Textarea);
   nuxtApp.vueApp.component("ToggleButton", ToggleButton);
   nuxtApp.vueApp.component("Skeleton", Skeleton);
