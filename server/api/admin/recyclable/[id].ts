@@ -10,7 +10,7 @@ function getRecyclableData(): Recyclable[] {
 }
 
 export default defineEventHandler((event) => {
-  return getRecyclableData().filter((d) => {
+  return getRecyclableData().find((d) => {
     return String(d.id) === String(event.context.params.id);
   });
 });
