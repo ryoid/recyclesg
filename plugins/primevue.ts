@@ -23,6 +23,8 @@ import Avatar from "primevue/avatar";
 import AvatarGroup from "primevue/avatargroup";
 import Badge from "primevue/badge";
 import Message from "primevue/message";
+import Image from 'primevue/image';
+import Divider from 'primevue/divider';
 
 import ConfirmationService from "primevue/confirmationservice";
 import DialogService from "primevue/dialogservice";
@@ -57,5 +59,9 @@ export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.component("AvatarGroup", AvatarGroup);
   nuxtApp.vueApp.component("Badge", Badge);
   nuxtApp.vueApp.component("Message", Message);
+  nuxtApp.vueApp.component("Image", Image);
+  nuxtApp.vueApp.component("Divider", Divider);
+
+
   //other components that you need
 });
