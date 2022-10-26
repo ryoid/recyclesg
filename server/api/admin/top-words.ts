@@ -1,6 +1,6 @@
 import natural from "natural";
 
-import { RECYCLE_REQUESTS_DATA } from "../recyclerequests/data";
+import { RECYCLE_REQUESTS_DATA } from "./recyclerequests/data";
 
 export default defineEventHandler((event) => {
   const wordDict = RECYCLE_REQUESTS_DATA.reduce((acc, request) => {
