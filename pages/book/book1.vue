@@ -24,7 +24,6 @@ div {
 </style>
 
 <template>
-    
     <h2>Book Collection</h2>
     <div>
         <p>
