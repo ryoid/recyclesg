@@ -30,8 +30,6 @@
             >Search by image</n-button>       
         </n-layout-content>
       </n-layout>
-
-   
     </div>
   </template>
 

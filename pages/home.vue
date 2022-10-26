@@ -1,9 +1,11 @@
 <template>
 
-    <nav_bar />
+    <div>
+        <nav_bar />
 
-    <logo />
+        <logo />
 
-    <search_bar />
+        <search_bar />
+    </div>
 
 </template>

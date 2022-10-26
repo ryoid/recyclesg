@@ -1,9 +1,12 @@
 <template>
 
-    <nav_bar />
+    <div>
+        <nav_bar />
 
-    <logo />
+        <logo />
 
-    <image_uploader />
+        <image_uploader />    
+    </div>
+
     
 </template>

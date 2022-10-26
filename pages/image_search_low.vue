@@ -1,37 +1,40 @@
 <template>
 
-    <nav_bar />
+    <div>
+        <nav_bar />
 
-    <n-layout has-sider>
-        
-        <n-layout-sider title class="w-1/3">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/c/c9/-Insert_image_here-.svg">
-        </n-layout-sider>
+        <n-layout has-sider>
+            
+            <n-layout-sider title class="w-1/3">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/c/c9/-Insert_image_here-.svg">
+            </n-layout-sider>
 
-        <n-layout class="w-2/3">
-            <n-layout-header class="title">
-                Detected Items
-            </n-layout-header>
-            <n-layout-content>
+            <n-layout class="w-2/3">
+                <n-layout-header class="title">
+                    Detected Items
+                </n-layout-header>
+                <n-layout-content>
 
-                <div class="w-5/6" id="textbox">
-                    We are not able to confidently identify the items.
-                    <n-button id="retake"
-                    round>Retake Image</n-button>
-                </div>
+                    <div class="w-5/6" id="textbox">
+                        We are not able to confidently identify the items.
+                        <n-button id="retake"
+                        round>Retake Image</n-button>
+                    </div>
 
-                <n-radio-group class="w-5/6">
-                    <n-space vertical>
-                        <n-radio-button id="item" v-for="option in menuOptions" :label="option.label" :value="option.label" />
-                    </n-space>
-                </n-radio-group>
-                
-            </n-layout-content>
-            <n-layout-footer>
-                <n-button>View Results</n-button>
-            </n-layout-footer>
+                    <n-radio-group class="w-5/6">
+                        <n-space vertical>
+                            <n-radio-button id="item" v-for="option in menuOptions" :label="option.label" :value="option.label" />
+                        </n-space>
+                    </n-radio-group>
+                    
+                </n-layout-content>
+                <n-layout-footer>
+                    <n-button>View Results</n-button>
+                </n-layout-footer>
+            </n-layout>
         </n-layout>
-    </n-layout>
+    </div>
+
 </template>
 
 <script>
@@ -87,6 +90,10 @@
             menuOptions
         };
     },
+
+    methods(){
+
+    }
 })
 
 </script>

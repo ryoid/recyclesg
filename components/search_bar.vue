@@ -2,6 +2,7 @@
     <div class="flex mx-auto w-5/6">
         <n-input
             v-model:value ="usersearch"
+            v-on:keyup.enter="searchItem"
             class="bar"   
             round 
             placeholder="e.g. plastic bottle, toilet paper">
@@ -11,18 +12,19 @@
                 </n-icon>
             </template>
         </n-input>
-        <n-button
-            class="upload"
-            quaternary
-            circle 
-            tag = "a"
-            href="imagesearch"> 
-            <template #icon>
-                <n-icon size="30">
-                    <arrow-up-circle-icon />
-                </n-icon>            
-            </template>
-        </n-button>        
+
+        <NuxtLink to="/imagesearch">
+            <n-button
+                class="upload"
+                quaternary
+                circle > 
+                <template #icon>
+                    <n-icon size="30">
+                        <arrow-up-circle-icon />
+                    </n-icon>            
+                </template>
+            </n-button>
+        </NuxtLink>        
     </div>
 {{usersearch}}
 </template>
@@ -46,6 +48,13 @@
     data(){
         return {
             usersearch: ref(null)
+        }
+    },
+
+    methods: {
+        searchItem(){
+            let item = this.usersearch
+            redirect
         }
     },
 

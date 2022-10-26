@@ -1,5 +1,4 @@
 <template>  
-  <import />
     <div>
         <nav class="bg-white border-gray-200">
             <div class="flex flex-col p-4 nav background mb-4">
@@ -13,6 +12,7 @@
   
 <script>
 
+  import my_nuxt_link from '~/components/my_nuxt_link'
   import { defineComponent, ref } from "vue";
   import { 
     LeafOutline as LeafIcon,
@@ -34,10 +34,10 @@
   const menuOptions = [
     {
       label: () => h(
-        "a",
-        {
-          href: "",
-        },
+        my_nuxt_link,
+            {
+                to: "/home",
+            },
         "Check Recyclables"
       ),
       key: "CheckRecyclables",
@@ -45,9 +45,9 @@
     },
     {
         label: () => h(
-        "a",
+        my_nuxt_link,
             {
-                href: "",
+                to: "",
             },
         "Book Collection"
         ),
@@ -62,9 +62,9 @@
       children: [
         {
           label: () => h(
-            "a",
+            my_nuxt_link,
             {
-                href:""
+                to:""
             },
         "Login"
           ),
@@ -72,9 +72,9 @@
         },
         {
           label: () => h(
-            "a",
+            my_nuxt_link,
             {
-                href:""
+                to:""
             },
         "Signup"
           ),
@@ -87,7 +87,8 @@
   export default defineComponent({
 
     components: {
-        NMenu
+        NMenu,
+        my_nuxt_link
     },
 
     data() {
