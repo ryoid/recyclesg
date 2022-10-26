@@ -115,9 +115,4 @@ console.log(route.query)
 const { data, pending, refresh, error } = await useFetch('/api/admin/recyclable', {
 })
 
-onMounted(() => {
-  window.setInterval(() => {
-    refresh()
-  }, 2000)
-})
 </script>
