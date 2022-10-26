@@ -24,7 +24,7 @@
             </template>
         </n-button>        
     </div>
-{{usersearch}}test
+{{usersearch}}
 </template>
 
 <script>
