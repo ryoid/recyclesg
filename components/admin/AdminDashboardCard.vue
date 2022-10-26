@@ -1,4 +1,3 @@
-import { AccentLine } from '../../.nuxt/components';
 <template>
   <div
     class="bg-white rounded-lg p-6 transition shadow-[0_1px_3px_rgba(15,23,42,0.03),0_1px_2px_rgba(15,23,42,0.06)] ring-1 ring-slate-600/[0.04] group relative flex flex-col overflow-hidden"

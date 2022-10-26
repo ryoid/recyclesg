@@ -1,5 +1,5 @@
-import { RECYCLE_REQUESTS_DATA } from "./data";
+import { getRecycleRequestData } from "./data";
 
 export default defineEventHandler((event) => {
-  return RECYCLE_REQUESTS_DATA;
+  return getRecycleRequestData();
 });
