@@ -31,10 +31,19 @@ div {
         </p>
     </div>
     <br>
-    
-        <Calendar v-model="value" :inline="true" :minDate="new Date(data.minDateValue)" :maxDate="maxDateValue" class = "inline-block margin-right" />
-        <Listbox v-model="selectedTiming" :options="data.timings" class = "inline-block"/> 
-
+        <div class="flex justify-center ">
+            <Calendar :disabled-dates="data.disabledDateArray" v-model="data.selectedDate" :inline="true" :minDate="new Date(data.minDateValue)" :maxDate="maxDateValue" :disabledDates="data.disabledDateArray" class = "inline-block margin-right" />
+            <div class = "inline-block">
+                <!-- <p class=" text-lg">Timings</p> -->
+                <Dropdown v-model="data.selectedTiming" :options="data.timings"  placeholder="Select a timing" />
+                <div class = "inline-block ">
+                    <Button label="Continue"/>
+                </div>
+            </div>
+            <p>{{new Date(data.selectedDate)}}</p>
+            <p>{{data.selectedTiming}}</p>
+        </div>
+        
     
     <div>
       
@@ -46,6 +55,5 @@ div {
   <script lang="ts" setup>
   
     const { data, pending, refresh, error } = await useFetch('/api/admin/book1', {
-    })
-
+    });
   </script>
