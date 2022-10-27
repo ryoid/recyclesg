@@ -22,17 +22,14 @@
 </template>
 
 <script>
-
-    import { defineComponent } from "vue";
     import AutoComplete from 'primevue/autocomplete';
     import json from "~~/server/api/recyclerequests/NEA_parsed.json";
 
-    export default defineComponent({
+    export default({
 
     data(){
         return {
             json: json,
-            recyclables: json,
             selectedRecyclables: null,
 			filteredRecyclables: null,
             recyclablesList: [],
@@ -60,7 +57,7 @@
 
         countryList(){
             let item = null
-            for (item of this.recyclables){
+            for (item of this.json){
                 var obj = {}
                 obj['id'] = item.id
                 obj['name'] = item.name
@@ -75,7 +72,6 @@
 
     components: {
         AutoComplete,
-        json
     },
 
     });
@@ -100,7 +96,7 @@
     #noresults{
         color: red;
         font-size: small;
-        font-weight: bold;
+        font-weight: bold   ;
     }
 
 </style>

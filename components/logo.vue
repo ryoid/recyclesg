@@ -1,22 +1,17 @@
 <template>
     <div class="flex">
-        <n-image
+        <Image 
         class="mx-auto"
-        width="300"
-        src="https://upload.wikimedia.org/wikipedia/commons/c/c9/-Insert_image_here-.svg"
-        />
+        src="https://upload.wikimedia.org/wikipedia/commons/c/c9/-Insert_image_here-.svg"></Image>
+>
     </div>
 </template>
 
 <script>
-    import { defineComponent } from "vue";
-    import {
-    NImage,
-    } from 'naive-ui'
-
+    import Image from 'primevue/image';
     export default defineComponent({
     components: {
-        NImage
+        Image
     }
     });
 </script>
