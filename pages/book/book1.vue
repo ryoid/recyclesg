@@ -37,11 +37,15 @@ div {
                 <!-- <p class=" text-lg">Timings</p> -->
                 <Dropdown v-model="data.selectedTiming" :options="data.timings"  placeholder="Select a timing" />
                 <div class = "inline-block ">
-                    <Button label="Continue"/>
+                    
+                    <Button  onclick="location.href = './book2'" label="Continue"/>
+                    
                 </div>
             </div>
-            <p>{{new Date(data.selectedDate)}}</p>
+            <p>{{data.selectedDate}}</p>
             <p>{{data.selectedTiming}}</p>
+            
+           
         </div>
         
     
