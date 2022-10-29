@@ -38,8 +38,10 @@ div {
                 <Dropdown v-model="data.selectedTiming" :options="data.timings"  placeholder="Select a timing" />
                 <div class = "inline-block ">
                     
-                    <Button v-if="data.selectedDate == '' || data.selectedTiming == ''" onclick="data.showAlert()" label="Continue"/>
+                    <Button v-if="data.selectedDate == '' || data.selectedTiming == ''" onclick="showAlert()" label="Continue"/>
+                    
                     <Button v-else onclick="location.href = './book2'" label="Continue"/>
+                    
                     
                 </div>
             </div>
@@ -61,4 +63,9 @@ div {
   
     const { data, pending, refresh, error } = await useFetch('/api/admin/book1', {
     });
+
+    function showAlert(){
+            alert("Please select a date and time");
+        };
+
   </script>

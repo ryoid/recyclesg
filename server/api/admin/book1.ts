@@ -7,9 +7,6 @@ export default defineEventHandler((event) => {
         selectedTiming: "",
         disabledDateArray : [],
         disabledTimingArray : [],
-        showAlert(){
-            alert("Please select a date and time");
-        },
         
     }
     
