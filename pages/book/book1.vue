@@ -38,10 +38,9 @@ div {
                 <Dropdown v-model="data.selectedTiming" :options="data.timings"  placeholder="Select a timing" />
                 <div class = "inline-block ">
                     
-                    <Button v-if="data.selectedDate == '' || data.selectedTiming == ''" onclick="showAlert()" label="Continue"/>
+                    <Button v-if="data.selectedDate == '' || data.selectedTiming == ''" @click="showAlert()" label="Continue"/>
                     
                     <Button v-else onclick="location.href = './book2'" label="Continue"/>
-                    
                     
                 </div>
             </div>
@@ -65,7 +64,9 @@ div {
     });
 
     function showAlert(){
-            alert("Please select a date and time");
+            return alert("Please select a date and time");
         };
+  
+    
 
   </script>
