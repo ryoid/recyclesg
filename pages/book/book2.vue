@@ -30,10 +30,12 @@ hr{
 <template>
     
     <h2>Booking Details</h2>
-    <div>
+    <div id="date_time">
         <p>
             day, ## month - time
         </p>
+        <p>{{data.selectedDate}}</p>
+        <p>{{data.selectedTiming}}</p>
         <br>
         <h3>
             Your details
@@ -43,11 +45,11 @@ hr{
 
     <div>
         <p>Name</p>
-        <InputText type="text" v-model="value" />
+        <InputText type="text" v-model="data.nameInput" />
         <p>Email</p>
-        <InputText type="text" v-model="value" />
+        <InputText type="text" v-model="data.emailInput" />
         <p>Contact Number</p>
-        <InputNumber type="number" v-model="value"/>
+        <InputNumber type="number" v-model="data.phoneInput"/>
     </div>
 
     <br>
@@ -58,11 +60,11 @@ hr{
         <h3>Collection Location</h3>
         <div class = "inline">
             <p>Address</p>
-            <InputText type="text" v-model="value" size="50" />
+            <InputText type="text" v-model="data.addressInput" size="50" />
         </div>
         <div class = "inline">
             <p>Postal Code</p>
-            <InputNumber type="number" v-model="value"/>
+            <InputNumber type="number" v-model="data.postalInput"/>
         </div>
     </div>
 
@@ -79,7 +81,7 @@ hr{
 
         <div>
             <p>Description (optional)</p>
-            <InputText type="text" v-model="value" size = "100" style = "height:200px"/>
+            <InputText type="text" v-model="data.descInput" size = "100" style = "height:200px"/>
         </div>
         <br>
         <Button label="Submit" style = "margin-left:4px">Book Collection</Button>
@@ -90,8 +92,11 @@ hr{
   
   
   <script lang="ts" setup>
-  
-  
+   
+    const { data, pending, refresh, error } = await useFetch('/api/admin/book2', {
+    });
 
+    
+    
 
   </script>
