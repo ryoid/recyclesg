@@ -17,12 +17,12 @@
             </span>
         
             <div v-if="length==0" id="noresults">No results found</div>
+            {{selectedRecyclables}}
         </div>
     </div>
 </template>
 
 <script>
-    import AutoComplete from 'primevue/autocomplete';
     import json from "~~/server/api/recyclerequests/NEA_parsed.json";
 
     export default({
@@ -68,10 +68,6 @@
 
     mounted(){
         this.countryList()
-    },
-
-    components: {
-        AutoComplete,
     },
 
     });

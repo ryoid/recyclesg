@@ -10,7 +10,6 @@
 </template>
 
 <script>
-    import Menubar from 'primevue/menubar';
 
     export default {
         data() {
@@ -45,9 +44,6 @@
             ]}},
             
         
-        components: {
-            Menubar
-    }
 }
 </script>
 

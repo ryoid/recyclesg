@@ -22,7 +22,7 @@
     "date-fns": "^2.29.3",
     "natural": "^5.2.3",
     "primeicons": "^5.0.0",
-    "primevue": "^3.17.0",
+    "primevue": "^3.18.0",
     "vue-chartjs": "^4.1.2"
   }
 }
