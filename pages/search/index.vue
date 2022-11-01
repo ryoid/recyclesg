@@ -72,10 +72,50 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { RECYCLE_DATABASE_ITEMS } from '~~/server/api/recyclerequests/data'; // list of NEA recyclable items to be obtained from realtime database or hardcoded
-import axios from 'axios';
 
 const items = ["Paper", "Newspaper", "Cardboard"]; // to be obtained from cloud vision api
+
+const RECYCLE_DATABASE_ITEMS = [ // list of NEA recyclable items to be obtained from realtime database or hardcoded
+  {
+    "idx": 1,
+    "materialType": "Paper",
+    "itemName": "Printed paper (Glossy and non-glossy)",
+    "canBePlaced": "YES!",
+    "description": "Make sure it is clean before recycling.",
+    "qrURL": ""
+  },
+  {
+    "idx": 2,
+    "materialType": "Paper",
+    "itemName": "Writing paper",
+    "canBePlaced": "YES!",
+    "description": "Make sure it is clean before recycling.",
+    "qrURL": ""
+  },
+  {
+    "idx": 2,
+    "materialType": "Paper",
+    "itemName": "Paper",
+    "canBePlaced": "YES!",
+    "description": "Make sure it is clean before recycling.",
+    "qrURL": ""
+  },
+  {
+    "idx": 3,
+    "materialType": "Paper",
+    "itemName": "Newspaper",
+    "canBePlaced": "YES!",
+    "description": "Make sure it is clean before recycling.",
+    "qrURL": ""
+  },
+  {
+    "idx": 4,
+    "materialType": "Paper",
+    "itemName": "Flyer (Glossy and non-glossy)",
+    "canBePlaced": "YES!",
+    "description": "Make sure it is clean before recycling.",
+    "qrURL": ""
+  }]
 
 const selectedItems = ref([]);
 const results = ref([]);
