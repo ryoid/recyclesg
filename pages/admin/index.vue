@@ -2,6 +2,12 @@
   <div>
     <AdminHeader title="Dashboard" subtitle="Your overview" />
 
+    <div>
+      <RadioButton v-model="val" label="Radio Button" />
+      <RadioButton v-model="val" label="Radio 2" />
+      vlues {{ val }}
+    </div>
+
     <div class="grid grid-cols-1 gap-2 md:grid-cols-2">
       <div class="md:col-span-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
         <AdminDashboardCard title="Top 10 searches today" class="lg:col-span-1" accent-line="glow">

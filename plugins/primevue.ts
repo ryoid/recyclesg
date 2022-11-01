@@ -25,6 +25,7 @@ import Badge from "primevue/badge";
 import Message from "primevue/message";
 import Image from 'primevue/image';
 import Divider from 'primevue/divider';
+import FileUpload from 'primevue/fileupload';
 
 import ConfirmationService from "primevue/confirmationservice";
 import DialogService from "primevue/dialogservice";
@@ -61,6 +62,7 @@ export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.component("Message", Message);
   nuxtApp.vueApp.component("Image", Image);
   nuxtApp.vueApp.component("Divider", Divider);
+  nuxtApp.vueApp.component("FileUpload", FileUpload);
 
 
   //other components that you need
