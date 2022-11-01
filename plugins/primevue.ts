@@ -73,7 +73,5 @@ export default defineNuxtPlugin((nuxtApp) => {
 
 
   nuxtApp.vueApp.component("Listbox", Listbox);
-  nuxtApp.vueApp.component("FileUpload", FileUpload);
-  nuxtApp.vueApp.component("FileUpload", FileUpload);
   //other components that you need
 });
