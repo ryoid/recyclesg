@@ -2,9 +2,9 @@ export default defineEventHandler((event) => {
     return {
         nameInput : "",
         emailInput : "",
-        phoneInput : "",
+        phoneInput : null,
         addressInput : "",
-        postalInput : "",
+        postalInput : null,
         descInput : "",
     }
   });

@@ -49,7 +49,7 @@ hr{
         <p>Email</p>
         <InputText type="text" v-model="data.emailInput" />
         <p>Contact Number</p>
-        <InputNumber type="number" v-model="data.phoneInput"/>
+        <InputNumber type="number" :useGrouping="false" v-model="data.phoneInput"/>
     </div>
 
     <br>
@@ -64,7 +64,7 @@ hr{
         </div>
         <div class = "inline">
             <p>Postal Code</p>
-            <InputNumber type="number" v-model="data.postalInput"/>
+            <InputNumber type="number" :useGrouping="false" v-model="data.postalInput"/>
         </div>
     </div>
 
@@ -81,10 +81,12 @@ hr{
 
         <div>
             <p>Description (optional)</p>
-            <InputText type="text" v-model="data.descInput" size = "100" style = "height:200px"/>
+            <Textarea v-model="data.descInput" rows="10" cols="80" />
         </div>
         <br>
-        <Button label="Submit" style = "margin-left:4px">Book Collection</Button>
+        <Button v-if="data.nameInput == '' || data.emailInput == '' || data.phoneInput == null || data.addressInput == '' || data.postalInput == null" @click="showAlert2()" label="Submit" style = "margin-left:4px">Book Collection</Button>
+        <Button v-else onclick="location.href = './book1'" label="Submit" style = "margin-left:4px">Book Collection</Button>
+                    
     </div>
 
     
@@ -95,8 +97,10 @@ hr{
    
     const { data, pending, refresh, error } = await useFetch('/api/admin/book2', {
     });
-
     
     
+    function showAlert2() {
+        alert("Please fill in all the details!");
+    }
 
   </script>
