@@ -110,6 +110,8 @@ definePageMeta({
   layout: "admin",
 });
 
+const val = ref(false)
+
 const { data, pending, refresh, error } = await useFetch('/api/admin/dashboard', {
 })
 
