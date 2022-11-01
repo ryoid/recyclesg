@@ -36,12 +36,8 @@ div {
             <div class = "inline-block">
                 <Dropdown v-model="data.selectedTiming" :options="data.timings"  placeholder="Select a timing" />
                 <div class = "inline-block ">
-                    <NuxtLink v-if="data.selectedDate == '' || data.selectedTiming == ''" @click="showAlert()">
-                        <Button  label="Continue"/>
-                    </NuxtLink>
-                    <NuxtLink v-else :href="testLink">
-                        <Button  label="Continue"/>
-                    </NuxtLink>
+                    <Button v-if="data.selectedDate == '' || data.selectedTiming == ''" @click="showAlert()" label="Continue"/>
+                    <Button v-else onclick="location.href = './book2'" label="Continue"/>
                 </div>
             </div>
                 <p>{{data.selectedDate}}</p>
