@@ -72,20 +72,15 @@ hr{
     <div>
         <h3>Collection Items</h3>
         <FileUpload name="demo[]" url="./upload" :multiple="true" accept="image/*" />
-
         <div>
             <p>Description (optional)</p>
             <Textarea v-model="data.descInput" rows="10" cols="80" />
         </div>
         <br>
         <Button v-if="data.nameInput == '' || data.emailInput == '' || data.phoneInput == null || data.addressInput == '' || data.postalInput == null" @click="showAlert2()" label="Submit" style = "margin-left:4px">Book Collection</Button>
-        <Button v-else onclick="location.href = './book1'" label="Submit" style = "margin-left:4px">Book Collection</Button>
-                    
+        <Button v-else onclick="location.href = './book1'" label="Submit" style = "margin-left:4px">Book Collection</Button>          
     </div>
-
-    
   </template>
-  
   
   <script lang="ts" setup>
    
@@ -96,11 +91,5 @@ hr{
     function showAlert2() {
         alert("Please fill in all the details!");
     }
-
-    const route = useRoute();
-    let myArray = []
-    if (route.query.myArray) {
-        myArray = JSON.parse(route.query.myArray.toString())
-    };
 
   </script>
