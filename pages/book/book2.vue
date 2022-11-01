@@ -87,9 +87,8 @@ hr{
     const { data, pending, refresh, error } = await useFetch('/api/admin/book2', {
     });
     
-    
     function showAlert2() {
         alert("Please fill in all the details!");
     }
-
+    
   </script>
