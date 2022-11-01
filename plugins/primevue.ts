@@ -28,6 +28,9 @@ import AccordionTab from 'primevue/accordiontab';
 import Image from 'primevue/image';
 import Divider from 'primevue/divider';
 import FileUpload from 'primevue/fileupload';
+import Listbox from 'primevue/listbox';
+import FileUpload from 'primevue/fileupload';
+
 
 import ConfirmationService from "primevue/confirmationservice";
 import DialogService from "primevue/dialogservice";
@@ -69,5 +72,7 @@ export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.component("FileUpload", FileUpload);
 
 
+  nuxtApp.vueApp.component("Listbox", Listbox);
+  nuxtApp.vueApp.component("FileUpload", FileUpload);
   //other components that you need
 });
