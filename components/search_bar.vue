@@ -7,7 +7,8 @@
                         class="p-autocomplete"
                         v-model="selectedRecyclables" 
                         :suggestions="filteredRecyclables" 
-                        @complete="searchCountry($event)" 
+                        @complete="searchCountry($event)"
+                        v-on:keyup.enter="redirect" 
                         optionLabel="name" 
                         placeholder="e.g. plastic bottle, toilet paper"/>
                 
@@ -63,6 +64,12 @@
                 obj['name'] = item.name
                 this.recyclablesList.push(obj)
             }
+        },
+
+        redirect() {
+            let urlRecyclables = encodeURIComponent(JSON.stringify(this.selectedRecyclables))
+            let url = 'results/' + urlRecyclables
+            this.$router.push(url)
         },
     },
 
