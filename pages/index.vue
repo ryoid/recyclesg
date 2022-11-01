@@ -4,5 +4,6 @@
       Hello world!
     </h1>
     <Welcome />
+    
   </div>
 </template>

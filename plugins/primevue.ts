@@ -23,6 +23,8 @@ import Avatar from "primevue/avatar";
 import AvatarGroup from "primevue/avatargroup";
 import Badge from "primevue/badge";
 import Message from "primevue/message";
+import Accordion from 'primevue/accordion';
+import AccordionTab from 'primevue/accordiontab';
 
 import ConfirmationService from "primevue/confirmationservice";
 import DialogService from "primevue/dialogservice";
@@ -57,5 +59,7 @@ export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.component("AvatarGroup", AvatarGroup);
   nuxtApp.vueApp.component("Badge", Badge);
   nuxtApp.vueApp.component("Message", Message);
+  nuxtApp.vueApp.component("Accordion", Accordion);
+  nuxtApp.vueApp.component("AccordionTab", AccordionTab);
   //other components that you need
 });
