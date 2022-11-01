@@ -7,7 +7,6 @@ export default defineEventHandler((event) => {
         selectedTiming: "",
         disabledDateArray : [],
         disabledTimingArray : [],
-        
     }
     
 });

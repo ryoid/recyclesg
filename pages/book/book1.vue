@@ -38,14 +38,14 @@ div {
                 <Dropdown v-model="data.selectedTiming" :options="data.timings"  placeholder="Select a timing" />
                 <div class = "inline-block ">
                     
-                    <Button v-if="data.selectedDate == '' || data.selectedTiming == ''" @click="showAlert()" label="Continue"/>
-                    
-                    <Button v-else onclick="location.href = './book2'" label="Continue"/>
-                    
+                    <NuxtLink v-if="data.selectedDate == '' || data.selectedTiming == ''" @click="showAlert()">
+                        <Button  label="Continue"/>
+                    </NuxtLink>
+                    <NuxtLink v-else :href="testLink">
+                        <Button  label="Continue"/>
+                    </NuxtLink>
                 </div>
             </div>
-            <p>{{data.selectedDate}}</p>
-            <p>{{data.selectedTiming}}</p>
             
            
         </div>
@@ -67,7 +67,9 @@ div {
             return alert("Please select a date and time");
         };
 
+    const myArray = [data.selectedDate, data.selectedTiming, 'ccc'];
+    const arrStr = encodeURIComponent(JSON.stringify(myArray));
+    const testLink = `./book2?myArray=${arrStr}`;
   
-    
 
   </script>

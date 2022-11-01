@@ -34,8 +34,11 @@ hr{
         <p>
             day, ## month - time
         </p>
-        <p>{{data.selectedDate}}</p>
-        <p>{{data.selectedTiming}}</p>
+        <!-- <ul>
+            <li v-for="(item, index) in myArray">
+                {{ index }}: {{ item }}
+            </li>
+        </ul> -->
         <br>
         <h3>
             Your details
@@ -102,5 +105,11 @@ hr{
     function showAlert2() {
         alert("Please fill in all the details!");
     }
+
+    const route = useRoute();
+    let myArray = []
+    if (route.query.myArray) {
+        myArray = JSON.parse(route.query.myArray.toString())
+    };
 
   </script>
