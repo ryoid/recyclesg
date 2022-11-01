@@ -13,7 +13,8 @@
         <td :class="['border-gray-100 p-2 pl-8 text-gray-500', {
           'border-b': (index < (data.words.length - 1)),
         }]">{{
-        item.word }}</td>
+    item.word
+}}</td>
         <td :class="['border-gray-100 p-2 pr-8 text-gray-500', {
           'border-b': (index < (data.words.length - 1)),
         }]">{{ item.count }}</td>

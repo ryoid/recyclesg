@@ -1,6 +1,6 @@
 import { isToday } from "date-fns";
 
-import { RECYCLE_REQUESTS_DATA } from "../recyclerequests/data";
+import { RECYCLE_REQUESTS_DATA } from "./recyclerequests/data";
 
 export default defineEventHandler((event) => {
   return {

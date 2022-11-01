@@ -13,7 +13,7 @@ import InputText from "primevue/inputtext";
 import InputNumber from "primevue/inputnumber";
 import InputMask from "primevue/inputmask";
 import InputSwitch from "primevue/inputswitch";
-import RatioButton from "primevue/radiobutton";
+import RadioButton from "primevue/radiobutton";
 import Textarea from "primevue/textarea";
 import ToggleButton from "primevue/togglebutton";
 import Skeleton from "primevue/skeleton";
@@ -22,10 +22,14 @@ import ProgressSpinner from "primevue/progressspinner";
 import Avatar from "primevue/avatar";
 import AvatarGroup from "primevue/avatargroup";
 import Badge from "primevue/badge";
+import Menubar from 'primevue/menubar';
 import Message from "primevue/message";
-import Listbox from 'primevue/listbox';
+import Accordion from 'primevue/accordion';
+import AccordionTab from 'primevue/accordiontab';
+import Image from 'primevue/image';
+import Divider from 'primevue/divider';
 import FileUpload from 'primevue/fileupload';
-
+import Listbox from 'primevue/listbox';
 
 import ConfirmationService from "primevue/confirmationservice";
 import DialogService from "primevue/dialogservice";
@@ -50,7 +54,7 @@ export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.component("InputNumber", InputNumber);
   nuxtApp.vueApp.component("InputMask", InputMask);
   nuxtApp.vueApp.component("InputSwitch", InputSwitch);
-  nuxtApp.vueApp.component("RatioButton", RatioButton);
+  nuxtApp.vueApp.component("RadioButton", RadioButton);
   nuxtApp.vueApp.component("Textarea", Textarea);
   nuxtApp.vueApp.component("ToggleButton", ToggleButton);
   nuxtApp.vueApp.component("Skeleton", Skeleton);
@@ -59,8 +63,15 @@ export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.component("Avatar", Avatar);
   nuxtApp.vueApp.component("AvatarGroup", AvatarGroup);
   nuxtApp.vueApp.component("Badge", Badge);
+  nuxtApp.vueApp.component("Menubar", Menubar);
   nuxtApp.vueApp.component("Message", Message);
-  nuxtApp.vueApp.component("Listbox", Listbox);
+  nuxtApp.vueApp.component("Accordion", Accordion);
+  nuxtApp.vueApp.component("AccordionTab", AccordionTab);
+  nuxtApp.vueApp.component("Image", Image);
+  nuxtApp.vueApp.component("Divider", Divider);
   nuxtApp.vueApp.component("FileUpload", FileUpload);
+
+
+  nuxtApp.vueApp.component("Listbox", Listbox);
   //other components that you need
 });

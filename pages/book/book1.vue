@@ -46,12 +46,10 @@ div {
                     </NuxtLink>
                 </div>
             </div>
-            
-           
-        </div>
-        
-    
-    <div>
+                <p>{{data.selectedDate}}</p>
+                <p>{{data.selectedTiming}}</p>
+            </div>
+        <div>
       
     </div>
 

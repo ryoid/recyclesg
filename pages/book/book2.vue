@@ -34,16 +34,10 @@ hr{
         <p>
             day, ## month - time
         </p>
-        <!-- <ul>
-            <li v-for="(item, index) in myArray">
-                {{ index }}: {{ item }}
-            </li>
-        </ul> -->
-        <br>
+            <br>
         <h3>
             Your details
         </h3>
-        
     </div>
 
     <div>
@@ -56,7 +50,7 @@ hr{
     </div>
 
     <br>
-    <hr>
+        <hr>
     <br>
 
     <div>
@@ -76,9 +70,6 @@ hr{
     <br>
    
     <div>
-        
-
-
         <h3>Collection Items</h3>
         <FileUpload name="demo[]" url="./upload" :multiple="true" accept="image/*" />
 
