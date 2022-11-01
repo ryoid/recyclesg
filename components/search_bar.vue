@@ -1,25 +1,27 @@
 <template>
     <div>
-        <div class="mx-auto w-5/6">
-            <span class="p-fluid flex w-full">
-                    <i class="pi pi-search my-auto"></i>
-                    <AutoComplete 
-                        class="p-autocomplete"
-                        v-model="selectedRecyclables" 
-                        :suggestions="filteredRecyclables" 
-                        @complete="searchCountry($event)"
-                        v-on:keyup.enter="redirect" 
-                        optionLabel="name" 
-                        placeholder="e.g. plastic bottle, toilet paper"/>
-                
-                <NuxtLink to="/imagesearch">
-                    <Button icon="pi pi-upload" class="p-button-rounded p-button-primary p-button-outlined"></Button>
-                </NuxtLink>
-            </span>
-        
-            <div v-if="length==0" id="noresults">No results found</div>
-            {{selectedRecyclables}}
+        <div v-if="textsearch">
+            <div class="mx-auto w-5/6">
+                <span class="p-fluid flex w-full">
+                        <i class="pi pi-search my-auto"></i>
+                        <AutoComplete 
+                            class="p-autocomplete"
+                            v-model="selectedRecyclables" 
+                            :suggestions="filteredRecyclables" 
+                            @complete="searchCountry($event)"
+                            v-on:keyup.enter="redirect" 
+                            optionLabel="name" 
+                            placeholder="e.g. plastic bottle, toilet paper"/>
+                    
+                        <Button icon="pi pi-upload" class="p-button-rounded p-button-primary p-button-outlined" @click="imagesearch"></Button>
+                </span>
+            
+                <div v-if="length==0" id="noresults">No results found</div>
+            </div>
         </div>
+        <div v-else>
+            <image-uploader />
+        </div>        
     </div>
 </template>
 
@@ -34,7 +36,8 @@
             selectedRecyclables: null,
 			filteredRecyclables: null,
             recyclablesList: [],
-            length: null
+            length: null,
+            textsearch: true,
         }
     },
 
@@ -71,6 +74,10 @@
             let url = 'results/' + urlRecyclables
             this.$router.push(url)
         },
+
+        imagesearch() {
+            this.textsearch = false
+        }
     },
 
     mounted(){
