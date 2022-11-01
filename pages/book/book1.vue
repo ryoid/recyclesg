@@ -34,10 +34,8 @@ div {
         <div class="flex justify-center ">
             <Calendar :disabled-dates="data.disabledDateArray" v-model="data.selectedDate" :inline="true" :minDate="new Date(data.minDateValue)" :maxDate="maxDateValue" :disabledDates="data.disabledDateArray" class = "inline-block margin-right" />
             <div class = "inline-block">
-                <!-- <p class=" text-lg">Timings</p> -->
                 <Dropdown v-model="data.selectedTiming" :options="data.timings"  placeholder="Select a timing" />
                 <div class = "inline-block ">
-                    
                     <NuxtLink v-if="data.selectedDate == '' || data.selectedTiming == ''" @click="showAlert()">
                         <Button  label="Continue"/>
                     </NuxtLink>
@@ -63,11 +61,6 @@ div {
 
     function showAlert(){
             return alert("Please select a date and time");
-        };
-
-    const myArray = [data.selectedDate, data.selectedTiming, 'ccc'];
-    const arrStr = encodeURIComponent(JSON.stringify(myArray));
-    const testLink = `./book2?myArray=${arrStr}`;
-  
+        }; 
 
   </script>
