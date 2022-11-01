@@ -34,13 +34,10 @@ hr{
         <p>
             day, ## month - time
         </p>
-        <p>{{data.selectedDate}}</p>
-        <p>{{data.selectedTiming}}</p>
-        <br>
+            <br>
         <h3>
             Your details
         </h3>
-        
     </div>
 
     <div>
@@ -53,7 +50,7 @@ hr{
     </div>
 
     <br>
-    <hr>
+        <hr>
     <br>
 
     <div>
@@ -73,9 +70,6 @@ hr{
     <br>
    
     <div>
-        
-
-
         <h3>Collection Items</h3>
         <FileUpload name="demo[]" url="./upload" :multiple="true" accept="image/*" />
 
