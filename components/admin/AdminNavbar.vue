@@ -38,10 +38,15 @@ const highlightOpacity = ref(0)
 function repositionHighlight(e: MouseEvent) {
   const target = e.target as HTMLElement
   const rect = target.getBoundingClientRect()
+  const container = target.parentElement.parentElement.parentElement
 
   highlightOpacity.value = 1
   highlightWidth.value = rect.width
-  highlightLeft.value = rect.left - 63 // rect.x of first element is 63
+  highlightLeft.value = rect.left - container.querySelector("li").getBoundingClientRect().x // rect.x of first nav link
+
+
+  console.log('left', rect.left,);
+
 }
 
 function hideHighlight(e: MouseEvent) {
