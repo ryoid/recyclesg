@@ -22,7 +22,14 @@ import ProgressSpinner from "primevue/progressspinner";
 import Avatar from "primevue/avatar";
 import AvatarGroup from "primevue/avatargroup";
 import Badge from "primevue/badge";
+import Menubar from 'primevue/menubar';
 import Message from "primevue/message";
+import Accordion from 'primevue/accordion';
+import AccordionTab from 'primevue/accordiontab';
+import Image from 'primevue/image';
+import Divider from 'primevue/divider';
+import FileUpload from 'primevue/fileupload';
+import Listbox from 'primevue/listbox';
 
 import ConfirmationService from "primevue/confirmationservice";
 import DialogService from "primevue/dialogservice";
@@ -56,6 +63,15 @@ export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.component("Avatar", Avatar);
   nuxtApp.vueApp.component("AvatarGroup", AvatarGroup);
   nuxtApp.vueApp.component("Badge", Badge);
+  nuxtApp.vueApp.component("Menubar", Menubar);
   nuxtApp.vueApp.component("Message", Message);
+  nuxtApp.vueApp.component("Accordion", Accordion);
+  nuxtApp.vueApp.component("AccordionTab", AccordionTab);
+  nuxtApp.vueApp.component("Image", Image);
+  nuxtApp.vueApp.component("Divider", Divider);
+  nuxtApp.vueApp.component("FileUpload", FileUpload);
+
+
+  nuxtApp.vueApp.component("Listbox", Listbox);
   //other components that you need
 });
