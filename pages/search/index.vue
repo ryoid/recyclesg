@@ -4,8 +4,11 @@
     <NavBar />
     <div class="container mx-auto">
 
+      <Image v-if="!itemSearched" link="../../assets/img/illustration/logo.jpg" />
 
-      <div >
+      <search_bar />
+
+      <div>
         <img
           src="https://media.istockphoto.com/photos/mockup-of-male-hand-holding-a-coffee-paper-cup-isolated-on-light-grey-picture-id695455588?k=20&m=695455588&s=612x612&w=0&h=VWpcDiGihi4MBvXylg4ZLMzT_FQqHz0uy1R6FKmmtFk="
           width="400" class="mx-auto" />
@@ -65,10 +68,10 @@
         <p>With your help, we will review your item and let you know if it
           is recyclable</p>
         <h3 class="font-normal">Please describe the item so that we can assist you in labelling the item</h3>
-        
+
         <Textarea v-model="optDes" :autoResize="true" rows="5" cols="40"
-          placeholder="Tell us what you think this is; e.g. Plastic light with metal wire"  />
-        
+          placeholder="Tell us what you think this is; e.g. Plastic light with metal wire" />
+
         <h3 class="mt-3">Email</h3>
         <p>You will be notified once we have labelled the item</p>
         <div class="p-inputgroup">
@@ -142,6 +145,7 @@ const notFoundResults = ref([]);
 const othersChecked = ref();
 const optDes = ref();
 const email = ref();
+const itemSearched = ref(false);
 
 let databaseItems = "";
 const error = "";
