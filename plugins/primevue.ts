@@ -30,6 +30,7 @@ import Image from 'primevue/image';
 import Divider from 'primevue/divider';
 import FileUpload from 'primevue/fileupload';
 import Listbox from 'primevue/listbox';
+import Dialog from 'primevue/dialog';
 
 import ConfirmationService from "primevue/confirmationservice";
 import DialogService from "primevue/dialogservice";
@@ -70,6 +71,8 @@ export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.component("Image", Image);
   nuxtApp.vueApp.component("Divider", Divider);
   nuxtApp.vueApp.component("FileUpload", FileUpload);
+  nuxtApp.vueApp.component("Dialog", Dialog);
+
 
 
   nuxtApp.vueApp.component("Listbox", Listbox);
