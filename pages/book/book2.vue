@@ -105,9 +105,18 @@ hr{
 
                 return alert("Please fill in all the fields")
                 }
+                else if (this.person.email.includes('@') == false){
+                    return alert("Please enter a valid email address")
+                }
+                else if(this.person.phone.toString().length != 8){
+                    return alert("Please enter a valid phone number")
+                }
+                else if(this.person.postal.toString().length != 6){
+                    return alert("Please enter a valid postal code")
+                }
                 else{
                     console.log(this.person)
-                    return alert("Your booking has been submitted");
+                    return alert("Your booking has been submitted")
                     
                 }
             }
