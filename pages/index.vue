@@ -41,25 +41,7 @@
 
         <div class="container my-4">
           <p class="text-slate-900 font-bold">Your Results</p>
-          <div v-for="(item, idx) of results" :key="idx"
-            :class="['p-4', (item.recyclable ? 'recyclable' : 'non-recyclable'), {'not-found': item.recyclable == null}, 'rounded-lg', 'my-4']">
-            <p class="font-bold" style="color: #fffff8">{{ item.name }}</p>
-
-            <div style="background-color: white;" class="rounded p-3 m-2">
-              <small>Material Type:</small>
-              <p>{{ item.material }}</p>
-              <!-- if score percentage is < 50%, add "we are not able to confidently identify this item and nuxt link back to home page" -->
-              <hr>
-              <small>Recycling Status:</small>
-              <p class="font-semibold" v-if="item.recyclable == null">Not Found. We do not have this item in our records currently</p>
-              <p class="font-semibold" v-else>{{ item.recyclable ? 'Recyclable' : 'Non-Recyclable' }}</p>
-              
-              <hr>
-              <small>Description:</small>
-              <p>{{ item.description }}</p>
-            </div>
-
-          </div>
+          <ResultAccordion v-for="(item, idx) of results" :key="idx" :item="item" :idx="idx + ''" />
 
         </div>
 
@@ -97,43 +79,9 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { Recyclable } from '~~/server';
+import RECYCLE_DATABASE_ITEMS from '../data/recyclables.json'; // list of NEA recyclable items to be obtained from realtime database
 
 const labels = ["Paper", "Newspaper", "Cardboard", "Flyer", "Shoes"]; // to be obtained from cloud vision api
-
-const RECYCLE_DATABASE_ITEMS: Recyclable[] = [ // list of NEA recyclable items to be obtained from realtime database
-  {
-    "id": 1,
-    "material": "Paper",
-    "name": "Writing paper",
-    "tags": ["paper", "writing paper", "writing"],
-    "description": "Make sure it is clean before recycling.",
-    "recyclable": true
-  },
-  {
-    "id": 2,
-    "material": "Paper",
-    "name": "Paper",
-    "tags": ["paper"],
-    "description": "Make sure it is clean before recycling.",
-    "recyclable": true
-  },
-  {
-    "id": 3,
-    "material": "Paper",
-    "name": "Newspaper",
-    "tags": ["paper", "newspaper"],
-    "description": "Make sure it is clean before recycling.",
-    "recyclable": true
-  },
-  {
-    "id": 4,
-    "material": "Others",
-    "name": "Shoes",
-    "tags": ["shoes", "shoe"],
-    "description": "Should be donated if they are in good condition.",
-    "recyclable": false
-  },
-  ]
 
 const selectedItems = ref<string[]>([]);
 const results = ref<Recyclable[]>([]);
@@ -175,8 +123,9 @@ function populateResults(): void {
 
 
 
-
 </script>
+
+
 
 <style>
 .container {
