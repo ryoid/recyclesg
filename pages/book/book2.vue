@@ -19,12 +19,10 @@ div {
     display: inline-block;
 }
 
-hr{
+hr {
     border-top: 2px solid rgb(138, 138, 138);
-  
+
 }
-
-
 </style>
 
 <template>

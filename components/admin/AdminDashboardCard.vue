@@ -1,6 +1,6 @@
 <template>
   <div
-    class="bg-white rounded-lg p-6 transition shadow-[0_1px_3px_rgba(15,23,42,0.03),0_1px_2px_rgba(15,23,42,0.06)] ring-1 ring-slate-600/[0.04] group relative flex flex-col overflow-hidden"
+    class="bg-white rounded-lg p-6 transition ring-1 ring-slate-600/[0.04] group relative flex flex-col overflow-hidden shadow-lg"
     :style="{ height: height ? `${height}px` : 'auto' }">
     <component v-if="!!accentLine" :is="accentLine == 'line' ? AccentLine : AccentGlow" />
     <NuxtLink v-if="link" :class="['pb-3', {

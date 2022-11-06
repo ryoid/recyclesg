@@ -1,21 +1,30 @@
 import { isToday } from "date-fns";
+import { firestore } from "~~/server/utils/firebase";
+import {
+  TABLE_NAME as REQUESTS_TABLE_NAME,
+  normalizeRecycleRequest,
+} from "./recyclerequests/utils";
 
-import { RECYCLE_REQUESTS_DATA } from "./recyclerequests/data";
+export default defineEventHandler(async () => {
+  const requestsTable = firestore.collection(REQUESTS_TABLE_NAME);
+  const snapshot = await requestsTable.get();
+  const requests = snapshot.docs.map(normalizeRecycleRequest);
 
-export default defineEventHandler((event) => {
   return {
-    searches: RECYCLE_REQUESTS_DATA.filter((request) => request.status),
-    pending_requests: RECYCLE_REQUESTS_DATA.filter(
-      (request) => request.status === "pending"
-    ).slice(0, 4),
-    pending_requests_count: RECYCLE_REQUESTS_DATA.filter(
+    searches: requests.filter((request) => request.status),
+    pending_requests: requests
+      .filter((request) => request.status === "pending")
+      .slice(0, 4),
+    pending_requests_count: requests.filter(
       (request) => request.status === "pending"
     ).length,
-    completed_requests: RECYCLE_REQUESTS_DATA.filter(
-      (request) =>
-        request.status === "completed" || request.status === "rejected"
-    ).slice(0, 4),
-    completed_requests_today_count: RECYCLE_REQUESTS_DATA.filter(
+    completed_requests: requests
+      .filter(
+        (request) =>
+          request.status === "completed" || request.status === "rejected"
+      )
+      .slice(0, 4),
+    completed_requests_today_count: requests.filter(
       (request) =>
         (request.status === "completed" || request.status === "rejected") &&
         isToday(new Date(request.createdAt))
