@@ -1,10 +1,8 @@
-import { Recyclable } from "~~/server/types";
 import { firestore } from "~~/server/utils/firebase";
+import { normalizeRecyclable, TABLE_NAME } from "./utils";
 
-export default defineEventHandler(async (event) => {
-  const table = firestore.collection(`recyclable`);
+export default defineEventHandler(async () => {
+  const table = firestore.collection(TABLE_NAME);
   const snapshot = await table.get();
-  return snapshot.docs.map((value) => {
-    return { ...value.data(), id: value.id } as Recyclable;
-  });
+  return snapshot.docs.map(normalizeRecyclable);
 });

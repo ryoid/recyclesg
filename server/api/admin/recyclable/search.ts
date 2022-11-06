@@ -5,6 +5,7 @@ import LRUCache from "lru-cache";
 
 import { Recyclable } from "~~/server/types";
 import { firestore } from "~~/server/utils/firebase";
+import { TABLE_NAME, normalizeRecyclable } from "./utils";
 
 function tokenize(str: string): string[] {
   const tokenizer = new natural.WordTokenizer();
@@ -16,22 +17,19 @@ function tokenize(str: string): string[] {
 const cache = new TTLCache({ max: 1, ttl: 1000 * 5 });
 
 async function getAllStrings() {
-  if (cache.has("recyclables")) {
+  if (cache.has(TABLE_NAME)) {
     return cache.get<{
       data: Recyclable[];
       strings: string[];
-    }>("recyclables");
+    }>(TABLE_NAME);
   }
 
-  const ref = firestore.collection(`recyclable`);
+  const ref = firestore.collection(TABLE_NAME);
   const snapshot = await ref.get();
   const data = snapshot.docs.reduce(
     (acc, value) => {
       const data = value.data() as Recyclable;
-      acc.data.push({
-        ...data,
-        id: value.id,
-      });
+      acc.data.push(normalizeRecyclable(value));
       acc.strings.push(
         data.name +
           " " +
@@ -52,7 +50,7 @@ async function getAllStrings() {
     }
   );
 
-  cache.set("recyclables", data);
+  cache.set(TABLE_NAME, data);
   return data;
 }
 
@@ -110,6 +108,5 @@ export default defineEventHandler(async (event) => {
     }
   }
 
-  // Load all recyclables
-  return search(Object.keys(stems).join(" "));
+  // Load allTABLE_NAME  return search(Object.keys(stems).join(" "));
 });

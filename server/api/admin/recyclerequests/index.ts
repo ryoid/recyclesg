@@ -1,8 +1,8 @@
 import { firestore } from "~~/server/utils/firebase";
+import { normalizeRecycleRequest, TABLE_NAME } from "./utils";
 
-export default defineEventHandler(async (event) => {
-  const ref = firestore.doc(`recyclerequests`);
-  const snapshot = await ref.get();
-  const data = snapshot.data();
-  return data;
+export default defineEventHandler(async () => {
+  const table = firestore.collection(TABLE_NAME);
+  const snapshot = await table.get();
+  return snapshot.docs.map(normalizeRecycleRequest);
 });
