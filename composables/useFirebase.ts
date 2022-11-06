@@ -29,7 +29,7 @@ const firebaseConfig = {
   measurementId: "G-3BSK8078R3",
 };
 
-function readFile(file: File) {
+export function readFile(file: File) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);

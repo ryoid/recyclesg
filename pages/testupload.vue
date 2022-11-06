@@ -9,6 +9,14 @@
       </div>
       <button type="submit">Submit</button>
     </form>
+    <div v-if="annotations">
+      Result
+      <div>
+        <code>
+          {{ JSON.stringify(annotations, null, 2) }}
+        </code>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -18,6 +26,7 @@ const { storage } = useFirebase()
 const imageInputRef = ref(null)
 let imageSrc = ref(null)
 let submitting = ref(false)
+let annotations = ref(null)
 
 function selectImage() {
   imageInputRef.value.click()
@@ -41,9 +50,19 @@ async function onSubmit(e) {
 
   submitting.value = true
   try {
-    const res = await uploadFile(storage, "user-item-uploads", imageFile)
-    console.log(res.downloadUrl);
+    const uploadRes = await uploadFile(storage, "user-item-uploads", imageFile)
+    console.log(uploadRes);
     // Send to cloud vision api to get text
+    const visionRes = await $fetch('/api/vision', {
+      method: 'POST',
+      body: JSON.stringify({
+        imageUri: `gs://${uploadRes.metadata.bucket}/${uploadRes.metadata.fullPath}`
+      })
+    })
+    console.log('receive res', visionRes);
+
+    // Sort etc
+    annotations.value = visionRes.labelAnnotations
   } catch (err) {
     console.log("Failed to upload", err);
   } finally {
