@@ -56,7 +56,11 @@ async function getAllStrings() {
   return data;
 }
 
-let opts = {};
+// https://github.com/leeoniya/uFuzzy#options
+let opts = {
+  intraIns: 1,
+};
+
 let uf = new uFuzzy(opts);
 const queryCache = new LRUCache({
   max: 20,
