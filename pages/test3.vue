@@ -1,4 +1,4 @@
-
+<!-- 
 <template>
   <div>
     <input type="file" multiple @change="handleFileSelection($event)" />
@@ -33,4 +33,19 @@ async function submit(){
         body: formData
     } );
 }
+</script> -->
+
+<template>
+  <div>
+    <testupload />
+
+  </div>
+</template>
+
+<script lang="ts" setup>
+
 </script>
+
+<style>
+
+</style>
