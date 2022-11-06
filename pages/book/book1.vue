@@ -23,7 +23,10 @@ div {
 
 </style>
 
+
+
 <template>
+    <nav_bar/>
     <h2>Book Collection</h2>
     <div>
         <p>
@@ -34,14 +37,10 @@ div {
         <div class="flex justify-center ">
             <Calendar :disabled-dates="data.disabledDateArray" v-model="data.selectedDate" :inline="true" :minDate="new Date(data.minDateValue)" :maxDate="maxDateValue" :disabledDates="data.disabledDateArray" class = "inline-block margin-right" />
             <div class = "inline-block">
-                <!-- <p class=" text-lg">Timings</p> -->
                 <Dropdown v-model="data.selectedTiming" :options="data.timings"  placeholder="Select a timing" />
                 <div class = "inline-block ">
-                    
                     <Button v-if="data.selectedDate == '' || data.selectedTiming == ''" @click="showAlert()" label="Continue"/>
-                    
                     <Button v-else onclick="location.href = './book2'" label="Continue"/>
-                    
                 </div>
             </div>
                 <p>{{data.selectedDate}}</p>
@@ -61,8 +60,6 @@ div {
 
     function showAlert(){
             return alert("Please select a date and time");
-        };
-  
-    
+        }; 
 
   </script>
