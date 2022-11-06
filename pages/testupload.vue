@@ -9,6 +9,14 @@
       </div>
       <button type="submit">Submit</button>
     </form>
+    <div v-if="annotations">
+      Result
+      <div>
+        <code>
+          {{ JSON.stringify(annotations, null, 2) }}
+        </code>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -18,6 +26,7 @@ const { storage } = useFirebase()
 const imageInputRef = ref(null)
 let imageSrc = ref(null)
 let submitting = ref(false)
+let annotations = ref(null)
 
 function selectImage() {
   imageInputRef.value.click()
@@ -41,9 +50,24 @@ async function onSubmit(e) {
 
   submitting.value = true
   try {
-    const res = await uploadFile(storage, "user-item-uploads", imageFile)
-    console.log(res.downloadUrl);
+    const uploadRes = await uploadFile(storage, "user-item-uploads", imageFile)
+    console.log(uploadRes);
     // Send to cloud vision api to get text
+    const visionRes = await $fetch('/api/vision', {
+      method: 'POST',
+      body: JSON.stringify({
+        imageUri: `gs://${uploadRes.metadata.bucket}/${uploadRes.metadata.fullPath}`
+      })
+    })
+    console.log('receive visionRes', visionRes);
+
+    // Sort etc
+    annotations.value = visionRes.labelAnnotations
+
+    const searchTags = visionRes.labelAnnotations.slice(0, 2).map(a => a.description).join(',')
+    const results = await $fetch(`/api/admin/recyclable/tags?tags=${searchTags}`)
+
+    console.log('results of first 2', searchTags, results);
   } catch (err) {
     console.log("Failed to upload", err);
   } finally {

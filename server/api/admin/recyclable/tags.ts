@@ -60,7 +60,7 @@ async function getAllStrings() {
 
 // https://github.com/leeoniya/uFuzzy#options
 let opts = {
-  intraIns: 2,
+  intraIns: 1,
 };
 
 let uf = new uFuzzy(opts);
@@ -69,7 +69,7 @@ const queryCache = new LRUCache({
   ttl: 1000 * 5,
 });
 
-async function search(str: string) {
+async function search(str: string): Promise<Recyclable[]> {
   if (queryCache.has(str)) {
     return queryCache.get(str);
   }
@@ -85,7 +85,7 @@ async function search(str: string) {
   let order = uf.sort(info, strings, str);
 
   // render post-filtered & ordered matches
-  const matches = [];
+  const matches: Recyclable[] = [];
   for (let i = 0; i < order.length; i++) {
     // using info.idx here instead of idxs because uf.info() may have
     // further reduced the initial idxs based on prefix/suffix rules
@@ -97,22 +97,34 @@ async function search(str: string) {
 
 export default defineEventHandler(async (event) => {
   const query = getQuery(event);
-  const { q } = query;
-  if (!q) throw new Error("Missing 'q' query field");
+  const { tags: tagsStr } = query;
+  if (!tagsStr) throw new Error("Missing 'tags' field");
 
-  const tokens = tokenize(q.toString().toLowerCase());
+  const tags = tagsStr.toString().split(",");
 
-  const stems: Record<string, number> = {};
-  for (let i = 0; i < tokens.length; i++) {
-    const stem = natural.PorterStemmer.stem(tokens[i]);
+  const result = [];
+  for (let tag of tags) {
+    const tokens = tokenize(tag.toString().toLowerCase());
 
-    if (stem in stems) {
-      stems[stem] += 1;
-    } else {
-      stems[stem] = 1;
+    const stems: Record<string, number> = {};
+    for (let i = 0; i < tokens.length; i++) {
+      const stem = natural.PorterStemmer.stem(tokens[i]);
+
+      if (stem in stems) {
+        stems[stem] += 1;
+      } else {
+        stems[stem] = 1;
+      }
+    }
+    console.log("Searching for", Object.keys(stems).join(" "));
+    const matches = await search(Object.keys(stems).join(" "));
+
+    // Dont add duplicates
+    for (let match of matches) {
+      if (result.find((r) => r.id === match.id)) continue;
+      result.push(match);
     }
   }
 
-  console.log("Searching for", Object.keys(stems).join(" "));
-  return search(Object.keys(stems).join(" "));
+  return result;
 });
