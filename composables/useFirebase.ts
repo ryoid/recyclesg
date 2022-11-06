@@ -1,9 +1,18 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
-import { getStorage } from "firebase/storage";
+import {
+  FirebaseStorage,
+  getDownloadURL,
+  getMetadata,
+  getStorage,
+  ref as storageRef,
+  uploadString,
+} from "firebase/storage";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth } from "firebase/auth";
 import { getMessaging } from "firebase/messaging";
+
+import { v4 as uuidv4 } from "uuid";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -20,20 +29,62 @@ const firebaseConfig = {
   measurementId: "G-3BSK8078R3",
 };
 
+function readFile(file: File) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = async (ev) => {
+      const base64 = reader.result as string;
+      resolve(base64);
+    };
+    reader.onerror = (err) => {
+      reject(err);
+    };
+    reader.onabort = () => {
+      reject();
+    };
+  });
+}
+
+export async function uploadFile(
+  storage: FirebaseStorage,
+  path: string,
+  file: File
+) {
+  // firebase upload base64 file
+  const base64 = await readFile(file);
+  const extension = file.name.split(".").pop();
+  const _ref = storageRef(
+    storage,
+    "/" + path + "/" + uuidv4() + "." + extension
+  );
+  const snapshot = await uploadString(_ref, base64 as string, "data_url");
+
+  if (!snapshot) {
+    throw new Error("Failed to upload");
+  }
+
+  const [downloadUrl, metadata] = await Promise.all([
+    getDownloadURL(snapshot.ref),
+    getMetadata(snapshot.ref),
+  ]);
+  return { snapshot, downloadUrl, metadata };
+}
+
 export const useFirebase = () => {
   const firebaseApp = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(firebaseApp);
+  // const analytics = getAnalytics(firebaseApp);
   const firestore = getFirestore(firebaseApp);
   const storage = getStorage(firebaseApp);
-  const auth = getAuth(firebaseApp);
-  const messaging = getMessaging(firebaseApp);
+  // const auth = getAuth(firebaseApp);
+  // const messaging = getMessaging(firebaseApp);
 
   return {
     firebaseApp,
     storage,
-    analytics,
+    // analytics,
     firestore,
-    auth,
-    messaging,
+    // auth,
+    // messaging,
   };
 };
