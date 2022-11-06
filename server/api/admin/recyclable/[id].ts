@@ -1,16 +1,11 @@
 import { Recyclable } from "~~/server/types";
-import jsonData from "./data.json";
+import { firestore } from "~~/server/utils/firebase";
 
-function getRecyclableData(): Recyclable[] {
-  return jsonData.map((d) => ({
-    ...d,
-    tags: ["test", "two"],
-    createdAt: new Date().toISOString(),
-  }));
-}
-
-export default defineEventHandler((event) => {
-  return getRecyclableData().find((d) => {
-    return String(d.id) === String(event.context.params.id);
-  });
+export default defineEventHandler(async (event) => {
+  const ref = firestore.collection(`recyclable`).doc(event.context.params.id);
+  const snapshot = await ref.get();
+  return {
+    ...snapshot.data(),
+    id: snapshot.id,
+  } as Recyclable;
 });
