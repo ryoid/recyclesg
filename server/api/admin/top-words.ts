@@ -1,9 +1,16 @@
 import natural from "natural";
+import { firestore } from "~~/server/utils/firebase";
+import {
+  TABLE_NAME as REQUESTS_TABLE_NAME,
+  normalizeRecycleRequest,
+} from "./recyclerequests/utils";
 
-import { RECYCLE_REQUESTS_DATA } from "./recyclerequests/data";
+export default defineEventHandler(async () => {
+  const requestsTable = firestore.collection(REQUESTS_TABLE_NAME);
+  const snapshot = await requestsTable.get();
+  const requests = snapshot.docs.map(normalizeRecycleRequest);
 
-export default defineEventHandler((event) => {
-  const wordDict = RECYCLE_REQUESTS_DATA.reduce((acc, request) => {
+  const wordDict = requests.reduce((acc, request) => {
     const tokenizer = new natural.WordTokenizer();
     const tokens = tokenizer.tokenize(
       request.title + " " + request.description

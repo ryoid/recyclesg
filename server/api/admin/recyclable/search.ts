@@ -14,11 +14,15 @@ function tokenize(str: string): string[] {
 }
 
 // Data cache for 5s
-const cache = new TTLCache({ max: 1, ttl: 1000 * 5 });
+const dataCache = new TTLCache({ max: 1, ttl: 1000 * 5 });
+
+export async function getRecyclables() {
+  return (await getAllStrings()).data;
+}
 
 async function getAllStrings() {
-  if (cache.has(TABLE_NAME)) {
-    return cache.get<{
+  if (dataCache.has(TABLE_NAME)) {
+    return dataCache.get<{
       data: Recyclable[];
       strings: string[];
     }>(TABLE_NAME);
@@ -50,7 +54,7 @@ async function getAllStrings() {
     }
   );
 
-  cache.set(TABLE_NAME, data);
+  dataCache.set(TABLE_NAME, data);
   return data;
 }
 
@@ -94,6 +98,7 @@ async function search(str: string) {
 export default defineEventHandler(async (event) => {
   const query = getQuery(event);
   const { q } = query;
+  if (!q) throw new Error("Missing 'q' query field");
 
   const tokens = tokenize(q.toString().toLowerCase());
 
@@ -107,6 +112,6 @@ export default defineEventHandler(async (event) => {
       stems[stem] = 1;
     }
   }
-
+  return search(Object.keys(stems).join(" "));
   // Load allTABLE_NAME  return search(Object.keys(stems).join(" "));
 });
