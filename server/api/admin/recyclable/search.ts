@@ -105,6 +105,7 @@ export default defineEventHandler(async (event) => {
   const stems: Record<string, number> = {};
   for (let i = 0; i < tokens.length; i++) {
     const stem = natural.PorterStemmer.stem(tokens[i]);
+    console.log(stem);
 
     if (stem in stems) {
       stems[stem] += 1;

@@ -4,7 +4,7 @@ export const TABLE_NAME = "recyclerequests";
 
 export const normalizeRecycleRequest = (
   data: FirebaseFirestore.DocumentSnapshot<FirebaseFirestore.DocumentData>
-): RecycleRequest => {
+) => {
   return {
     ...data.data(),
     id: data.id,
