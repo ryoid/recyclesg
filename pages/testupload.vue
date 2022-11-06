@@ -59,10 +59,15 @@ async function onSubmit(e) {
         imageUri: `gs://${uploadRes.metadata.bucket}/${uploadRes.metadata.fullPath}`
       })
     })
-    console.log('receive res', visionRes);
+    console.log('receive visionRes', visionRes);
 
     // Sort etc
     annotations.value = visionRes.labelAnnotations
+
+    const searchTags = visionRes.labelAnnotations.slice(0, 2).map(a => a.description).join(',')
+    const results = await $fetch(`/api/admin/recyclable/tags?tags=${searchTags}`)
+
+    console.log('results of first 2', searchTags, results);
   } catch (err) {
     console.log("Failed to upload", err);
   } finally {
