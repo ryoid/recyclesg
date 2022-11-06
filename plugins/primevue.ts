@@ -22,6 +22,7 @@ import ProgressSpinner from "primevue/progressspinner";
 import Avatar from "primevue/avatar";
 import AvatarGroup from "primevue/avatargroup";
 import Badge from "primevue/badge";
+import Menu from 'primevue/menu';
 import Menubar from 'primevue/menubar';
 import Message from "primevue/message";
 import Accordion from 'primevue/accordion';
@@ -70,6 +71,7 @@ export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.component("Image", Image);
   nuxtApp.vueApp.component("Divider", Divider);
   nuxtApp.vueApp.component("FileUpload", FileUpload);
+  nuxtApp.vueApp.component("Menu", Menu);
 
 
   nuxtApp.vueApp.component("Listbox", Listbox);

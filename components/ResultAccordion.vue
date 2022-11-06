@@ -28,7 +28,7 @@
 </template>
 
 <script lang="ts" setup>
-import { Recyclable } from '~~/server';
+import { Recyclable } from '~~/server/api';
 export type Props = {
   item: Recyclable
   idx: string  

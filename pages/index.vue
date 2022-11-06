@@ -1,7 +1,8 @@
 <template>
 
   <div>
-    <NavBar />
+    <!-- <NavBar /> -->
+    <NewNavBar />
     <div class="container mx-auto">
 
       <!-- <Image v-if="!itemSearched" link="../assets/img/illustration/logo.jpg" /> -->
@@ -78,7 +79,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { Recyclable } from '~~/server';
+import { Recyclable } from '~~/server/api';
 import RECYCLE_DATABASE_ITEMS from '../data/recyclables.json'; // list of NEA recyclable items to be obtained from realtime database
 
 const labels = ["Paper", "Newspaper", "Cardboard", "Flyer", "Shoes"]; // to be obtained from cloud vision api
