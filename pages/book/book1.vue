@@ -23,6 +23,9 @@ div {
 
 </style>
 
+<nav_bar/>
+<search_bar/>
+
 <template>
     <h2>Book Collection</h2>
     <div>
