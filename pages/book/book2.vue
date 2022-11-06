@@ -28,6 +28,7 @@ hr{
 </style>
 
 <template>
+    <nav_bar/>
     
     <h2>Booking Details</h2>
     <div id="date_time">

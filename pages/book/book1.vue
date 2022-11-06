@@ -23,10 +23,10 @@ div {
 
 </style>
 
-<nav_bar/>
-<search_bar/>
+
 
 <template>
+    <nav_bar/>
     <h2>Book Collection</h2>
     <div>
         <p>
