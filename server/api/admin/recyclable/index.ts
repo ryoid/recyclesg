@@ -1,21 +1,8 @@
-import { Recyclable } from "~~/server/types";
-import jsonData from "./data.json";
+import { firestore } from "~~/server/utils/firebase";
+import { normalizeRecyclable, TABLE_NAME } from "./utils";
 
-function getRecyclableData(): Recyclable[] {
-  const ids = new Map<any, boolean>();
-  return jsonData
-    .map((d) => ({
-      ...d,
-      tags: ["test", "two"],
-      createdAt: new Date().toISOString(),
-    }))
-    .filter((d) => {
-      if (ids.get(d.id)) return false;
-      ids.set(d.id, true);
-      return true;
-    });
-}
-
-export default defineEventHandler((event) => {
-  return getRecyclableData();
+export default defineEventHandler(async () => {
+  const table = firestore.collection(TABLE_NAME);
+  const snapshot = await table.get();
+  return snapshot.docs.map(normalizeRecyclable);
 });
