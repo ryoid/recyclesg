@@ -1,12 +1,11 @@
 <style>
 h2 {
     font-size: 50px;
-    font-family: "Times New Roman";
+
 }
 
 h3 {
     font-size: 30px;
-    font-family: "Times New Roman";
 }
 
 div {
@@ -33,14 +32,15 @@ hr {
             <h3>Your details</h3>
         </div>
 
-        <form>
+        <form :onSubmit="onSubmit">
             <div>
                 <p>Name</p>
-                <InputText type="text" v-model="person.name" />
+                <InputText type="text" v-model="form.name" required />
+                <div v-if="errors.name" class="text-red-500">{{ errors.name }}</div>
                 <p>Email</p>
-                <InputText type="text" v-model="person.email" />
+                <InputText type="email" v-model="form.email" required />
                 <p>Contact Number</p>
-                <InputNumber type="number" :useGrouping="false" v-model="person.phone" />
+                <InputNumber type="text" :useGrouping="false" v-model="form.phone" required />
             </div>
 
             <br />
@@ -51,11 +51,11 @@ hr {
                 <h3>Collection Location</h3>
                 <div class="inline">
                     <p>Address</p>
-                    <InputText type="text" v-model="person.address" size="50" />
+                    <InputText type="text" v-model="form.address" size="50" required />
                 </div>
                 <div class="inline">
                     <p>Postal Code</p>
-                    <InputNumber type="number" :useGrouping="false" v-model="person.postal" />
+                    <InputNumber type="number" :useGrouping="false" v-model="form.postal" required />
                 </div>
             </div>
 
@@ -65,47 +65,114 @@ hr {
 
             <div>
                 <h3>Collection Items</h3>
-                <FileUpload name="demo[]" url="./upload" :multiple="true" accept="image/*" />
+                <FileUpload name="demo[]" url="./upload" :multiple="true" accept="image/*"  ref="fileUploadRef" :fileLimit="1"/>
                 <div>
                     <p>Description (optional)</p>
-                    <Textarea v-model="person.desc" rows="10" cols="80" />
+                    <Textarea v-model="form.desc" rows="10" cols="80" required />
                 </div>
                 <br />
-                <Button @click="showAlert2()" label="Submit" style="margin-left: 4px">Book Collection</Button>
+                <Button type="submit" label="Submit" style="margin-left: 4px">Book
+                    Collection</Button>
             </div>
         </form>
+        date
+        {{ form.date }}
     </div>
 </template>
 
 <script lang="ts" setup>
-const person = ref({
-    name: "",
-    email: "",
+const { storage } = useFirebase()
+
+const router = useRouter()
+const route = useRoute()
+
+
+const { date } = route.query
+if (!date) {
+    router.replace('/book/book1')
+}
+
+const fileUploadRef = ref(null)
+
+const form = ref({
+    name: null,
+    email: null,
     phone: null,
-    address: "",
+    address: null,
     postal: null,
-    image: "",
-    desc: "",
+    image: null,
+    desc: null,
+    date: new Date(date)
 });
 
+
+const errors = ref({
+    name: null,
+    email: null,
+    phone: null,
+    address: null,
+    postal: null,
+    image: null,
+    desc: null,
+    date: new Date(date.toString())
+});
+
+
+async function onSubmit(e: SubmitEvent) {
+    e.preventDefault()
+    console.log('Submit');
+
+    // Validate form
+    let valid = true
+
+    // if (somethin) valid = false
+    errors.value.name = "Please enter a name"
+
+    errors.value.name = null
+    
+    // If valid
+    if (!valid) return
+
+    const imageFile = fileUploadRef.value.files[0]
+    const uploadRes = await uploadFile(storage, "user-item-uploads", imageFile)
+    console.log(uploadRes.downloadUrl)
+    
+    const payload: Omit<CollectionBooking, 'id'> = {
+        // name: string;
+        // email: string;
+        // contactNo: string;
+
+        // address: string;
+        // postalCode: string;
+        pickupDate: form.value.date.toISOString(),
+
+        image: uploadRes.downloadUrl,
+        // description: string;
+    }
+    // const visionRes = await $fetch('/api/admin/bookings', {
+    //   method: 'POST',
+    //   body: JSON.stringify(payload)
+    // })
+}
+
 function showAlert2() {
-    console.log("show alert", person.value);
+    console.log("show alert", form.value);
     if (
-        person.value.name == "" ||
-        person.value.email == "" ||
-        person.value.phone == null ||
-        person.value.address == "" ||
-        person.value.postal == null
+        form.value.name == "" ||
+        form.value.email == "" ||
+        form.value.phone == null ||
+        form.value.address == "" ||
+        form.value.postal == null
     ) {
         return alert("Please fill in all the fields");
-    } else if (person.value.email.includes("@") == false) {
+    } else if (form.value.email.includes("@") == false) {
         return alert("Please enter a valid email address");
-    } else if (person.value.phone.toString().length != 8) {
+    } else if (form.value.phone.toString().length != 8) {
         return alert("Please enter a valid phone number");
-    } else if (person.value.postal.toString().length != 6) {
+    } else if (form.value.postal.toString().length != 6) {
         return alert("Please enter a valid postal code");
     } else {
-        console.log(person.value);
+        console.log(form.value);
         return alert("Your booking has been submitted");
     }
 }

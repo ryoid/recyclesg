@@ -1,7 +1,6 @@
 <style>
 h2 {
     font-size: 50px;
-    font-family: "Times New Roman";
 }
 
 div {
@@ -22,13 +21,12 @@ div {
 }
 </style>
 
-
-
 <template>
     <div>
-        <nav_bar />
-        <h2>Book Collection</h2>
         <div>
+            <nav_bar />
+            <h2>Book Collection</h2>
+            <div></div>
             <p>
                 Lorem,ipsum dolor sit amet consectetur adipisicing elit. Itaque harum corrupti temporibus dignissimos,
                 deleniti maiores aut sequi voluptatibus nihil eveniet quasi id esse voluptatem, ipsum unde libero quae
@@ -41,46 +39,53 @@ div {
                 :inline="true" :minDate="form.minDateValue" :maxDate="form.maxDateValue"
                 class="inline-block margin-right" />
             <div class="inline-block">
-                <!-- <Dropdown v-model="form.selectedTiming" :options="form.timings" placeholder="Select a timing" /> -->
-                Timings
-                <ul>
-                    <li
-                        v-for="slot in data.availableSlots.find(d => isSameDay(new Date(d[0].date), form.selectedDate))">
-                        {{ slot.date }}
+                <ul class="grid grid-cols-1 gap-2 w-[200px]">
+                    <li :class="['bg-white py-4 px-3 rounded-xl border border-gray-200 cursor-pointer text-center select-none', {
+                        'bg-gray-200 text-gray-700 cursor-not-allowed': !slot.available,
+                        'bg-blue-500 text-white': form.selectedDateTime?.toISOString() === slot.date
+                    }]" v-for="slot in data.availableSlots.find(d => isSameDay(new Date(d[0].date), form.selectedDate))"
+                        @click="selectDate(slot as any)">
+                        {{ format(new Date(slot.date), 'h:mm a') }}
                     </li>
                 </ul>
-                <div class="inline-block ">
-                    <Button v-if="form.selectedDate == '' || form.selectedTiming == ''" @click="showAlert()"
-                        label="Continue" />
-                    <Button v-else onclick="location.href = './book2'" label="Continue" />
+                <div class="inline-block">
+                    <Button v-if="form.selectedDateTime == ''" @click="showAlert()" label="Continue" />
+                    <Button @click="submit" label="Continue" />
                 </div>
             </div>
-            <p>{{ form.selectedDate }}</p>
-            <p>{{ form.selectedTiming }}</p>
-
         </div>
-            <div>
-                {{ JSON.stringify(data.availableSlots, null, 2) }}
-            </div>
-    </div>
 
+    </div>
 </template>
   
 <script lang="ts" setup>
-import { addDays, isSameDay } from 'date-fns'
+import { addDays, isSameDay, format } from 'date-fns'
+
+const router = useRouter()
 
 const form = ref({
     timings: ["09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00"],
     minDateValue: new Date(),
     maxDateValue: addDays(new Date(), 14),
     selectedDate: null,
-    selectedTiming: null,
-
+    selectedDateTime: null,
 })
 
 const { data, pending, refresh, error } = await useFetch('/api/admin/bookings/available', {
 });
 
+function selectDate(slot: {
+    date: string
+    available: boolean
+}) {
+    if (!slot.available) return
+    form.value.selectedDateTime = new Date(slot.date)
+}
+
+function submit() {
+    console.log(form.value.selectedDateTime)
+    router.push(`/book/book2?date=${form.value.selectedDateTime.toISOString()}`)
+}
 
 function showAlert() {
     return alert("Please select a date and time");
