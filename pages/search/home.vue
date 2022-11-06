@@ -26,7 +26,6 @@
                 </NuxtLink>
             </template>
         </Dialog>
-
     </div>
 
 </template>
@@ -75,7 +74,9 @@
                 return 'Item is not recyclable!'
             }
         },
+
     }
+
 
 </script>
 
