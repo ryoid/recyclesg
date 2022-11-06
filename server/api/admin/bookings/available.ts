@@ -18,7 +18,7 @@ export default defineEventHandler(async () => {
 
   const availableDays = eachDayOfInterval({ start, end });
 
-  const unavailableSlots: Date[] = [];
+  const unavailableSlots = [];
   const availableSlots = availableDays.map((d) => {
     // Start 9 am
     d.setHours(9);
