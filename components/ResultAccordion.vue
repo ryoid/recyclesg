@@ -9,7 +9,7 @@
       {{ item.name }}
     </p>
 
-    <div style="background-color: white;" class="rounded p-3 m-2 panel" :id="idx">
+    <div style="background-color: white;" class="rounded p-3 m-2 panel" :id="item_id">
       <small>Material Type:</small>
       <p>{{ item.material }}</p>
       <!-- if score percentage is < 50%, add "we are not able to confidently identify this item and nuxt link back to home page" -->
@@ -23,22 +23,22 @@
       <small>Description:</small>
       <p><span v-html="item.description"></span></p>
     </div>
-
+    
   </div>
 </template>
 
 <script lang="ts" setup>
-import { Recyclable } from '~~/server/api';
+import { Recyclable } from '~~/server/types';
 export type Props = {
   item: Recyclable
-  idx: string  
+  item_id: string
 }
 
 const props = defineProps<Props>();
 let expanded = ref(false); // flag to check if accordion is expanded
 
 function expand() {
-  let panel = document.getElementById(props.idx);
+  let panel = document.getElementById(props.item_id);
   if (expanded.value) {
     panel.style.maxHeight = null;
     panel.style.display = "none";

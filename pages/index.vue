@@ -1,7 +1,6 @@
 <template>
 
   <div>
-    <!-- <NavBar /> -->
     <NewNavBar />
     <div class="container mx-auto">
 
@@ -11,25 +10,37 @@
         src="https://media.istockphoto.com/photos/mockup-of-male-hand-holding-a-coffee-paper-cup-isolated-on-light-grey-picture-id695455588?k=20&m=695455588&s=612x612&w=0&h=VWpcDiGihi4MBvXylg4ZLMzT_FQqHz0uy1R6FKmmtFk="
         v-else class="mx-auto w-64 sm:w-64 md:w-96 lg:w-128" />
 
-      <search_bar />
+      <!-- <search_bar /> -->
 
-      <!-- show only after image is uploaded and response gotten back from cloud api -->
-      <div class="container mt-20">
+      <h1>Test upload</h1>
+      <form @submit="getLabels">
+        <input class="hidden" type="file" @change="imageChange" ref="imageInputRef" accept="image/*" />
+        <div class="h-32 w-32 bg-gray-100 relative" @click="selectImage">
+          <div class="absolute inset-0 flex items-center justify-center">Click to upload</div>
+          <img v-if="imageSrc" :src="imageSrc" class="absolute inset-0 z-10 h-full w-full" />
+        </div>
+        <button type="submit">Submit</button>
+      </form>
+          
+
+      <!-- shown only after image is uploaded and labels gotten back from cloud api -->
+      <div class="container mt-20" >
         <div class="my-3">
           <h1>Detected Items</h1>
           <p>Select which best describes your item</p>
-          <Button v-for="(item, idx) of labels" :key="idx" class="p-button-outlined p-button-rounded"
-            style="margin: 10px 10px">
-            <Checkbox :input-id="item" name="labels" :value="item" v-model="selectedItems" />
-            <label :for="item" class="p-2">{{ item }}</label>
-          </Button>
-
-
-          <div>
-            <Button class="p-button-outlined p-button-rounded">
-              <Checkbox input-id="others" name="others" v-model="othersChecked" :binary="true" />
+          <SelectButton v-model="selectedItems" :options="annotations"  option-label="description" option-value="description" data-key="description" multiple />
+          <!-- <Button v-for="(a, idx) of annotations" :key="idx" class="p-button-outlined p-button-rounded"
+            style="margin: 10px 10px" @click="selectCheckbox"> -->
+            <!-- <Checkbox :input-id="idx + ''" name="labels" :value="a.description" v-model="selectedItems" ref="checkboxInputRef" /> -->
+            <!-- <div v-for="(a, idx) of annotations" :key="idx"  style="width: 200px; background-color: aliceblue">
+              <input class="hidden" type="checkbox" name="labels" :id="idx + ''" :value="a.description" v-model="selectedItems" >
+              <label :for="idx + ''" class="p-2">{{ a.description }}</label>
+            </div> -->
+          <!-- </Button> -->
+          
+          <div class="bg-gray-100 inline-block rounded-full p-2">              
+              <Checkbox input-id="others" name="others" v-model="othersChecked" :binary="true" style="margin-top: 0" />
               <label for="others" class="p-2">Others</label>
-            </Button>
           </div>
 
         </div>
@@ -37,13 +48,12 @@
         <div class="m-5">
           <Button label="Check" class="p-button-raised " @click="populateResults()" />
         </div>
-
+      
         <hr>
 
-        <div class="container my-4">
+        <div class="container my-4" v-if="displayResults.length > 0">
           <p class="text-slate-900 font-bold">Your Results</p>
-          <ResultAccordion v-for="(item, idx) of results" :key="idx" :item="item" :idx="idx + ''" />
-
+          <ResultAccordion v-for="(item, idx) of displayResults" :key="idx" :item="item" :item_id="item.id + ''" />
         </div>
 
       </div>
@@ -61,13 +71,13 @@
 
         <h3 class="mt-3">Email</h3>
         <p>You will be notified once we have labelled the item</p>
-        <div class="p-inputgroup">
+        <div class="p-inputgroup p-2">
           <span class="p-inputgroup-addon">
             <i class="pi pi-user"></i>
           </span>
           <InputText placeholder="Email address" v-model="email" />
         </div>
-        <!-- on click, submit request case into realtime database -->
+        <!-- on click, submit request case into database -->
         <Button label="Submit request" />
       </div>
 
@@ -80,38 +90,49 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { Recyclable } from '~~/server/types';
-import RECYCLE_DATABASE_ITEMS from '../data/recyclables.json'; // list of NEA recyclable items to be obtained from realtime database
+import { v4 as uuidv4 } from "uuid";
 
-const labels = ["Paper", "Newspaper", "Cardboard", "Flyer", "Shoes"]; // to be obtained from cloud vision api
 
-const selectedItems = ref<string[]>([]);
-const results = ref<Recyclable[]>([]);
+const { storage } = useFirebase()
+const imageInputRef = ref(null)
+const checkboxInputRef = ref(null)
+let imageSrc = ref(null)
+let submitting = ref(false)
+let annotations = ref(null) // labels returned from cloud api
 
-const othersChecked = ref();
-const optDes = ref();
-const email = ref();
-const itemSearched = ref(false);
+let selectedItems = ref<string[]>([]);
 
-function populateResults(): void {
-  results.value = []; // clear results at every submit
+let searchResults = ref<Recyclable[]>([]); // list of NEA recyclable items to be obtained from backend
+let displayResults = ref<Recyclable[]>([]); // search results (recyclable/non-recyclable/not found) after comparing selectedItems (label annotations) with searchResults
+
+let othersChecked = ref();
+let optDes = ref();
+let email = ref();
+let itemSearched = ref(false);
+
+async function populateResults() {
+  displayResults.value = []; // clear displayResults at every submit
   if (selectedItems.value.length == 0) {
     return;
   }
-
+  let searchTags = selectedItems.value.join(",");
+  searchResults.value = await $fetch(`/api/admin/recyclable/tags?tags=${searchTags}`); // give only unique searchResults
+  // console.log('searchResults of searchTags:', searchTags, searchResults.value);
+    
   for (const selectedItem of selectedItems.value) {
-    let hasMatch: boolean = false;
-    for (const item of RECYCLE_DATABASE_ITEMS) {
-      let itemName: string = item.name;
-      if (itemName.match(new RegExp(selectedItem, "g"))) {
+    let hasMatch = false;
+    for (const item of searchResults.value) {
+      let itemName = item.name;
+      if (itemName.match(new RegExp(selectedItem, "gi"))) {
         hasMatch = true;
-        results.value.push(item);
-      } 
+        displayResults.value.push(item);
+      }
     }
 
     if (!hasMatch) {
-      results.value.push({
+      displayResults.value.push({
         // null value means to be edited by admin
-        "id": null,
+        "id": uuidv4(),
         "material": null,
         "name": selectedItem,
         "tags": [selectedItem],
@@ -122,6 +143,53 @@ function populateResults(): void {
   }
 }
 
+
+function selectImage() {
+  imageInputRef.value.click()
+}
+
+
+function imageChange() {
+  const imageFile = imageInputRef.value.files[0]
+  if (imageFile) {
+    imageSrc.value = URL.createObjectURL(imageFile)
+  }
+}
+
+async function getLabels(e) {
+  e.preventDefault();
+  console.log('Submit form');
+  const imageFile = imageInputRef.value.files[0]
+  if (!imageFile) {
+    console.log("Select an image");
+    return
+  }
+
+  selectedItems.value = [];
+  submitting.value = true
+  try {
+    const uploadRes = await uploadFile(storage, "user-item-uploads", imageFile)
+    console.log(uploadRes);
+    // Send to cloud vision api to get text
+    const visionRes = await $fetch('/api/vision', {
+      method: 'POST',
+      body: JSON.stringify({
+        imageUri: `gs://${uploadRes.metadata.bucket}/${uploadRes.metadata.fullPath}`
+      })
+    })
+    console.log('receive visionRes', visionRes);
+
+    // Sort etc
+    annotations.value = visionRes.labelAnnotations
+
+    
+  } catch (err) {
+    console.log("Failed to upload", err);
+  } finally {
+    submitting.value = false
+  }
+
+}
 
 
 </script>
