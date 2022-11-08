@@ -24,7 +24,10 @@
                 json: json,
                 selectedRecyclables: '',
                 displayModal: false,
-                recyclable: true
+                recyclable: true,
+                id: null,
+                item_name: null,
+                recycling_instruction: null,
             }
         },
 
@@ -33,26 +36,35 @@
             getSelectedRecyclables(item) {
                 this.selectedRecyclables = item
                 this.displayModal = true
+                let temp = null
+                for (temp of this.json){
+                    if (this.selectedRecyclables.name == temp.name){
+                        console.log(temp)
+                        this.id = temp.id
+                        this.item_name = temp.name
+                        this.recycling_instruction = temp.description
+                    }
+                }
             },
 
         },
 
-        computed: {
-            isRecyclable() {
-                let item = null
-                for (item of this.json){
-                    if (this.selectedRecyclables.name == item.name){
-                        let recyclable = item.recyclable
-                        if (recyclable == true){
-                            this.recyclable = true
-                            return 'Your item is recyclable!'
-                        }                        
-                    } 
-                }
-                this.recyclable = false
-                return 'Item is not recyclable!'
-            }
-        },
+        // computed: {
+        //     isRecyclable() {
+        //         let item = null
+        //         for (item of this.json){
+        //             if (this.selectedRecyclables.name == item.name){
+        //                 let recyclable = item.recyclable
+        //                 if (recyclable == true){
+        //                     this.recyclable = true
+        //                     return 'Your item is recyclable!'
+        //                 }                        
+        //             } 
+        //         }
+        //         this.recyclable = false
+        //         return 'Item is not recyclable!'
+        //     }
+        // },
 
     }
 
@@ -64,10 +76,6 @@
     #results {
         background-color: white;
         opacity: 1;
-    }
-
-    .p-dialog-header{
-        background-color: green;
     }
 
 </style>
