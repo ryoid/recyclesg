@@ -6,26 +6,10 @@
 
         <CompanyLogo />
 
-        <SearchBar v-show="!imageSearch"/>
+        <SearchBar />
 
-        <SearchImageUploader v-show="imageSearch" />
+        <SearchImageUploader />
 
-        <Dialog
-            id="results" 
-            v-bind:draggable= false 
-            v-model:visible="displayModal" 
-            :breakpoints="{'960px': '75vw', '640px': '90vw'}" 
-            :style="{width: '50vw'}">
-            <template #header>
-                <h3>{{selectedRecyclables.name}}</h3>
-            </template>
-            <p :style="'color: gray'">{{isRecyclable}}</p>
-            <template #footer v-if="recyclable">
-                <NuxtLink to="/book/book1">
-                    <Button label="Proceed to Book Collection" icon="pi pi-arrow-right" class="p-button-primary"></Button>
-                </NuxtLink>
-            </template>
-        </Dialog>
     </div>
 
 </template>
@@ -38,7 +22,6 @@
         data() {
             return {
                 json: json,
-                imageSearch: false,
                 selectedRecyclables: '',
                 displayModal: false,
                 recyclable: true
@@ -46,10 +29,6 @@
         },
 
         methods: {
-
-            imagesearch() {
-                this.imageSearch = true
-            },
 
             getSelectedRecyclables(item) {
                 this.selectedRecyclables = item

@@ -1,159 +1,171 @@
 <template>
-
   <div>
+    <div class="row w-5/6 mx-auto border m-0" v-if="!cameraOn">
+      <Button id="fileUploadButton" @click="openCamera()" icon="pi pi-camera" label="Take a picture"></Button>
+      <Button id="fileUploadButton" icon="pi pi-upload" @click="onSubmit" label="Upload"></Button>
+    </div>
 
-    <div class="container w-5/6 mx-auto">
-      <div class="row" v-if="!cameraOn">
-        <Button id="takePicture" @click="openCamera()" icon="pi pi-camera" label="Take a picture"></Button>
-      </div>
-      
-      <div class="row">
-        <FileUpload
-          v-if="!cameraOn"
-          id = "fileupload" 
-          name="image[]" 
-          url="url" 
-          @upload="onAdvancedUpload($event)"
-          v-bind:fileLimit= 1
-          accept="image/*"
-          :max-file-size="1000000">
-          <template #content>
-              <ul v-if="uploadedFiles && uploadedFiles[0]">
-                  <li v-for="file of uploadedFiles[0]" :key="file">{{ file.name }} - {{ file.size }} bytes</li>
-              </ul>
-          </template>
-          <template #empty>
-              <i id="uploadicon" class="col-12 pi pi-upload"></i>
-              <p class="col-12 text-center">Drag and drop files to here to upload.</p>
-              <p id="warntext">*Maximum file limit: 1</p>
-          </template>
-        </FileUpload>        
-      </div>
-
-      <div class="row">
-        <div id="takePicture"><video class="mx-auto" :hidden="!cameraOn" ref="video" id="video" width="640" height="480" autoplay>{{cameraPreview}}</video></div>
-        <div v-if="cameraOn">
-          <div class="flex">
-            <Button 
-              class="flex p-button-rounded w-1/3 mx-auto" 
-              id="snap" 
-              v-on:click="capture()" 
-              icon="pi pi-camera"></Button>
+    <div class="row w-5/6 mx-auto m-0" v-if="!cameraOn">
+      <form class="bg-gray-100 p-3 border">
+        <input class="hidden" type="file" @change="imageChange" ref="imageInputRef" accept="image/*" />
+        <div class="mx-auto h-80 w-96 bg-gray-100 relative" @drop="selectImage" @click="selectImage">
+          <div class="absolute inset-0 items-center justify-center mt-5 pt-5">
+            <i id="uploadicon" class="col-12 pi pi-upload"></i>
+            <p class="col-12 text-center">Drag and drop files to here to upload.</p>
+            <p id="warntext">*Maximum file limit: 1</p>
           </div>
-          <canvas hidden ref="canvas" id="canvas" width="640" height="480"></canvas>
-        </div>         
-      </div>
+          <img v-if="imageSrc" :src="imageSrc" class="absolute inset-0 z-10 h-full w-full" />
+        </div>
+      </form>
+    </div>
 
-      <div class="row">
-        <Dialog v-model:visible="display" :closable="false">
-          <template #header>
-          <h3 :style="'font-size:20px;'" class="mx-auto">Upload image?</h3>
-        </template>
 
-        <ul>
-            <li v-for="c of captures">
-              <img v-bind:src="c" :width="width"/>
-            </li>              
-        </ul> 
-
-        <template #footer>
-          <Button label="No" icon="pi pi-times" class="p-button-text" v-on:click="clear()"/>
-              <Button label="Yes" icon="pi pi-check" autofocus />
-        </template>
-      </Dialog>
+    <div class="row">
+      <video :hidden="!cameraOn" class="mx-auto" id="video" width="640" height="480" autoplay>{{cameraPreview}}</video>
+      <div v-if="cameraOn">
+        <div class="flex">
+          <Button 
+            class="flex p-button-rounded w-1/3 mx-auto" 
+            id="snap" 
+            v-on:click="capture()" 
+            icon="pi pi-camera"></Button>
+        </div>
+        <canvas hidden ref="canvasTest" id="canvas" width="640" height="480"></canvas>
+        </div>
+    </div>
+    <div v-if="annotations">
+      Result
+      <div>
+        <code>
+          {{ JSON.stringify(annotations, null, 2) }}
+        </code>
       </div>
     </div>
-   
   </div>
 </template>
 
-  <script>
-      export default({
+<script lang="ts" setup>
+const { storage } = useFirebase()
+const imageInputRef = ref(null)
+let imageSrc = ref(null)
+let submitting = ref(false)
+let annotations = ref(null)
+let video = {}
+let canvas = {}
+let canvasTest = ref({})
+let captures = []
+let cameraOn = ref(false)
+let fileList = {}
+let display = false
 
-      data(){
-        return {
-          uploadedFiles: [],
-          length: 0,
-          previewImage: null,
-          upload: null,
-          video: {},
-          canvas: {},
-          captures: [],
-          cameraOn: false,
-          display: false,
-        }
-      },
+function openCamera(){
+  cameraOn.value = !cameraOn.value
+  console.log(cameraOn.value)
+  video = document.getElementById('video')
+  setTimeout(cameraPreview, 1000)
+}
 
-      methods: {
-        openCamera(){
-          this.cameraOn = true
-          this.video = this.$refs.video; 
-          setTimeout(this.cameraPreview(), 1000)
-        },
+function capture() {
+  cameraOn.value = !cameraOn.value
+  canvas = document.getElementById('canvas')
+  let context = canvas
+    .getContext("2d")
+    .drawImage(video, 0, 0, 640, 480);
+  captures.push(canvas.toDataURL("image/png"))
+  imageSrc.value = canvas.toDataURL("image/png")
+  canvas.toBlob(function(blob){
+    fileList['image'] = (new File([blob], 'image', { type: 'image/jpeg' }))
+  },'image/png');
 
-        capture() {
-          this.canvas = this.$refs.canvas;
-          var context = this.canvas
-            .getContext("2d")
-            .drawImage(this.video, 0, 0, 640, 480);
-          this.captures.push(canvas.toDataURL("image/png"));
-          this.display = true
-        },
+}
 
-        cameraPreview(){
-          if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-            navigator.mediaDevices.getUserMedia({ video: true, audio: false }).then(stream => {
-              console.log(stream)
-              console.log(this.uploadedFiles)
-              video.srcObject = stream;
-              this.width = this.video.width
-              this.video.play();              
-        })}
-        },
+function cameraPreview(){
+  if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+    navigator.mediaDevices.getUserMedia({ video: true, audio: false }).then(stream => {
+      video.srcObject = stream;
+      video.play();              
+})}
+}
 
-        clear(){
-          this.canvas = {}
-          this.captures = []
-          this.display = false
-        }
-      },
-      
-      mounted() {
-        this.cameraPreview()
-      }
-      
-  })
+function selectImage() {
+  imageInputRef.value.click()
+}
 
-  </script>
+function imageChange() {
+  console.log(imageInputRef.value.files)
+  const imageFile = imageInputRef.value.files[0]
+  if (imageFile) {
+    imageSrc.value = URL.createObjectURL(imageFile)
+    fileList['image'] = imageInputRef.value.files[0]
+  }
+}
+
+async function onSubmit(e) {
+
+  e.preventDefault()
+  console.log('Submit form');
+  const imageFile = fileList.image
+  if (!imageFile) {
+    console.log("Select an image");
+    return
+  }
+  submitting.value = true
+  try {
+    const uploadRes = await uploadFile(storage, "user-item-uploads", imageFile)
+    console.log(uploadRes);
+    // Send to cloud vision api to get text
+    const visionRes = await $fetch('/api/vision', {
+      method: 'POST',
+      body: JSON.stringify({
+        imageUri: `gs://${uploadRes.metadata.bucket}/${uploadRes.metadata.fullPath}`
+      })
+    })
+    console.log('receive visionRes', visionRes);
+
+    // Sort etc
+    annotations.value = visionRes.labelAnnotations
+
+    const searchTags = visionRes.labelAnnotations.slice(0, 2).map(a => a.description).join(',')
+    const results = await $fetch(`/api/admin/recyclable/tags?tags=${searchTags}`)
+
+    console.log('results of first 2', searchTags, results);
+  } catch (err) {
+    console.log("Failed to upload", err);
+  } finally {
+    submitting.value = false
+  }
+
+}
+
+onMounted(() => {
+  cameraPreview()
+})
+</script>
 
 <style>
 
-  #fileupload{
-    width: 100%;
-  }
+#fileUploadButton{
+  margin: 15px
+}
 
-  #uploadicon{
+#warntext{
+    text-align: center;
+    color: red;
+    font-size: small;
+}
+
+#uploadicon{
     font-size: 100px;
     margin-bottom: 30px;
     display: flex;
     align-items: center;
     justify-content: center;
-  }
+}
 
-  #warntext{
-    text-align: center;
-    color: red;
-    font-size: small;
-  }
-
-  #takePicture{
-    margin-bottom: 10px;
-  }
-
-  #snap{
+#snap{
     margin: auto;
     min-width: 50px;
     min-height: 50px;
   }
-
+  
 </style>

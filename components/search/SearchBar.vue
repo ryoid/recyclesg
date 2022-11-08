@@ -1,76 +1,59 @@
 <template>
-    <div>
-        <div>
-            <div class="mx-auto w-5/6">
-                <span class="p-fluid flex w-full">
-                        <i class="pi pi-search my-auto"></i>
-                        <AutoComplete 
-                            class="p-autocomplete"
-                            v-model="selectedRecyclables" 
-                            :suggestions="filteredRecyclables"
-                            v-on:keyup.enter="$parent.getSelectedRecyclables(filteredRecyclables[0])" 
-                            @complete="searchCountry($event)"
-                            optionLabel="name" 
-                            placeholder="e.g. plastic bottle, toilet paper"/>
-                    
-                        <Button icon="pi pi-upload" class="p-button-rounded p-button-primary p-button-outlined" @click="$parent.imagesearch"></Button>
-                </span>
-
-                <div v-if="length==0" id="noresults">No results found</div>
-            </div>
-        </div>
-      
+    <div class="mx-auto w-5/6">
+        <span class="p-fluid flex w-full">
+                <i class="pi pi-search my-auto"></i>
+                <AutoComplete 
+                    ref="autocomplete"
+                    class="p-autocomplete"
+                    v-model="selectedRecyclables" 
+                    :suggestions="filteredRecyclables"
+                    @complete="searchRecyclables($event)"
+                    optionLabel="name"
+                    placeholder="e.g. plastic bottle, toilet paper"/>
+            
+        </span>
+        <div v-if="recyclablesList.length==0 && selectedRecyclables==''" id="noresults">No results found</div>
     </div>
 </template>
 
-<script>
-    import json from "~~/server/api/recyclerequests/NEA_parsed.json";
+<script lang="ts" setup>
 
-    export default({
-    data() {
-        return {
-            json: json,
-            selectedRecyclables: null,
-            filteredRecyclables: null,
-            recyclablesList: [],
-            length: null,
-        };
-    },
+    let selectedRecyclables = ref()
+    let filteredRecyclables = ref()
+    let recyclablesList = []
 
-    methods: {
-        searchCountry(event) {
-            setTimeout(() => {
-                if (!event.query.trim().length) {
-                    this.filteredRecyclables = [...this.recyclablesList];
-                }
-                else {
-                    this.length = 0;
-                    this.filteredRecyclables = this.recyclablesList.filter((item) => {
-                        if (item.name.toLowerCase().includes(event.query.toLowerCase())) {
-                            this.length++;
-                            return item.name;
-                        }
-                    });
-                }
-            }, 250);
-        },
-        recyclableList() {
-            let item = null;
-            for (item of this.json) {
-                var obj = {};
-                obj["id"] = item.id;
-                obj["name"] = item.name;
-                this.recyclablesList.push(obj);
+    const searchRecyclables = (event) => {
+        onSearch()
+        setTimeout(() => {
+            if (!event.query.trim().length) {
+                filteredRecyclables.value = [...recyclablesList];
             }
-        },
+            else {
+                let item = null
+                filteredRecyclables.value = recyclablesList.filter((item) => {
+                    return item   
+                });
+            }
+        }, 250);
+    }
+    
+    function recyclableList(list) {
+                recyclablesList = []
+                let item = null;
+                let counter = 0
+                for (item of list) {
+                    var obj = {};
+                    obj["id"] = counter;
+                    obj["name"] = item.name;
+                    recyclablesList.push(obj)
+                    counter++
+                }
+            }
 
-    },
-
-    mounted() {
-        this.recyclableList();
-    },
-
-    });
+    async function onSearch(){
+        const data = await $fetch(`/api/admin/recyclable/search?q=${selectedRecyclables.value}`)
+        recyclableList(data)
+    }
 
 </script>
 
