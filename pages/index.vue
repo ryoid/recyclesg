@@ -93,11 +93,11 @@ const email = ref();
 const itemSearched = ref(false);
 
 function populateResults(): void {
+  results.value = []; // clear results at every submit
   if (selectedItems.value.length == 0) {
     return;
   }
 
-  results.value = []; // clear results at every submit
   for (const selectedItem of selectedItems.value) {
     let hasMatch: boolean = false;
     for (const item of RECYCLE_DATABASE_ITEMS) {

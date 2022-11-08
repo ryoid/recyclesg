@@ -64,7 +64,7 @@ async function onSubmit(e) {
     // Sort etc
     annotations.value = visionRes.labelAnnotations
 
-    const searchTags = visionRes.labelAnnotations.slice(0, 2).map(a => a.description).join(',')
+    const searchTags = visionRes.labelAnnotations.slice(0, 2).map(a => a.description).join(',');
     const results = await $fetch(`/api/admin/recyclable/tags?tags=${searchTags}`)
 
     console.log('results of first 2', searchTags, results);
