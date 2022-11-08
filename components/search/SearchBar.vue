@@ -54,7 +54,7 @@
                 }
             }, 250);
         },
-        countryList() {
+        recyclableList() {
             let item = null;
             for (item of this.json) {
                 var obj = {};
@@ -67,7 +67,7 @@
     },
 
     mounted() {
-        this.countryList();
+        this.recyclableList();
     },
 
     });
