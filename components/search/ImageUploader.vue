@@ -66,10 +66,10 @@ function dropHandler(ev){
   const temp = [...ev.dataTransfer.items]
   temp.forEach((item, i)=>{
     if (item.kind == 'file'){
-      console.log(item.kind)
       const file = item.getAsFile()
-      if (file['type'] == ('image/jpeg' || 'image/png')){
-        console.log(1, file)
+      console.log(file)
+      console.log(file.type)
+      if (['image/jpeg', 'image/png'].includes(file.type)){
         imageSrc.value = URL.createObjectURL(file)
         fileList['image'] = file
       } else {
