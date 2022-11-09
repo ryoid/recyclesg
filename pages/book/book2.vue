@@ -19,28 +19,44 @@ div {
 hr {
     border-top: 2px solid rgb(138, 138, 138);
 }
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 </style>
 
 <template>
-    <div>
+    <div class="w-auto">
         <nav_bar />
+        <div>
+        
 
         <h2>Booking Details</h2>
-        <div id="date_time">
+        <div>
             <p>{{ form.date }}</p>
             <br />
             <h3>Your details</h3>
         </div>
+        
 
-        <form :onSubmit="onSubmit">
+        
+
+        <form :onSubmit="onSubmit" class="was-validated">
             <div>
-                <p>Name</p>
-                <InputText type="text" v-model="form.name" required />
-                <div v-if="errors.name" class="text-red-500">{{ errors.name }}</div>
-                <p>Email</p>
-                <InputText type="email" v-model="form.email" required />
-                <p>Contact Number</p>
-                <InputNumber type="text" :useGrouping="false" v-model="form.phone" required />
+
+                <label for="name" class="form-label">Name:</label><br>
+                <InputText type="text" v-model="form.name" required class = "w-[500px] form-control" id="name"/><br>
+                <div v-if="errors.name" class="text-red-500">{{ errors.name }}</div><br>
+                
+                
+                <label for="email" class="form-label">Email:</label><br>
+                <InputText type="email" v-model="form.email" required class = "w-[500px] form-control" id="email"/><br><br>
+            
+                <label for="phone" class="form-label">Contact Number:</label><br>
+                <InputText type="number" :useGrouping="false" v-model="form.phone" required class = "w-[500px] form-control" id="phone" /><br>
+                
             </div>
 
             <br />
@@ -50,12 +66,12 @@ hr {
             <div>
                 <h3>Collection Location</h3>
                 <div class="inline">
-                    <p>Address</p>
-                    <InputText type="text" v-model="form.address" size="50" required />
+                    <label for="address" class="form-label">Address:</label><br>
+                    <InputText type="text" v-model="form.address" size="50" required class = "w-[500px] form-control" id="address"/>
                 </div>
                 <div class="inline">
-                    <p>Postal Code</p>
-                    <InputNumber type="number" :useGrouping="false" v-model="form.postal" required />
+                    <label for="postal" class="form-label">Postal Code:</label><br>
+                    <InputText type="number" :useGrouping="false" v-model="form.postal" required class = "w-[300px] form-control" id="postal" /><br>
                 </div>
             </div>
 
@@ -67,16 +83,18 @@ hr {
                 <h3>Collection Items</h3>
                 <FileUpload name="demo[]" url="./upload" :multiple="true" accept="image/*"  ref="fileUploadRef" :fileLimit="1"/>
                 <div>
-                    <p>Description (optional)</p>
-                    <Textarea v-model="form.desc" rows="10" cols="80" required />
+                    <label for="desc" class="form-label">Description (Optional):</label><br>
+                    <Textarea v-model="form.desc" rows="10" cols="80" class = "form-control" id="desc"  />
                 </div>
                 <br />
                 <Button type="submit" label="Submit" style="margin-left: 4px">Book
                     Collection</Button>
+                <div v-if="errors.name" class="text-red-500 inline-block" style="margin-left: 20px"  >{{ errors.submit }}</div>
             </div>
         </form>
-        date
         
+        
+        </div>
     </div>
 </template>
 
@@ -114,7 +132,8 @@ const errors = ref({
     postal: null,
     image: null,
     desc: null,
-    date: new Date(date.toString())
+    date: new Date(date.toString()),
+    submit: null
 });
 
 
@@ -124,11 +143,13 @@ async function onSubmit(e: SubmitEvent) {
 
     // Validate form
     let valid = true
-
-    // if (somethin) valid = false
+    
+    // if (somethig wrong) valid = false
+    valid = false
     errors.value.name = "Please enter a name"
+    errors.value.submit = "Please fill in all fields"
 
-    errors.value.name = null
+    // errors.value.name = null
     
     // If valid
     if (!valid) return
