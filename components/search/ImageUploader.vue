@@ -12,12 +12,12 @@
     </div>
 
     <div class="row w-5/6 mx-auto m-0" v-if="!cameraOn">
-      <form class="bg-gray-100 p-3 border" @click="selectImage">
+      <form class="bg-gray-100 p-3 border" @click="selectImage" @dragover="dragOverHandler" @drop="dropHandler">
         <input class="hidden" type="file" @change="imageChange" ref="imageInputRef" accept="image/*" />
         <div class="mx-auto h-80 w-96 bg-gray-100 relative">
           <div class="absolute inset-0 top-24 items-center justify-center">
             <i id="uploadicon" class="col-12 pi pi-upload"></i>
-            <p class="col-12 text-center">Click here to upload from storage.</p>
+            <p class="col-12 text-center">Click or drag and drop here to upload from storage.</p>
             <p id="warntext">*Maximum file limit: 1</p>
           </div>
           <img v-if="imageSrc" :src="imageSrc" class="absolute inset-0 z-10 h-full w-full" />
@@ -50,6 +50,7 @@
 </template>
 
 <script lang="ts" setup>
+
 const { storage } = useFirebase()
 const imageInputRef = ref(null)
 let imageSrc = ref(null)
@@ -59,7 +60,23 @@ let video = {}
 let canvas = {}
 let cameraOn = ref(false)
 let fileList = {}
-let display = false
+
+function dropHandler(ev){
+  console.log('File(s) dropped')
+  ev.preventDefault()
+  const temp = [...ev.dataTransfer.items]
+  temp.forEach((item, i)=>{
+    if (item.kind == 'file'){
+      const file = item.getAsFile()
+      imageSrc.value = URL.createObjectURL(file)
+    }
+  })
+}
+
+function dragOverHandler(ev){
+  console.log('File(s) in drop zone')
+  ev.preventDefault()
+}
 
 function openCamera(){
   cameraOn.value = !cameraOn.value
@@ -78,7 +95,6 @@ function capture() {
   canvas.toBlob(function(blob){
     fileList['image'] = (new File([blob], 'image', { type: 'image/jpeg' }))
   },'image/png');
-  console.log(fileList)
 }
 
 function cameraPreview(){
