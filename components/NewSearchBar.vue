@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-auto w-5/6">
+  <div class="mx-auto">
     <div class="p-inputgroup">
       <AutoComplete class="p-autocomplete" v-model="search" :suggestions="suggestions" @complete="showResults($event)" @item-select="$emit('item-select', $event.value)"
         optionLabel="name" placeholder="Flyer, magazine, packaging" />
