@@ -1,16 +1,15 @@
 <template>
   <div>
     <SearchNewSearchBar @item-select="testing" />
-    {{d}}
   </div>
 </template>
 
 <script lang="ts" setup>
 
 let search = ref<string>()
-let d = ref()
+
 function testing(e) {
-  d.value = e;
+  console.log(e);
 }
 
 

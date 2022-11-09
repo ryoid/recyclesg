@@ -10,7 +10,7 @@
         src="https://media.istockphoto.com/photos/mockup-of-male-hand-holding-a-coffee-paper-cup-isolated-on-light-grey-picture-id695455588?k=20&m=695455588&s=612x612&w=0&h=VWpcDiGihi4MBvXylg4ZLMzT_FQqHz0uy1R6FKmmtFk="
         v-else class="mx-auto w-64 sm:w-64 md:w-96 lg:w-128" />
 
-      <!-- <search_bar /> -->
+      <SearchNewSearchBar @item-select="displaySearchResults" />
 
       <h1>Test upload</h1>
       <form @submit="getLabels">
@@ -21,42 +21,35 @@
         </div>
         <button type="submit">Submit</button>
       </form>
-          
+
 
       <!-- shown only after image is uploaded and labels gotten back from cloud api -->
-      <div class="container mt-20" >
+      <div class="container mt-20" v-if="annotations">
         <div class="my-3">
           <h1>Detected Items</h1>
           <p>Select which best describes your item</p>
-          <SelectButton v-model="selectedItems" :options="annotations"  option-label="description" option-value="description" data-key="description" multiple />
-          <!-- <Button v-for="(a, idx) of annotations" :key="idx" class="p-button-outlined p-button-rounded"
-            style="margin: 10px 10px" @click="selectCheckbox"> -->
-            <!-- <Checkbox :input-id="idx + ''" name="labels" :value="a.description" v-model="selectedItems" ref="checkboxInputRef" /> -->
-            <!-- <div v-for="(a, idx) of annotations" :key="idx"  style="width: 200px; background-color: aliceblue">
-              <input class="hidden" type="checkbox" name="labels" :id="idx + ''" :value="a.description" v-model="selectedItems" >
-              <label :for="idx + ''" class="p-2">{{ a.description }}</label>
-            </div> -->
-          <!-- </Button> -->
-          
-          <div class="bg-gray-100 inline-block rounded-full p-2">              
-              <Checkbox input-id="others" name="others" v-model="othersChecked" :binary="true" style="margin-top: 0" />
-              <label for="others" class="p-2">Others</label>
+          <SelectButton v-model="selectedItems" :options="annotations" option-label="description"
+            option-value="description" data-key="description" multiple />
+
+          <div class="bg-gray-100 inline-block rounded-full p-2">
+            <Checkbox input-id="others" name="others" v-model="othersChecked" :binary="true" style="margin-top: 0" />
+            <label for="others" class="p-2">Others</label>
           </div>
 
         </div>
 
         <div class="m-5">
-          <Button label="Check" class="p-button-raised " @click="populateResults()" />
+          <Button label="Check" class="p-button-raised " @click="displayImageResults()" />
         </div>
-      
-        <hr>
-
-        <div class="container my-4" v-if="displayResults.length > 0">
-          <p class="text-slate-900 font-bold">Your Results</p>
-          <ResultAccordion v-for="(item, idx) of displayResults" :key="idx" :item="item" :item_id="item.id + ''" />
-        </div>
-
       </div>
+
+      <hr>
+
+      <div class="container my-4" v-if="displayResults.length > 0">
+        <p class="text-slate-900 font-bold">Your Results</p>
+        <ResultAccordion v-for="(item, idx) of displayResults" :key="idx" :item="item" :item_id="item.id + ''" />
+      </div>
+
 
       <hr>
 
@@ -95,7 +88,6 @@ import { v4 as uuidv4 } from "uuid";
 
 const { storage } = useFirebase()
 const imageInputRef = ref(null)
-const checkboxInputRef = ref(null)
 let imageSrc = ref(null)
 let submitting = ref(false)
 let annotations = ref(null) // labels returned from cloud api
@@ -110,7 +102,13 @@ let optDes = ref();
 let email = ref();
 let itemSearched = ref(false);
 
-async function populateResults() {
+function displaySearchResults(res: Recyclable) {
+  displayResults.value = [];
+  displayResults.value.push(res);
+  
+}
+
+async function displayImageResults() {
   displayResults.value = []; // clear displayResults at every submit
   if (selectedItems.value.length == 0) {
     return;
@@ -118,7 +116,7 @@ async function populateResults() {
   let searchTags = selectedItems.value.join(",");
   searchResults.value = await $fetch(`/api/admin/recyclable/tags?tags=${searchTags}`); // give only unique searchResults
   // console.log('searchResults of searchTags:', searchTags, searchResults.value);
-    
+
   for (const selectedItem of selectedItems.value) {
     let hasMatch = false;
     for (const item of searchResults.value) {
@@ -182,7 +180,7 @@ async function getLabels(e) {
     // Sort etc
     annotations.value = visionRes.labelAnnotations
 
-    
+
   } catch (err) {
     console.log("Failed to upload", err);
   } finally {
