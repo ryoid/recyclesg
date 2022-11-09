@@ -2,7 +2,6 @@
 h2 {
     font-size: 50px;
 }
-
 div {
     margin: 5px;
 }
@@ -23,8 +22,8 @@ div {
 
 <template>
     <div>
+        <nav_bar/>
         <div>
-            <nav_bar />
             <h2>Book Collection</h2>
             <div></div>
             <p>
@@ -34,23 +33,26 @@ div {
             </p>
         </div>
         <br>
-        <div class="flex justify-center ">
-            <Calendar :disabled-dates="data.unavailableDays.map(day => new Date(day))" v-model="form.selectedDate"
-                :inline="true" :minDate="form.minDateValue" :maxDate="form.maxDateValue"
-                class="inline-block margin-right" />
-            <div class="inline-block">
-                <ul class="grid grid-cols-1 gap-2 w-[200px]">
-                    <li :class="['bg-white py-4 px-3 rounded-xl border border-gray-200 cursor-pointer text-center select-none', {
-                        'bg-gray-200 text-gray-700 cursor-not-allowed': !slot.available,
-                        'bg-blue-500 text-white': form.selectedDateTime?.toISOString() === slot.date
-                    }]" v-for="slot in data.availableSlots.find(d => isSameDay(new Date(d[0].date), form.selectedDate))"
-                        @click="selectDate(slot as any)">
-                        {{ format(new Date(slot.date), 'h:mm a') }}
-                    </li>
-                </ul>
+        <br>
+        <div class="flex justify-center">
+            <div class="">
+                <Calendar :disabled-dates="data.unavailableDays.map(day => new Date(day))" v-model="form.selectedDate"
+                    :inline="true" :minDate="form.minDateValue" :maxDate="form.maxDateValue"
+                    class="inline-block margin-right" />
                 <div class="inline-block">
-                    <Button v-if="form.selectedDateTime == ''" @click="showAlert()" label="Continue" />
-                    <Button @click="submit" label="Continue" />
+                    <ul class="grid grid-cols-3 gap-2 w-[300px]">
+                        <li :class="['bg-white py-4 px-3 rounded-xl border border-gray-200 cursor-pointer text-center select-none', {
+                            'bg-gray-200 text-gray-700 cursor-not-allowed': !slot.available,
+                            'bg-blue-500 text-white': form.selectedDateTime?.toISOString() === slot.date
+                        }]" v-for="slot in data.availableSlots.find(d => isSameDay(new Date(d[0].date), form.selectedDate))"
+                            @click="selectDate(slot as any)">
+                            {{ format(new Date(slot.date), 'h:mm a') }}
+                        </li>
+                    </ul>
+                    <div class="inline-block">
+                        <Button v-if="form.selectedDateTime == ''" @click="showAlert()" label="Continue" />
+                        <Button @click="submit" label="Continue" />
+                    </div>
                 </div>
             </div>
         </div>
