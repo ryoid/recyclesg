@@ -15,13 +15,14 @@ div {
     vertical-align: top;
 }
 
+
 .margin-right {
     margin-right: 100px;
 }
 </style>
 
 <template>
-    <div>
+    <div class="w-auto">
         <nav_bar/>
         <div>
             <h2>Book Collection</h2>
@@ -38,10 +39,10 @@ div {
             <div class="">
                 <Calendar :disabled-dates="data.unavailableDays.map(day => new Date(day))" v-model="form.selectedDate"
                     :inline="true" :minDate="form.minDateValue" :maxDate="form.maxDateValue"
-                    class="inline-block margin-right" />
-                <div class="inline-block">
-                    <ul class="grid grid-cols-3 gap-2 w-[300px]">
-                        <li :class="['bg-white py-4 px-3 rounded-xl border border-gray-200 cursor-pointer text-center select-none', {
+                    class="inline-block margin-right" style="margin: 5px"/>
+                <div class="inline-block" >
+                    <ul class="grid grid-cols-3 gap-2 w-[300px]" style="margin: 5px">
+                        <li style="margin-left:5"    :class="['bg-white py-4 px-3 rounded-xl border border-gray-200 cursor-pointer text-center select-none', {
                             'bg-gray-200 text-gray-700 cursor-not-allowed': !slot.available,
                             'bg-blue-500 text-white': form.selectedDateTime?.toISOString() === slot.date
                         }]" v-for="slot in data.availableSlots.find(d => isSameDay(new Date(d[0].date), form.selectedDate))"
@@ -49,9 +50,9 @@ div {
                             {{ format(new Date(slot.date), 'h:mm a') }}
                         </li>
                     </ul>
-                    <div class="inline-block">
-                        <Button v-if="form.selectedDateTime == ''" @click="showAlert()" label="Continue" />
-                        <Button @click="submit" label="Continue" />
+                    <div class="inline-block" >   
+                        <Button v-if="form.selectedDateTime == ''" @click="showAlert()" label="Continue" style="margin-left: 100px" />
+                        <Button @click="submit" label="Continue"  style="margin-left: 100px"/>
                     </div>
                 </div>
             </div>

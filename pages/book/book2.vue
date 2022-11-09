@@ -27,7 +27,7 @@ hr {
 
         <h2>Booking Details</h2>
         <div id="date_time">
-            <p>day, ## month - time</p>
+            <p>{{ form.date }}</p>
             <br />
             <h3>Your details</h3>
         </div>
@@ -76,7 +76,7 @@ hr {
             </div>
         </form>
         date
-        {{ form.date }}
+        
     </div>
 </template>
 
