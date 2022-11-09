@@ -69,7 +69,6 @@
 
     .p-autocomplete{
         width: 100%;
-        margin-right: 10px;
         margin-left: 10px;
     }
 

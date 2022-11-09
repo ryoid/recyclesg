@@ -1,24 +1,29 @@
 <template>
   <div>
-    <div class="row w-5/6 mx-auto border m-0" v-if="!cameraOn">
+    <div class="row w-5/6 mx-auto m-0" v-if="!cameraOn">
+      <p class="mb-3" :style="'font-weight:bold; font-size:20px;'">Search by image</p>
+      <div class="flex m-0 border">
       <Button id="fileUploadButton" @click="openCamera()" icon="pi pi-camera" label="Take a picture"></Button>
-      <Button id="fileUploadButton" icon="pi pi-upload" @click="onSubmit" label="Upload"></Button>
+      <Button :disabled="!imageSrc" id="fileUploadButton" icon="pi pi-upload" @click="onSubmit" label="Upload"></Button>
+      <div v-if="fileList" v-for="file of fileList" class="flex">
+        <div class="m-auto">{{ file.name }} - {{ file.size }} bytes</div>
+      </div>
+    </div>
     </div>
 
     <div class="row w-5/6 mx-auto m-0" v-if="!cameraOn">
-      <form class="bg-gray-100 p-3 border">
+      <form class="bg-gray-100 p-3 border" @click="selectImage">
         <input class="hidden" type="file" @change="imageChange" ref="imageInputRef" accept="image/*" />
-        <div class="mx-auto h-80 w-96 bg-gray-100 relative" @drop="selectImage" @click="selectImage">
-          <div class="absolute inset-0 items-center justify-center mt-5 pt-5">
+        <div class="mx-auto h-80 w-96 bg-gray-100 relative">
+          <div class="absolute inset-0 top-24 items-center justify-center">
             <i id="uploadicon" class="col-12 pi pi-upload"></i>
-            <p class="col-12 text-center">Drag and drop files to here to upload.</p>
+            <p class="col-12 text-center">Click here to upload from storage.</p>
             <p id="warntext">*Maximum file limit: 1</p>
           </div>
           <img v-if="imageSrc" :src="imageSrc" class="absolute inset-0 z-10 h-full w-full" />
         </div>
       </form>
     </div>
-
 
     <div class="row">
       <video :hidden="!cameraOn" class="mx-auto" id="video" width="640" height="480" autoplay>{{cameraPreview}}</video>
@@ -30,7 +35,7 @@
             v-on:click="capture()" 
             icon="pi pi-camera"></Button>
         </div>
-        <canvas hidden ref="canvasTest" id="canvas" width="640" height="480"></canvas>
+        <canvas hidden id="canvas" width="640" height="480"></canvas>
         </div>
     </div>
     <div v-if="annotations">
@@ -52,8 +57,6 @@ let submitting = ref(false)
 let annotations = ref(null)
 let video = {}
 let canvas = {}
-let canvasTest = ref({})
-let captures = []
 let cameraOn = ref(false)
 let fileList = {}
 let display = false
@@ -71,12 +74,11 @@ function capture() {
   let context = canvas
     .getContext("2d")
     .drawImage(video, 0, 0, 640, 480);
-  captures.push(canvas.toDataURL("image/png"))
   imageSrc.value = canvas.toDataURL("image/png")
   canvas.toBlob(function(blob){
     fileList['image'] = (new File([blob], 'image', { type: 'image/jpeg' }))
   },'image/png');
-
+  console.log(fileList)
 }
 
 function cameraPreview(){
@@ -92,7 +94,6 @@ function selectImage() {
 }
 
 function imageChange() {
-  console.log(imageInputRef.value.files)
   const imageFile = imageInputRef.value.files[0]
   if (imageFile) {
     imageSrc.value = URL.createObjectURL(imageFile)
@@ -158,8 +159,8 @@ onMounted(() => {
     font-size: 100px;
     margin-bottom: 30px;
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
 }
 
 #snap{
