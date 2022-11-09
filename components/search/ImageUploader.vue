@@ -62,13 +62,19 @@ let cameraOn = ref(false)
 let fileList = {}
 
 function dropHandler(ev){
-  console.log('File(s) dropped')
   ev.preventDefault()
   const temp = [...ev.dataTransfer.items]
   temp.forEach((item, i)=>{
     if (item.kind == 'file'){
+      console.log(item.kind)
       const file = item.getAsFile()
-      imageSrc.value = URL.createObjectURL(file)
+      if (file['type'] == ('image/jpeg' || 'image/png')){
+        console.log(1, file)
+        imageSrc.value = URL.createObjectURL(file)
+        fileList['image'] = file
+      } else {
+        alert('Please upload image files of type jpg/png only')
+      }
     }
   })
 }
