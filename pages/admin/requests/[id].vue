@@ -88,8 +88,14 @@
                   <button type="submit" @click="addFormEntry" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-md text-sm px-5 py-2.5 mr-2 mb-2">Add Entry</button>
                 </div>
                 <div class="col-span-3 lg:col-span-1">
-                  <button type="submit" @click="addNotify" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-md text-sm px-5 py-2.5 mr-2 mb-2">Add & Notify</button>
+                  <button v-if="data.email == undefined" type="button" class="w-full opacity-80 text-slate-200 bg-slate-600 font-medium rounded-md text-sm px-5 py-2.5 mr-2 mb-2">Add & Notify</button>
+
+                  <button v-else type="submit" @click="addNotify" class="w-full text-white opacity-80 bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-md text-sm px-5 py-2.5 mr-2 mb-2">Add & Notify</button>
                 </div>
+                <!-- <div class="inline-block" >   
+                        <Button v-if="form.selectedDateTime == null" @click="showAlert()" label="Continue" style="margin-left: 100px" />
+                        <Button v-else @click="submit" label="Continue"  style="margin-left: 100px"/>
+                    </div> -->
                 <div class="col-span-3 lg:col-span-1">
                   <button type="submit" @click="rejectForm" class="w-full text-white rounded-md bg-red-600 hover:bg-red-700 duration-300 font-medium text-sm px-5 py-2.5 mr-2 mb-2">Reject Entry</button>
                 </div>
