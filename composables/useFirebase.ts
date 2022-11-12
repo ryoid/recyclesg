@@ -9,7 +9,13 @@ import {
   uploadString,
 } from "firebase/storage";
 import { getAnalytics } from "firebase/analytics";
-import { getAuth } from "firebase/auth";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  onAuthStateChanged,
+} from "firebase/auth";
 import { getMessaging } from "firebase/messaging";
 
 import { v4 as uuidv4 } from "uuid";
@@ -71,18 +77,116 @@ export async function uploadFile(
   return { snapshot, downloadUrl, metadata };
 }
 
+export const createUser = async (email, password) => {
+  console.log("createUser", email, password);
+
+  const auth = getAuth();
+  try {
+    const credentials = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    return credentials;
+  } catch (err) {
+    const errorCode = err.code;
+    const errorMessage = err.message;
+    console.log(errorCode, errorMessage);
+    if (errorCode === "auth/email-already-in-use") {
+      throw new Error("Email already in use.");
+    }
+    throw err;
+  }
+};
+
+export const signInUser = async (email, password) => {
+  console.log("signInUser", email, password);
+
+  const auth = getAuth();
+  try {
+    const credentials = await signInWithEmailAndPassword(auth, email, password);
+    return credentials;
+  } catch (err) {
+    const errorCode = err.code;
+    const errorMessage = err.message;
+    console.log(errorCode, errorMessage);
+    if (errorCode === "auth/wrong-password") {
+      throw new Error("Wrong password.");
+    } else if (errorCode === "auth/user-not-found") {
+      throw new Error("Email address not registered.");
+    }
+    throw err;
+  }
+};
+
+export const initUser = async () => {
+  const auth = getAuth();
+  const firebaseUser = useFirebaseUser();
+  firebaseUser.value = {
+    user: auth.currentUser,
+  };
+
+  const userCookie = useCookie("userCookie");
+
+  const route = useRoute();
+  const router = useRouter();
+
+  onAuthStateChanged(auth, async (user) => {
+    console.log("auth change", user);
+    const _route = route.name.toString();
+
+    if (!user) {
+      if (_route.startsWith("admin")) {
+        return router.push("/login");
+      }
+    }
+
+    if (user) {
+      if (_route === "login" || _route === "signup") {
+        return router.push("/");
+      }
+    }
+
+    // @ts-ignore
+    userCookie.value = user; //ignore error because nuxt will serialize to json
+
+    const res = await $fetch("/api/auth", {
+      method: "POST",
+      body: { user },
+    });
+
+    const _user = {
+      ...user,
+      ...res,
+    };
+
+    firebaseUser.value = {
+      user: _user,
+    };
+
+    // @ts-ignore
+    userCookie.value = _user; //ignore error because nuxt will serialize to json
+  });
+};
+
+export const signOutUser = async () => {
+  const auth = getAuth();
+  const result = await auth.signOut();
+  return result;
+};
+
 export const useFirebase = () => {
   const firebaseApp = initializeApp(firebaseConfig);
   // const analytics = getAnalytics(firebaseApp);
   const firestore = getFirestore(firebaseApp);
   const storage = getStorage(firebaseApp);
-  // const auth = getAuth(firebaseApp);
+  const auth = getAuth(firebaseApp);
   // const messaging = getMessaging(firebaseApp);
 
   return {
     firebaseApp,
     storage,
-    // analytics,
+    auth,
     firestore,
     // auth,
     // messaging,
