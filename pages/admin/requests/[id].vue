@@ -16,7 +16,7 @@
           <div class="grid md:grid-cols-1 lg:grid-cols-4 gap-20 mt-6">
             <div class="col-span-1">
               <div class="mb-5">
-                <img class="lg:w-80 md:w-80 sm:w-80" :src="data.image" alt="">
+                <img class="lg:w-90 md:w-90 sm:w-90 rounded-lg shadow" :src="data.image" alt="">
               </div>
             </div>
         
@@ -143,8 +143,8 @@ const addFormEntry = async () => {
       material: form.value.material,
       description: form.value.description,
       recyclable: form.value.recyclable,
-      // add createdAt
       createdAt: new Date().toISOString(),
+      tags: [],
     }),
   });
   console.log(data);

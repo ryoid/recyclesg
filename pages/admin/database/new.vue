@@ -108,6 +108,7 @@ const submitForm  = async () => {
               description: form.value.description,
               recyclable: form.value.recyclable,
               createdAt: new Date().toISOString(),
+              tags: [],
             }),
         })
         
