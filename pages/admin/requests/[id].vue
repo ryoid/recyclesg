@@ -9,7 +9,7 @@
     </div>
     <div v-else>
       <h1 class="text-3xl font-bold underline">
-        Admin / Database / {{id}} detail
+        Admin / Request / {{id}} detail
       </h1>
       <div class="container">
         <div class="grid md:grid-cols-1 lg:grid-cols-4 gap-20 mt-6">
@@ -36,7 +36,7 @@
 
             <div class="mt-3 mb-6">
               <h2 class="text-xl mb-2">Email</h2>
-              <InputText class="w-full"  type="text" />
+              <InputText class="w-full" v-model="data.email" type="text" />
             </div>
             <!-- <hr> -->
             <Divider/>
@@ -63,12 +63,12 @@
                 <h2 class="text-xl mb-3">Recycable?</h2>
                 <div class="flex flex-row items-center mt-3">
                   <div class="flex flex-row items-center">
-                    <input type="radio" id="yes" :name="`${data.id}`" v-model="data.recyclable" :value=true /> <!-- fix this later --->
+                    <input type="radio" id="yes" v-model="data.recyclable" :value=true /> <!-- fix this later --->
                     <!-- {{items.recyclable}} -->
                     <label for="yes" class="ml-2">Yes</label>
                   </div>
                   <div class="flex flex-row items-center ml-6">
-                    <input type="radio" id="no" :name="`${data.id}`" v-model="data.recyclable" :value=false />
+                    <input type="radio" id="no"  v-model="data.recyclable" :value=false />
                     <!-- {{items.recyclable}}
                     -->
 
@@ -97,15 +97,15 @@
             </div> -->
             <div class="grid grid-cols-3 gap-4 mt-5">
               <div class="col-span-3 lg:col-span-1">
-                <button type="button" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-md text-sm px-5 py-2.5 mr-2 mb-2">Reject Entry</button>
+                <button type="submit" @click="rejectForm" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-md text-sm px-5 py-2.5 mr-2 mb-2">Reject Entry</button>
                 <!-- <input type="text" class="border-solid border-gray-400 border-2 p-3 md:text-xl w-full" placeholder="Name" :value="data.name"/> -->
 
               </div>
               <div class="col-span-3 lg:col-span-1">
-                <button type="button" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-md text-sm px-5 py-2.5 mr-2 mb-2">Add Entry</button>
+                <button type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-md text-sm px-5 py-2.5 mr-2 mb-2">Add Entry</button>
               </div>
               <div class="col-span-3 lg:col-span-1">
-                <button type="button" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-md text-sm px-5 py-2.5 mr-2 mb-2">Add & Notify</button>
+                <button type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-md text-sm px-5 py-2.5 mr-2 mb-2">Add & Notify</button>
               </div>
             </div>
           </div>
@@ -118,10 +118,6 @@
 <script setup lang="ts">
 import { da } from 'date-fns/locale';
 
-function fileUpload(){
-  console.log("fileUpload")
-  //file upload
-}
 
 const route = useRoute()
 const id = route.params.id
@@ -147,25 +143,25 @@ definePageMeta({
   layout: "admin",
 });
 
-// const submitForm  = async () => {
-//   console.log("submit form", data)
-//   await $fetch(`/api/admin/recyclerequests/${id}`, {
-//     method: "POST",
-//     body: JSON.stringify(data),
-//   })
-// }
+function testReject(){
+  console.log(data.value.status)
+}
 
-const submitForm  = async () => {
-  console.log("submit form", data)
+const rejectForm  = async () => {
+//   console.log("submit form", data)
+  event.preventDefault()
+
   await $fetch(`/api/admin/recyclerequests/${id}`, {
     method: "POST",
     body: JSON.stringify({
+      status: "rejected"
+    
   //       name: data.value.name,
   //       material: data.value.material,
   //       description: data.value.description,
   //       recyclable: data.value.recyclable,
     }),
   })
-  console.log("submit form", data.value.name)    
+  console.log("submit form", data.value.status)    
 }
 </script>

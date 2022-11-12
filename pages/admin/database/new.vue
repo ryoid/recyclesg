@@ -20,7 +20,7 @@
                 <div class="grid grid-cols-2 gap-4 mt-5">
                     <div class="col-span-2 lg:col-span-1">
                         <h2 class="text-xl mb-2">Name</h2>
-                        <InputText class="w-full" v-model="form.name" type="text" />
+                        <InputText class="w-full form-control" pattern="[a-zA-Z ]{1,}"  v-model="form.name" required type="text" />
                         <!-- <div v-if="errors.name" class="text-red-500">{{ errors.name }}</div><br> -->
 
                     </div>
@@ -109,24 +109,10 @@ const submitForm  = async () => {
               recyclable: form.value.recyclable,
             }),
         })
+        
     } catch (err) {
         console.log(err)
     }
 }
-
-
-//   await $fetch(`/api/admin/recyclable/`, {
-//         method: "POST",
-//     body: JSON.stringify({
-//         name: form.value.name,
-//         material: form.value.material,
-//         description: form.value.description,
-//         recyclable: form.value.recyclable,
-//     }),
-//   })
-//   console.log("submit form", form.value.name)    
-// }
-
-
   
 </script>

@@ -12,7 +12,7 @@
     <div v-else>
       <div>
         <h1 class="text-3xl font-bold underline">
-          Admin / Requests / [{{ id }}] detail
+          Admin / Database / [{{ id }}] detail
         </h1> 
       </div>
         <div class="container">
