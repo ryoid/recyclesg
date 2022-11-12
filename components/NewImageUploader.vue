@@ -133,18 +133,19 @@ async function getAnnotations(e) {
   try {
     const uploadRes = await uploadFile(storage, "user-item-uploads", imageFile)
     console.log(uploadRes);
+    const imageUri = `gs://${uploadRes.metadata.bucket}/${uploadRes.metadata.fullPath}`;
     // Send to cloud vision api to get text
     const visionRes = await $fetch('/api/vision', {
       method: 'POST',
       body: JSON.stringify({
-        imageUri: `gs://${uploadRes.metadata.bucket}/${uploadRes.metadata.fullPath}`
+        imageUri: imageUri
       })
     })
     console.log('receive visionRes', visionRes);
 
     // Sort etc
     annotations.value = visionRes.labelAnnotations
-    emit('uploaded', annotations.value); // return annotations to parent component
+    emit('uploaded', annotations.value, uploadRes.downloadUrl);
 
   } catch (err) {
     console.log("Failed to upload", err);

@@ -29,7 +29,7 @@
         </div>
 
         <div class="m-5">
-          <Button label="Check" class="p-button-raised " @click="displayImageResults()" />
+          <Button label="Check" class="p-button-raised " @click="displayImageResults" />
         </div>
       </div>
 
@@ -42,6 +42,7 @@
 
       <hr>
 
+      <!-- Sending of Recycle Request if "Others" tag was selected -->
       <div class="container text-justify border-solid border-2 m-2 p-2" v-if="othersChecked">
         <h3 class="font-semibold">You selected 'Others'</h3>
         <p>With your help, we will review your item and let you know if it
@@ -60,7 +61,7 @@
           <InputText placeholder="Email address" v-model="email" />
         </div>
         <!-- on click, submit request case into database -->
-        <Button label="Submit request" />
+        <Button label="Submit Request" @click="createRecycleRequest" />
       </div>
 
 
@@ -76,6 +77,7 @@ import { v4 as uuidv4 } from "uuid";
 
 
 let annotations = ref(null) // labels returned from cloud api
+let imageUrl = ref(null)
 
 let selectedItems = ref<string[]>([]);
 
@@ -99,6 +101,7 @@ async function displayImageResults() {
     return;
   }
   let searchTags = selectedItems.value.join(",");
+  console.log(searchTags);
   searchResults.value = await $fetch(`/api/admin/recyclable/tags?tags=${searchTags}`); // give only unique searchResults
   // console.log('searchResults of searchTags:', searchTags, searchResults.value);
 
@@ -127,10 +130,33 @@ async function displayImageResults() {
 }
 
 
-function getAnnotations(res) {
+function getAnnotations(res, downloadUrl) {
   annotations.value = res
+  imageUrl.value = downloadUrl
 }
 
+async function createRecycleRequest() {
+  let res = await $fetch('/api/admin/recyclerequests', {
+    method: 'POST',
+    body: JSON.stringify({
+      // id: string | number;
+      title: "test",
+      description: optDes.value,
+      image: imageUrl.value,
+      tags: selectedItems.value,
+
+      status: "pending",
+
+      email: email.value,
+
+      // createdAt: "",
+      // updatedAt: "",
+      // completedAt?: string;
+    })
+  })
+  console.log("new request created");
+  console.log(res);
+}
 
 </script>
 
