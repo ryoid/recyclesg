@@ -36,7 +36,7 @@
 
               <div class="mt-3 mb-6">
                 <h2 class="text-xl mb-2">Email</h2>
-                <InputText class="w-full" v-model="data.email" type="text" />
+                <InputText class="w-full" v-model="data.email" type="text" disabled />
               </div>
               <!-- <hr> -->
               <Divider/>
@@ -80,7 +80,6 @@
                   <label for="message" class="block mb-2 font-medium text-gray-900 text-xl">Description</label>
                   <Textarea v-model="form.description" class="w-full" rows="5" cols="30" />
 
-                  <!-- <textarea :value="data.description" id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-md border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Your message..."></textarea> -->
                 </div>
               </div>
 
@@ -89,7 +88,7 @@
                   <button type="submit" @click="addFormEntry" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-md text-sm px-5 py-2.5 mr-2 mb-2">Add Entry</button>
                 </div>
                 <div class="col-span-3 lg:col-span-1">
-                  <button type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-md text-sm px-5 py-2.5 mr-2 mb-2">Add & Notify</button>
+                  <button type="submit" @click="addNotify" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-md text-sm px-5 py-2.5 mr-2 mb-2">Add & Notify</button>
                 </div>
                 <div class="col-span-3 lg:col-span-1">
                   <button type="submit" @click="rejectForm" class="w-full text-white rounded-md bg-red-600 hover:bg-red-700 duration-300 font-medium text-sm px-5 py-2.5 mr-2 mb-2">Reject Entry</button>
@@ -104,7 +103,7 @@
 </template>
 
 <script setup lang="ts">
-import { da } from 'date-fns/locale';
+import { da, tr } from 'date-fns/locale';
 
 
 const route = useRoute()
@@ -159,6 +158,34 @@ const addFormEntry = async () => {
   console.log(data);
 };
 
+// add and notify
+const addNotify = async () => {
+  console.log("Added and Notified!");
+//   event.preventDefault();
+//   const response = await fetch(`/api/admin/recyclable/`, {
+//     method: "POST",
+//     body: JSON.stringify({
+//       name: form.value.name,
+//       material: form.value.material,
+//       description: form.value.description,
+//       recyclable: form.value.recyclable,
+//       createdAt: new Date().toISOString(),
+//       tags: [],
+//     }),
+//   });
+  
+//   if (response.ok) {
+//     const update = await fetch(`/api/admin/recyclerequests/${id}`, {
+//       method: "POST",
+//       body: JSON.stringify({
+//         status: "completed",
+//       }),
+//     });
+//     console.log("Added and Notified!");
+
+//   }
+};
+
 // Reject form
 const rejectForm  = async () => {
   event.preventDefault()
@@ -170,4 +197,7 @@ const rejectForm  = async () => {
   })
   console.log("reject form", data.value.status)    
 }
+
+
+
 </script>
