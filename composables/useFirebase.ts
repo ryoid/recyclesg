@@ -180,13 +180,13 @@ export const useFirebase = () => {
   // const analytics = getAnalytics(firebaseApp);
   const firestore = getFirestore(firebaseApp);
   const storage = getStorage(firebaseApp);
-  const auth = getAuth(firebaseApp);
+  // const auth = getAuth(firebaseApp);
   // const messaging = getMessaging(firebaseApp);
 
   return {
     firebaseApp,
     storage,
-    auth,
+    // auth,
     firestore,
     // auth,
     // messaging,
