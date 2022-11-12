@@ -35,6 +35,7 @@ div {
         <br>
         <div class="flex justify-center">
             <div class="">
+                
                 <Calendar :disabled-dates="data.unavailableDays.map(day => new Date(day))" v-model="form.selectedDate"
                     :inline="true" :minDate="form.minDateValue" :maxDate="form.maxDateValue"
                     class="inline-block margin-right" style="margin: 5px"/>
