@@ -123,7 +123,7 @@ export const initUser = async () => {
   const auth = getAuth();
   const firebaseUser = useFirebaseUser();
   firebaseUser.value = {
-    user: auth.currentUser,
+    loading: true,
   };
 
   const userCookie = useCookie("userCookie");
@@ -137,6 +137,9 @@ export const initUser = async () => {
 
     if (!user) {
       if (_route.startsWith("admin")) {
+        return router.push("/login");
+      }
+      if (_route.startsWith("profile")) {
         return router.push("/login");
       }
     }
