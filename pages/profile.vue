@@ -1,9 +1,8 @@
 <template>
   <div>
-    <p><NuxtLink to="/admin">Admin</NuxtLink></p>
-    <p><NuxtLink to="/login">Login</NuxtLink></p>
-    <p><NuxtLink to="/signup">Signup</NuxtLink></p>
-    <p><NuxtLink to="/profile">Profile</NuxtLink></p>
+    <div>Profile</div>
+
+
     <div v-if="firebaseUser">
       <client-only>
         <pre
@@ -17,8 +16,11 @@
 </template>
 
 <script setup>
+definePageMeta({
+  middleware: ["auth"],
+});
+
 const firebaseUser = useFirebaseUser();
 </script>
 
-<style>
-</style>
+<style></style>
