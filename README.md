@@ -17,6 +17,9 @@ npm install
 pnpm install --shamefully-hoist
 ```
 
+Setup `.env` variables
+Store firebase admin sdk `serviceAccount.json` in root
+
 ## Development Server
 
 Start the development server on http://localhost:3000

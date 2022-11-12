@@ -48,8 +48,8 @@
               <InputText class="w-full" type="text" :value="data.material"/>
               <!-- <input type="text" class="border-solid border-gray-400 border-2 p-3 md:text-xl w-full" placeholder="Name" :value="data.material"/> -->
 
-            </div>
           </div>
+        </div>
 
           <div class="grid grid-cols-1 mt-5">
             <div>
@@ -123,7 +123,7 @@ const id = route.params.id
 // })
 
 const { data, pending, refresh, error } = await useFetch(`/api/admin/recyclerequests/${id}`, {
-  
+
 })
 
 
