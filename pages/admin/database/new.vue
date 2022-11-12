@@ -97,7 +97,8 @@ const form = ref({
 // });
 
 const submitForm  = async () => {
-// do a try catch
+// prevent default form submission
+    event.preventDefault();
     try {
         const res = await fetch(`/api/admin/recyclable/`, {
             method: 'POST',
@@ -108,11 +109,6 @@ const submitForm  = async () => {
               recyclable: form.value.recyclable,
             }),
         })
-        const data = await res.json()
-        if (!res.ok) {
-            throw new Error(data.message || 'Something went wrong')
-        }
-        // router.push('/admin/database')
     } catch (err) {
         console.log(err)
     }
