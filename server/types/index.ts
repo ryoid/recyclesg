@@ -4,6 +4,7 @@ export type RecycleRequest = {
   title: string;
   description: string;
   image: string;
+  email?: string;
   tags: string[];
 
   status: "pending" | "completed" | "rejected";
