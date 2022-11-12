@@ -73,6 +73,5 @@ async function onSubmit(e) {
   } finally {
     submitting.value = false
   }
-
 }
 </script>
