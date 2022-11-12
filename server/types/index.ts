@@ -9,6 +9,8 @@ export type RecycleRequest = {
 
   status: "pending" | "completed" | "rejected";
 
+  email: string;
+
   createdAt: string;
   updatedAt: string;
   completedAt?: string;
