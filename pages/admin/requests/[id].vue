@@ -83,13 +83,13 @@ definePageMeta({
 const options = ref(""); // remove this later
 const route = useRoute()
 const id = route.params.id
-const { data, pending, refresh, error } = await useFetch(`/api/admin/recyclerequests/${id}`, {
+const { data, pending, refresh, error } = await useFetch(`/api/admin/bookings/${id}`, {
 
 })
 
 const submitForm = async () => {
   console.log("submit form", data)
-  await $fetch(`/api/admin/recyclerequests/${id}`, {
+  await $fetch(`/api/admin/bookings/${id}`, {
     method: "PUT",
     body: JSON.stringify(data),
   })
