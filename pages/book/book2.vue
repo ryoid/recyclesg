@@ -43,7 +43,7 @@ input::-webkit-inner-spin-button {
 
         
 
-        <form :onSubmit="onSubmit" class="was-validated">
+        <form :onSubmit="onSubmit">
             <div>
 
                 <label for="name" class="form-label">Name:</label><br>
@@ -145,29 +145,6 @@ async function onSubmit(e: SubmitEvent) {
     console.log('Submit');
 
     // Validate form
-    let valid = true
-
-    
-    if(form.value.phone.toString().length != 8) {
-        errors.value.phone = "Invalid phone number"
-        valid = false
-    }
-    if(form.value.postal.toString().length != 6) {
-        errors.value.postal = "Invalid postal code"
-        valid = false
-    }
-
-
-
-    if(!valid){
-        errors.value.submit = "Please fill in all fields"
-    }
-    
-
-    // errors.value.name = null
-    
-    // If valid
-    if (!valid) return
 
     const imageFile = fileUploadRef.value.files[0]
     const uploadRes = await uploadFile(storage, "user-item-uploads", imageFile)
@@ -189,27 +166,5 @@ async function onSubmit(e: SubmitEvent) {
     //   method: 'POST',
     //   body: JSON.stringify(payload)
     // })
-}
-
-function showAlert2() {
-    console.log("show alert", form.value);
-    if (
-        form.value.name == "" ||
-        form.value.email == "" ||
-        form.value.phone == null ||
-        form.value.address == "" ||
-        form.value.postal == null
-    ) {
-        return alert("Please fill in all the fields");
-    } else if (form.value.email.includes("@") == false) {
-        return alert("Please enter a valid email address");
-    } else if (form.value.phone.toString().length != 8) {
-        return alert("Please enter a valid phone number");
-    } else if (form.value.postal.toString().length != 6) {
-        return alert("Please enter a valid postal code");
-    } else {
-        console.log(form.value);
-        return alert("Your booking has been submitted");
-    }
 }
 </script>
