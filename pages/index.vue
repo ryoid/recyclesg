@@ -92,7 +92,7 @@ let itemSearched = ref(false);
 function displaySearchResults(res: Recyclable) {
   displayResults.value = [];
   displayResults.value.push(res);
-  
+
 }
 
 async function displayImageResults() {
