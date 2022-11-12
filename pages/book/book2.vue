@@ -92,7 +92,6 @@ input::-webkit-inner-spin-button {
                 <br />
                 <Button type="submit" label="Submit" style="margin-left: 4px">Book
                     Collection</Button>
-                <!-- <div v-if="errors.submit" class="text-red-500 inline-block" style="margin-left: 20px"  >{{ errors.submit }}</div> -->
             </div>
         </form>
         
