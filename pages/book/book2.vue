@@ -40,9 +40,6 @@ input::-webkit-inner-spin-button {
                 <h3>Your details</h3>
             </div>
 
-
-
-
             <form>
                 <div>
 
