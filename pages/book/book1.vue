@@ -51,8 +51,8 @@ div {
                         </li>
                     </ul>
                     <div class="inline-block" >   
-                        <Button v-if="form.selectedDateTime == ''" @click="showAlert()" label="Continue" style="margin-left: 100px" />
-                        <Button @click="submit" label="Continue"  style="margin-left: 100px"/>
+                        <Button v-if="form.selectedDateTime == null" @click="showAlert()" label="Continue" style="margin-left: 100px" />
+                        <Button v-else @click="submit" label="Continue"  style="margin-left: 100px"/>
                     </div>
                 </div>
             </div>

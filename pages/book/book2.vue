@@ -47,7 +47,7 @@ input::-webkit-inner-spin-button {
             <div>
 
                 <label for="name" class="form-label">Name:</label><br>
-                <InputText type="text" v-model="form.name" required class = "w-[500px] form-control" id="name"/><br>
+                <InputText type="text" v-model="form.name" required class = "w-[500px] form-control" id="name" pattern="[a-zA-Z][a-zA-Z ]{2,}"/><br><br>
                 <div v-if="errors.name" class="text-red-500">{{ errors.name }}</div><br>
                 
                 
@@ -56,7 +56,7 @@ input::-webkit-inner-spin-button {
             
                 <label for="phone" class="form-label">Contact Number:</label><br>
                 <InputText type="number" :useGrouping="false" v-model="form.phone" required class = "w-[500px] form-control" id="phone" /><br>
-                
+                <div v-if="errors.phone" class="text-red-500">{{ errors.phone }}</div><br>
             </div>
 
             <br />
@@ -68,10 +68,12 @@ input::-webkit-inner-spin-button {
                 <div class="inline">
                     <label for="address" class="form-label">Address:</label><br>
                     <InputText type="text" v-model="form.address" size="50" required class = "w-[500px] form-control" id="address"/>
+                    
                 </div>
                 <div class="inline">
                     <label for="postal" class="form-label">Postal Code:</label><br>
-                    <InputText type="number" :useGrouping="false" v-model="form.postal" required class = "w-[300px] form-control" id="postal" /><br>
+                    <InputText type="number" :useGrouping="false" v-model="form.postal" required class = "w-[300px] form-control" id="postal" />
+                    <div v-if="errors.postal" class="text-red-500">{{ errors.postal }}</div><br>
                 </div>
             </div>
 
@@ -85,11 +87,12 @@ input::-webkit-inner-spin-button {
                 <div>
                     <label for="desc" class="form-label">Description (Optional):</label><br>
                     <Textarea v-model="form.desc" rows="10" cols="80" class = "form-control" id="desc"  />
+                    
                 </div>
                 <br />
                 <Button type="submit" label="Submit" style="margin-left: 4px">Book
                     Collection</Button>
-                <div v-if="errors.name" class="text-red-500 inline-block" style="margin-left: 20px"  >{{ errors.submit }}</div>
+                <div v-if="errors.submit" class="text-red-500 inline-block" style="margin-left: 20px"  >{{ errors.submit }}</div>
             </div>
         </form>
         
@@ -143,15 +146,26 @@ async function onSubmit(e: SubmitEvent) {
 
     // Validate form
     let valid = true
+
+    if (form.value.name ) {
+        errors.value.name = 'Name is required'
+        valid = false
     
-    // if (somethig wrong) valid = false
-    valid = false
-    if(form.phone.toString().length != 8) {
-        errors.phone = "Invalid phone number"
+    if(form.value.phone.toString().length != 8) {
+        errors.value.phone = "Invalid phone number"
         valid = false
     }
-    errors.value.name = "Please enter a name"
-    errors.value.submit = "Please fill in all fields"
+    if(form.value.postal.toString().length != 6) {
+        errors.value.postal = "Invalid postal code"
+        valid = false
+    }
+
+
+
+    if(!valid){
+        errors.value.submit = "Please fill in all fields"
+    }
+    
 
     // errors.value.name = null
     
