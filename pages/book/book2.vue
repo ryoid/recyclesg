@@ -146,6 +146,10 @@ async function onSubmit(e: SubmitEvent) {
     
     // if (somethig wrong) valid = false
     valid = false
+    if(form.phone.toString().length != 8) {
+        errors.phone = "Invalid phone number"
+        valid = false
+    }
     errors.value.name = "Please enter a name"
     errors.value.submit = "Please fill in all fields"
 
