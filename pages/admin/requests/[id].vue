@@ -147,6 +147,15 @@ const addFormEntry = async () => {
       tags: [],
     }),
   });
+  
+  if (response.ok) {
+    const update = await fetch(`/api/admin/recyclerequests/${id}`, {
+      method: "POST",
+      body: JSON.stringify({
+        status: "completed",
+      }),
+    });
+  }
   console.log(data);
 };
 
