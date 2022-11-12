@@ -20,6 +20,4 @@ const props = defineProps<Props>()
 
 const route = useRoute()
 
-console.log(route.name);
-
 </script>
