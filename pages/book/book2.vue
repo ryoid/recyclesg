@@ -26,6 +26,18 @@ hr {
 </style>
 
 <template>
+    
+    <h2>Booking Details</h2>
+    <div id="date_time">
+        <p>
+            day, ## month - time
+        </p>
+            <br>
+        <h3>
+            Your details
+        </h3>
+    </div>
+
     <div>
         <h2>Booking Details</h2>
         <div id="date_time">
@@ -37,8 +49,32 @@ hr {
             <h3>
                 Your details
             </h3>
-
         </div>
+    </div>
+
+    <br>
+        <hr>
+    <br>
+
+    <div>
+        <h3>Collection Location</h3>
+        <div class = "inline">
+            <p>Address</p>
+            <InputText type="text" v-model="data.addressInput" size="50" />
+        </div>
+        <div class = "inline">
+            <p>Postal Code</p>
+            <InputNumber type="number" v-model="data.postalInput"/>
+        </div>
+    </div>
+
+    <br>
+    <hr>
+    <br>
+   
+    <div>
+        <h3>Collection Items</h3>
+        <FileUpload name="demo[]" url="./upload" :multiple="true" accept="image/*" />
 
         <div>
             <p>Name</p>

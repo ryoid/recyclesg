@@ -12,62 +12,54 @@ div {
     display: inline;
 }
 
-.inline-block {
+.inline-block{
     display: inline-block;
-    vertical-align: top;
+    vertical-align:top;
 }
 
-.margin-right {
+.margin-right{
     margin-right: 100px;
 }
+
 </style>
 
+
+
 <template>
+    <nav_bar/>
+    <h2>Book Collection</h2>
     <div>
-        <h2>Book Collection</h2>
-        <div>
-            <p>
-                Lorem,ipsum dolor sit amet consectetur adipisicing elit. Itaque harum corrupti temporibus dignissimos,
-                deleniti maiores aut sequi voluptatibus nihil eveniet quasi id esse voluptatem, ipsum unde libero quae
-                doloremque inventore!
-            </p>
-        </div>
-        <br>
+        <p>
+            Lorem,ipsum dolor sit amet consectetur adipisicing elit. Itaque harum corrupti temporibus dignissimos, deleniti maiores aut sequi voluptatibus nihil eveniet quasi id esse voluptatem, ipsum unde libero quae doloremque inventore!
+        </p>
+    </div>
+    <br>
         <div class="flex justify-center ">
-            <Calendar v-model="selectedDate" :inline="true" :minDate="new Date(data.minDateValue)" :maxDate="maxDate"
-                :disabledDates="data.disabledDateArray" class="inline-block margin-right" />
-            <div class="inline-block">
-                <!-- <p class=" text-lg">Timings</p> -->
-                <Dropdown v-model="data.selectedTiming" :options="data.timings" placeholder="Select a timing" />
-                <div class="inline-block ">
-                    <Button @click="onSubmit()" label="Continue" />
+            <Calendar :disabled-dates="data.disabledDateArray" v-model="data.selectedDate" :inline="true" :minDate="new Date(data.minDateValue)" :maxDate="maxDateValue" :disabledDates="data.disabledDateArray" class = "inline-block margin-right" />
+            <div class = "inline-block">
+                <Dropdown v-model="data.selectedTiming" :options="data.timings"  placeholder="Select a timing" />
+                <div class = "inline-block ">
+                    <Button v-if="data.selectedDate == '' || data.selectedTiming == ''" @click="showAlert()" label="Continue"/>
+                    <Button v-else onclick="location.href = './book2'" label="Continue"/>
                 </div>
             </div>
-
-            <p>{{ data.selectedDate }}</p>
-            <p>{{ data.selectedTiming }}</p>
-        </div>
+                <p>{{data.selectedDate}}</p>
+                <p>{{data.selectedTiming}}</p>
+            </div>
+        <div>
+      
     </div>
-</template>
+
+  </template>
   
   
-<script lang="ts" setup>
-import { addDays } from 'date-fns';
+  <script lang="ts" setup>
+  
+    const { data, pending, refresh, error } = await useFetch('/api/admin/book1', {
+    });
 
-const router = useRouter()
-let selectedDate = new Date()
+    function showAlert(){
+            return alert("Please select a date and time");
+        }; 
 
-
-const { data, pending, refresh, error } = await useFetch('/api/admin/book1', {
-});
-
-const maxDate = addDays(new Date(), 10)
-
-function onSubmit() {
-    console.log("onSubmit", selectedDate);
-    const link = `/book/book2?date=${selectedDate.getTime()}`
-    router.push(link);
-}
-
-
-</script>
+  </script>

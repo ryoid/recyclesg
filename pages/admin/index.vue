@@ -108,6 +108,7 @@
 import RecycleRequestTaskCard from '~~/components/admin/requests/RecycleRequestTaskCard.vue';
 definePageMeta({
   layout: "admin",
+  middleware: ["admin"],
 });
 
 const { data, pending, refresh, error } = await useFetch('/api/admin/dashboard', {
