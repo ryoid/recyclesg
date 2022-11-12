@@ -47,16 +47,16 @@ input::-webkit-inner-spin-button {
             <div>
 
                 <label for="name" class="form-label">Name:</label><br>
-                <InputText type="text" v-model="form.name" required class = "w-[500px] form-control" id="name" pattern="[a-zA-Z][a-zA-Z ]{2,}"/><br><br>
-                <div v-if="errors.name" class="text-red-500">{{ errors.name }}</div><br>
+                <InputText type="text" v-model="form.name" required class = "w-[500px] form-control" id="name" pattern="[a-zA-Z ]{1,}" title="Name"/><br><br>
+                
                 
                 
                 <label for="email" class="form-label">Email:</label><br>
                 <InputText type="email" v-model="form.email" required class = "w-[500px] form-control" id="email"/><br><br>
             
                 <label for="phone" class="form-label">Contact Number:</label><br>
-                <InputText type="number" :useGrouping="false" v-model="form.phone" required class = "w-[500px] form-control" id="phone" /><br>
-                <div v-if="errors.phone" class="text-red-500">{{ errors.phone }}</div><br>
+                <InputText :useGrouping="false" v-model="form.phone" required class = "w-[500px] form-control" id="phone" pattern="[0-9]{8}" title="Phone Number" /><br>
+                
             </div>
 
             <br />
@@ -72,8 +72,8 @@ input::-webkit-inner-spin-button {
                 </div>
                 <div class="inline">
                     <label for="postal" class="form-label">Postal Code:</label><br>
-                    <InputText type="number" :useGrouping="false" v-model="form.postal" required class = "w-[300px] form-control" id="postal" />
-                    <div v-if="errors.postal" class="text-red-500">{{ errors.postal }}</div><br>
+                    <InputText :useGrouping="false" v-model="form.postal" required class = "w-[300px] form-control" id="postal" pattern="[0-9]{6}" title="Postal Code" />
+                    
                 </div>
             </div>
 
@@ -92,7 +92,7 @@ input::-webkit-inner-spin-button {
                 <br />
                 <Button type="submit" label="Submit" style="margin-left: 4px">Book
                     Collection</Button>
-                <div v-if="errors.submit" class="text-red-500 inline-block" style="margin-left: 20px"  >{{ errors.submit }}</div>
+                <!-- <div v-if="errors.submit" class="text-red-500 inline-block" style="margin-left: 20px"  >{{ errors.submit }}</div> -->
             </div>
         </form>
         
@@ -147,9 +147,6 @@ async function onSubmit(e: SubmitEvent) {
     // Validate form
     let valid = true
 
-    if (form.value.name ) {
-        errors.value.name = 'Name is required'
-        valid = false
     
     if(form.value.phone.toString().length != 8) {
         errors.value.phone = "Invalid phone number"
