@@ -39,3 +39,17 @@ export type CollectionBooking = {
   image: string;
   description: string;
 };
+
+const CollectionBooking = {
+  id: "1",
+  name: "Ryan",
+  email: "ryanjconceicao@gmail.com",
+  contactNo: "12345678",
+
+  address: "123D Pasir Ris Drive 4",
+  postalCode: "123456",
+
+  image:
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Aconcagua2016.jpg/600px-Aconcagua2016.jpg",
+  pickupDate: "2022-12-12T13:43:34.077Z",
+};
