@@ -127,18 +127,6 @@ const form = ref({
 });
 
 
-const errors = ref({
-    name: null,
-    email: null,
-    phone: null,
-    address: null,
-    postal: null,
-    image: null,
-    desc: null,
-    date: new Date(date.toString()),
-    submit: null
-});
-
 
 async function onSubmit(e: SubmitEvent) {
     e.preventDefault()
