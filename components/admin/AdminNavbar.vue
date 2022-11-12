@@ -22,6 +22,8 @@
             @mouseover="repositionHighlight" />
           <AdminNavbarLink link="/admin/database" label="Database" name="admin-database"
             @mouseover="repositionHighlight" />
+          <AdminNavbarLink link="/admin/bookings" label="Bookings" name="admin-bookings"
+            @mouseover="repositionHighlight" />
         </ul>
 
         <div class="ml-auto flex items-center">
