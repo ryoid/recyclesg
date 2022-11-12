@@ -131,6 +131,7 @@ const form = ref({
 async function onSubmit(e: SubmitEvent) {
     e.preventDefault()
     console.log('Submit');
+    console.log(form)
 
     // Validate form
 
