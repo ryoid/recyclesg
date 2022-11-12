@@ -37,7 +37,7 @@ async function getAllStrings() {
       acc.strings.push(
         data.name +
           " " +
-          data.tags.join(" ") +
+          data.tags?.join(" ") +
           " " +
           data.material +
           " " +
