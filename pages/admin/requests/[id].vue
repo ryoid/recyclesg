@@ -11,106 +11,94 @@
       <h1 class="text-3xl font-bold underline">
         Admin / Request / {{id}} detail
       </h1>
-      <div class="container">
-        <div class="grid md:grid-cols-1 lg:grid-cols-4 gap-20 mt-6">
-          <div class="col-span-1">
-            <div class="mb-5">
-              <!-- <Image src="https://media.istockphoto.com/vectors/thumbnail-image-vector-graphic-vector-id1147544807?k=20&m=1147544807&s=612x612&w=0&h=pBhz1dkwsCMq37Udtp9sfxbjaMl27JUapoyYpQm0anc=" alt="Image Text" /> -->
-              <img class="object-contain" src="https://media.istockphoto.com/vectors/thumbnail-image-vector-graphic-vector-id1147544807?k=20&m=1147544807&s=612x612&w=0&h=pBhz1dkwsCMq37Udtp9sfxbjaMl27JUapoyYpQm0anc=" alt="">
+      <form>
+        <div class="container">
+          <div class="grid md:grid-cols-1 lg:grid-cols-4 gap-20 mt-6">
+            <div class="col-span-1">
+              <div class="mb-5">
+                <img class="lg:w-80 md:w-80 sm:w-80" :src="data.image" alt="">
+              </div>
             </div>
-          </div>
-      
-          <div class="col-span-3">
-            <div>
-              <h2 class="text-xl mb-2">Suggested Words</h2>
-              <InputText class="w-full"  type="text" />
-            </div>
+        
+            <div class="col-span-3">
+              <div>
+                <h2 class="text-xl mb-2">Suggested Words</h2>
+                <InputText class="w-full"  type="text" />
+              </div>
 
-            <div class="mb-2 mt-4">
-              <h2 class="text-xl mb-2">Description</h2>
-              <!-- <InputText class="w-full"  type="tex" /> -->
-              <Textarea class="w-full" rows="5" cols="30" />
+              <div class="mb-2 mt-4">
+                <h2 class="text-xl mb-2">Description</h2>
+                <!-- <InputText class="w-full"  type="tex" /> -->
+                <Textarea class="w-full" rows="5" cols="30" />
 
-              <!-- <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-md border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Your message..."></textarea> -->
-            </div>
+                <!-- <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-md border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Your message..."></textarea> -->
+              </div>
 
-            <div class="mt-3 mb-6">
-              <h2 class="text-xl mb-2">Email</h2>
-              <InputText class="w-full" v-model="data.email" type="text" />
-            </div>
-            <!-- <hr> -->
-            <Divider/>
-            <div>            
-              <h2 class="font-semibold text-xl">Add new Entry</h2>
-            </div>
-            <div class="grid grid-cols-2 gap-4 mt-5">
-              <div class="col-span-2 lg:col-span-1">
-                <h2 class="text-xl mb-2">Name</h2>
-                <InputText class="w-full" type="text" :value="data.name" />
-                <!-- <input type="text" class="border-solid border-gray-400 border-2 p-3 md:text-xl w-full" placeholder="Name" :value="data.name"/> -->
+              <div class="mt-3 mb-6">
+                <h2 class="text-xl mb-2">Email</h2>
+                <InputText class="w-full" v-model="data.email" type="text" />
+              </div>
+              <!-- <hr> -->
+              <Divider/>
+              <div>            
+                <h2 class="font-semibold text-xl">Add new Entry</h2>
+              </div>
+              <div class="grid grid-cols-2 gap-4 mt-5">
+                <div class="col-span-2 lg:col-span-1">
+                  <h2 class="text-xl mb-2">Name</h2>
+                  <InputText class="w-full" type="text" v-model="form.name" />
+                  <!-- <input type="text" class="border-solid border-gray-400 border-2 p-3 md:text-xl w-full" placeholder="Name" :value="data.name"/> -->
+
+                </div>
+                <div class="col-span-2 lg:col-span-1">
+                  <h2 class="text-xl mb-2">Material</h2>
+                  <InputText class="w-full" type="text" v-model="form.material"/>
+                  <!-- <input type="text" class="border-solid border-gray-400 border-2 p-3 md:text-xl w-full" placeholder="Name" :value="data.material"/> -->
 
               </div>
-              <div class="col-span-2 lg:col-span-1">
-                <h2 class="text-xl mb-2">Material</h2>
-                <InputText class="w-full" type="text" :value="data.material"/>
-                <!-- <input type="text" class="border-solid border-gray-400 border-2 p-3 md:text-xl w-full" placeholder="Name" :value="data.material"/> -->
-
             </div>
-          </div>
 
-            <div class="grid grid-cols-1 mt-5">
-              <div>
-                <h2 class="text-xl mb-3">Recycable?</h2>
-                <div class="flex flex-row items-center mt-3">
-                  <div class="flex flex-row items-center">
-                    <input type="radio" id="yes" v-model="data.recyclable" :value=true /> <!-- fix this later --->
-                    <!-- {{items.recyclable}} -->
-                    <label for="yes" class="ml-2">Yes</label>
-                  </div>
-                  <div class="flex flex-row items-center ml-6">
-                    <input type="radio" id="no"  v-model="data.recyclable" :value=false />
-                    <!-- {{items.recyclable}}
-                    -->
+              <div class="grid grid-cols-1 mt-5">
+                <div>
+                  <h2 class="text-xl mb-3">Recycable?</h2>
+                  <div class="flex flex-row items-center mt-3">
+                    <div class="flex flex-row items-center">
+                      <input type="radio" id="yes" v-model="form.recyclable" value="true" /> <!-- fix this later --->
+                      <!-- {{items.recyclable}} -->
+                      <label for="yes" class="ml-2">Yes</label>
+                    </div>
+                    <div class="flex flex-row items-center ml-6">
+                      <input type="radio" id="no"  v-model="form.recyclable" value="false" />
+                      <!-- {{items.recyclable}}
+                      -->
 
-                    <label for="no" class="ml-2">No</label>
+                      <label for="no" class="ml-2">No</label>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div class="mt-5">
-                <label for="message" class="block mb-2 font-medium text-gray-900 text-xl">Description</label>
-                <Textarea :value="data.description" class="w-full" rows="5" cols="30" />
+                <div class="mt-5">
+                  <label for="message" class="block mb-2 font-medium text-gray-900 text-xl">Description</label>
+                  <Textarea v-model="form.description" class="w-full" rows="5" cols="30" />
 
-                <!-- <textarea :value="data.description" id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-md border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Your message..."></textarea> -->
+                  <!-- <textarea :value="data.description" id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-md border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Your message..."></textarea> -->
+                </div>
               </div>
-            </div>
 
-            <!-- <div class="grid md:grid-cols-1 lg:grid-cols-3 mt-5 place-items-center">
-              <div>
-                <button type="button" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-md text-sm px-5 py-2.5 mr-2 mb-2">Reject Entry</button>
-              </div>
-              <div>
-                <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-md text-sm px-5 py-2.5 mr-2 mb-2">Add Entry</button>
-              </div>
-              <div>
-                <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-md text-sm px-5 py-2.5 mr-2 mb-2">Add & Notify Entry</button>
-              </div>
-            </div> -->
-            <div class="grid grid-cols-3 gap-4 mt-5">
-              <div class="col-span-3 lg:col-span-1">
-                <button type="submit" @click="rejectForm" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-md text-sm px-5 py-2.5 mr-2 mb-2">Reject Entry</button>
-                <!-- <input type="text" class="border-solid border-gray-400 border-2 p-3 md:text-xl w-full" placeholder="Name" :value="data.name"/> -->
-
-              </div>
-              <div class="col-span-3 lg:col-span-1">
-                <button type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-md text-sm px-5 py-2.5 mr-2 mb-2">Add Entry</button>
-              </div>
-              <div class="col-span-3 lg:col-span-1">
-                <button type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-md text-sm px-5 py-2.5 mr-2 mb-2">Add & Notify</button>
+              <div class="grid grid-cols-3 gap-4 mt-5">
+                <div class="col-span-3 lg:col-span-1">
+                  <button type="submit" @click="addFormEntry" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-md text-sm px-5 py-2.5 mr-2 mb-2">Add Entry</button>
+                </div>
+                <div class="col-span-3 lg:col-span-1">
+                  <button type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-md text-sm px-5 py-2.5 mr-2 mb-2">Add & Notify</button>
+                </div>
+                <div class="col-span-3 lg:col-span-1">
+                  <button type="submit" @click="rejectForm" class="w-full text-white rounded-md bg-red-600 hover:bg-red-700 duration-300 font-medium text-sm px-5 py-2.5 mr-2 mb-2">Reject Entry</button>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </form>
     </div>
   </div>
 </template>
@@ -122,10 +110,6 @@ import { da } from 'date-fns/locale';
 const route = useRoute()
 const id = route.params.id
 
-
-// const { data, pending, refresh, error } = await useFetch(`/api/admin/recyclable/${id}`, {
-// })
-
 const { data, pending, refresh, error } = await useFetch(`/api/admin/recyclerequests/${id}`, {
 
 })
@@ -135,33 +119,46 @@ onMounted(() => {
   refresh()
 })
 
-
-console.log(data)
-
 const name = ref("");
 definePageMeta({
   layout: "admin",
 });
 
-function testReject(){
-  console.log(data.value.status)
-}
+const form = ref({
+    name: null,
+    material: null,
+    description: null,  
+    recyclable: null,
 
+});
+
+
+// Add entry
+const addFormEntry = async () => {
+  event.preventDefault();
+  const response = await fetch(`/api/admin/recyclable/`, {
+    method: "POST",
+    body: JSON.stringify({
+      name: form.value.name,
+      material: form.value.material,
+      description: form.value.description,
+      recyclable: form.value.recyclable,
+      // add createdAt
+      createdAt: new Date().toISOString(),
+    }),
+  });
+  console.log(data);
+};
+
+// Reject form
 const rejectForm  = async () => {
-//   console.log("submit form", data)
   event.preventDefault()
-
   await $fetch(`/api/admin/recyclerequests/${id}`, {
     method: "POST",
     body: JSON.stringify({
       status: "rejected"
-    
-  //       name: data.value.name,
-  //       material: data.value.material,
-  //       description: data.value.description,
-  //       recyclable: data.value.recyclable,
     }),
   })
-  console.log("submit form", data.value.status)    
+  console.log("reject form", data.value.status)    
 }
 </script>

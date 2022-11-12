@@ -4,8 +4,25 @@
       <h1 class=" text-2xl text-red-500 text-center">Error</h1>
     </div>
     <div v-else-if="pending">
-      <h1 class=" text-2xl text-red-500 text-center">Loading content...</h1>
+      <!-- <h1 class=" text-2xl text-red-500 text-center">Loading content...</h1> -->
       <!-- do placeholder content here, ultimately make new component -->
+      <div class="rounded-md p-4 w-full mt-40">
+        <div class="animate-pulse flex space-x-4">
+          <div class="flex-1 space-y-6 py-1">
+            <div class="space-y-3">
+              <div class="grid grid-cols-4 gap-4">
+                <div class="h-10 bg-slate-200 rounded col-span-2 mb-2"></div>
+                <div class="h-10 bg-slate-200 rounded col-span-2 mb-2"></div>
+              </div>
+              <div class="grid grid-cols-8 gap-4">
+                <div class="h-10 bg-slate-200 rounded-full col-span-1 mb-3"></div>
+                <div class="h-10 bg-slate-200 rounded-full col-span-1 mb-3"></div>
+              </div>
+              <div class="h-32 bg-slate-200 rounded"></div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
   
