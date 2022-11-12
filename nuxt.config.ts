@@ -14,15 +14,6 @@ export default defineNuxtConfig({
     "primevue/resources/primevue.css",
     "primeicons/primeicons.css",
   ],
-  app: {
-    head: {
-      script: [
-        {
-          src: "https://accounts.google.com/gsi/client",
-        },
-      ],
-    },
-  },
   build: {
     postcss: {
       postcssOptions: require("./postcss.config.js"),
