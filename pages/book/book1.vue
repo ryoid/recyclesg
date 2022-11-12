@@ -28,9 +28,7 @@ div {
             <h2>Book Collection</h2>
             <div></div>
             <p>
-                Lorem,ipsum dolor sit amet consectetur adipisicing elit. Itaque harum corrupti temporibus dignissimos,
-                deleniti maiores aut sequi voluptatibus nihil eveniet quasi id esse voluptatem, ipsum unde libero quae
-                doloremque inventore!
+                Make a booking for collection of your recyclables!
             </p>
         </div>
         <br>
