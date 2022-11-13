@@ -1,12 +1,4 @@
 <style scoped>
-h2 {
-    font-size: 50px;
-}
-
-div {
-    margin: 5px;
-}
-
 .inline {
     display: inline;
 }
@@ -32,16 +24,16 @@ div {
             </p>
         </div>
         <br>
-        <br>    
+        <br>
         <div class="flex justify-center">
             <div class="">
-                
+
                 <Calendar :disabled-dates="data.unavailableDays.map(day => new Date(day))" v-model="form.selectedDate"
                     :inline="true" :minDate="form.minDateValue" :maxDate="form.maxDateValue"
-                    class="inline-block margin-right" style="margin: 5px"/>
-                <div class="inline-block" >
+                    class="inline-block margin-right" style="margin: 5px" />
+                <div class="inline-block">
                     <ul class="grid grid-cols-3 gap-2 w-[300px]" style="margin: 5px">
-                        <li style="margin-left:5"    :class="['bg-white py-4 px-3 rounded-xl border border-gray-200 cursor-pointer text-center select-none', {
+                        <li style="margin-left:5" :class="['bg-white py-4 px-3 rounded-xl border border-gray-200 cursor-pointer text-center select-none', {
                             'bg-gray-200 text-gray-700 cursor-not-allowed': !slot.available,
                             'bg-blue-500 text-white': form.selectedDateTime?.toISOString() === slot.date
                         }]" v-for="slot in data.availableSlots.find(d => isSameDay(new Date(d[0].date), form.selectedDate))"
@@ -49,9 +41,10 @@ div {
                             {{ format(new Date(slot.date), 'h:mm a') }}
                         </li>
                     </ul>
-                    <div class="inline-block" >   
-                        <Button v-if="form.selectedDateTime == null" @click="showAlert()" label="Continue" style="margin-left: 100px" />
-                        <Button v-else @click="submit" label="Continue"  style="margin-left: 100px"/>
+                    <div class="inline-block">
+                        <Button v-if="form.selectedDateTime == null" @click="showAlert()" label="Continue"
+                            style="margin-left: 100px" />
+                        <Button v-else @click="submit" label="Continue" style="margin-left: 100px" />
                     </div>
                 </div>
             </div>
