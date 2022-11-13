@@ -86,7 +86,7 @@ function selectDate(slot: {
 
 function submit() {
     console.log(form.value.selectedDateTime)
-    router.push(`/book/book2?date=${form.value.selectedDateTime.toISOString()}`)
+    router.push(`/book2?date=${form.value.selectedDateTime.toISOString()}`)
 }
 
 function showAlert() {

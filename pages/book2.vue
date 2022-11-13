@@ -21,7 +21,6 @@ hr {
 }
 
 
-
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
@@ -85,7 +84,7 @@ input::-webkit-inner-spin-button {
                 <NewImageUploader :annotate='false' @uploaded="getImageUrl"/>
                 <div>
                     <label for="desc" class="form-label">Description (Optional):</label><br>
-                    <Textarea v-model="form.description" rows="10" cols="80" class = "form-control" id="desc"  />
+                    <Textarea v-model="form.description" rows="10" cols="80" class = "form-control w-[500px]" id="desc"  />
                     
                 </div>
                 <br />
