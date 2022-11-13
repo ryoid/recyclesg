@@ -28,14 +28,21 @@
         </div>
       </div>
       <div>
-        <button
-          class="text-white bg-teal-700 hover:bg-teal-800 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm px-5 py-4 text-center mr-3 md:mr-0 w-full"
-          @click="startScanner">Scan
-          Recycle Bin QR Code</button>
+        <button :disabled="hasScanned" :class="['text-white focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm px-5 py-4 text-center mr-3 md:mr-0 w-full', {
+          'bg-teal-600': hasScanned,
+          'bg-teal-700 hover:bg-teal-800': !hasScanned
+        }]" @click="startScanner">{{ hasScanned ? 'You have earned 150 points' : 'Scan Recycle Bin QR Code'
+}}</button>
       </div>
     </div>
 
-    <div id="qr-code-full-region"></div>
+    <div v-if="hasScanned">
+      <div class="bg-yellow-500/50 text-yellow-800 text-center p-4 rounded-lg justify-between items-center mt-6 mb-2">
+        You just earned 150 points
+      </div>
+    </div>
+
+    <div v-if="!hasScanned" id="qr-code-full-region"></div>
 
     <h1 class="text-2xl font-semibold py-4">Search results</h1>
     <div v-if="search.data.value.length < 1">
@@ -62,6 +69,7 @@ import { Html5QrcodeScanner } from 'html5-qrcode';
 const user = useFirebaseUser()
 const { $firebaseApp } = useNuxtApp()
 const route = useRoute()
+const hasScanned = ref()
 
 let search = await useFetch<Recyclable[]>(route.query.tags ? `/api/admin/recyclable/tags` : `/api/admin/recyclable/search`, {
   query: route.query.tags ? { tags: route.query.tags } : { q: route.query.q },
@@ -90,6 +98,7 @@ onMounted(async () => {
   })
 })
 
+let scannerFetch;
 function startScanner() {
   console.log('start scanner');
   const config: any = {
@@ -98,17 +107,20 @@ function startScanner() {
   };
   const html5QrcodeScanner = new Html5QrcodeScanner('qr-code-full-region', config, false);
   html5QrcodeScanner.render(async (decodedText, decodedResult) => {
-    $fetch(`/api/`, {
+    if (scannerFetch) return
+    scannerFetch = $fetch(`/api/user/reward`, {
       method: 'POST',
       body: JSON.stringify({
-        ev: 'scan_recycle_bin',
-        data: {
-          search_term: route.query.tags ?? route.query.q,
-          number_of_results: search.data.value.length,
-        },
+        binId: decodedText,
+        uid: user.value.user?.uid,
       }),
     })
-  }, () => { });
+    const res = await scannerFetch
+    hasScanned.value = res + '|' + route.query.tags ?? route.query.q
+    scannerFetch = null
+  }, (err) => {
+    console.log('Error scanning', err);
+  });
 }
 
 
