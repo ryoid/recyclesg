@@ -33,9 +33,8 @@
       <video :hidden="!cameraOn" class="mx-auto w-5/6 m-3" id="video" autoplay>{{ cameraPreview }}</video>
       <div v-if="cameraOn">
         <div class="w-1/3 flex mx-auto">
-          <Button class="flex p-button-rounded mx-auto" id="snap" v-on:click="capture()"
-            icon="pi pi-camera"></Button>
-            <Button class="p-button-rounded mx-auto" id="snap" v-on:click="back()"
+          <Button class="flex p-button-rounded mx-auto" id="snap" v-on:click="capture()" icon="pi pi-camera"></Button>
+          <Button class="p-button-rounded mx-auto" id="snap" v-on:click="back()"
             icon="pi pi-arrow-circle-left"></Button>
         </div>
         <canvas hidden id="canvas" width="640" height="480"></canvas>
@@ -46,6 +45,12 @@
 </template>
 
 <script lang="ts" setup>
+export type Props = {
+  annotate: boolean
+}
+
+const props = defineProps<Props>()
+
 const { storage } = useFirebase()
 const imageInputRef = ref(null)
 let imageSrc = ref(null)
@@ -74,12 +79,12 @@ function dropHandler(ev) {
   })
 }
 
-function back(){
+function back() {
   cameraOn.value = !cameraOn.value
   closeCamera()
 }
 
-function closeCamera(){
+function closeCamera() {
   localStream.getTracks()[0].stop()
 }
 
@@ -88,7 +93,7 @@ function dragOverHandler(ev) {
   ev.preventDefault()
 }
 
-function openCamera() { 
+function openCamera() {
   cameraOn.value = !cameraOn.value
   cameraPreview()
 }
@@ -96,7 +101,7 @@ function openCamera() {
 function capture() {
   let canvas = document.getElementById('canvas') as HTMLCanvasElement
   let video = document.getElementById('video') as HTMLVideoElement
-  
+
   let context = canvas
     .getContext("2d")
     .drawImage(video, 0, 0, 640, 480);
@@ -139,32 +144,46 @@ async function getAnnotations(e) {
     console.log("Select an image");
     return
   }
-
-  submitting.value = true
-  try {
-    const uploadRes = await uploadFile(storage, "user-item-uploads", imageFile)
-    console.log(uploadRes);
-    const imageUri = `gs://${uploadRes.metadata.bucket}/${uploadRes.metadata.fullPath}`;
-    // Send to cloud vision api to get text
-    const visionRes = await $fetch('/api/vision', {
-      method: 'POST',
-      body: JSON.stringify({
-        imageUri: imageUri
+  if (props.annotate) {
+    submitting.value = true
+    try {
+      const uploadRes = await uploadFile(storage, "user-item-uploads", imageFile)
+      console.log(uploadRes);
+      const imageUri = `gs://${uploadRes.metadata.bucket}/${uploadRes.metadata.fullPath}`;
+      // Send to cloud vision api to get text
+      const visionRes = await $fetch('/api/vision', {
+        method: 'POST',
+        body: JSON.stringify({
+          imageUri: imageUri
+        })
       })
-    })
-    console.log('receive visionRes', visionRes);
+      console.log('receive visionRes', visionRes);
 
-    // Sort etc
-    annotations.value = visionRes.labelAnnotations
-    emit('uploaded', annotations.value, uploadRes.downloadUrl);
+      // Sort etc
+      annotations.value = visionRes.labelAnnotations
+      emit('uploaded', annotations.value, uploadRes.downloadUrl);
 
-  } catch (err) {
-    console.log("Failed to upload", err);
-  } finally {
-    submitting.value = false
+    } catch (err) {
+      console.log("Failed to upload", err);
+    } finally {
+      submitting.value = false
+    }
+  } else {
+    submitting.value = true
+    try {
+      const uploadRes = await uploadFile(storage, "collections", imageFile)
+      console.log(uploadRes);
+
+      emit('uploaded', uploadRes.downloadUrl);
+
+    } catch (err) {
+      console.log("Failed to upload", err);
+    } finally {
+      submitting.value = false
+    }
   }
-
 }
+
 </script>
 
 <style>

@@ -11,7 +11,7 @@
       <NewSearchBar @item-select="displaySearchResults" />
 
       <!-- Returns annotation results from cloud vision API after image is uploaded -->
-      <NewImageUploader @uploaded="getAnnotations" />
+      <NewImageUploader @uploaded="getAnnotations" :annotate=true />
 
       <!-- shown only after image is uploaded and labels gotten back from cloud api -->
       <div class="container mt-20" v-if="annotations">
