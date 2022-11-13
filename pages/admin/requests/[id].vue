@@ -168,6 +168,7 @@ const addFormEntry = async () => {
 // add and notify
 const addNotify = async () => {
   console.log("Added and Notified!");
+  alert("Added and Notified!");
 //   event.preventDefault();
 //   const response = await fetch(`/api/admin/recyclable/`, {
 //     method: "POST",

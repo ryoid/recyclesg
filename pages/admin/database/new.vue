@@ -15,7 +15,7 @@
             Admin / Requests / [new] detail
           </h1> 
         </div>
-        <form class="was-validated">
+        <form>
             <div class="container">
                 <div class="grid grid-cols-2 gap-4 mt-5">
                     <div class="col-span-2 lg:col-span-1">
@@ -93,6 +93,7 @@ const form = ref({
 //     description: null,
 
 // });
+
 
 const submitForm  = async () => {
 // prevent default form submission
