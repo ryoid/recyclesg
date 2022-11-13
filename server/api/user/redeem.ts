@@ -14,12 +14,12 @@ export default defineEventHandler(async (event) => {
   if (!profile.points) profile.points = 0;
 
   const reward = await firestore.collection("rewards").doc(body.rewardId).get();
-  const newPoints = profile.points - Math.abs(reward.data().points);
+  const newPoints = Number(profile.points) - Math.abs(Number(reward.data().points));
 
   const ref = table.doc(snapshot.docs[0].id);
   await ref.update({
     points: newPoints,
-    rewards: FieldValue.arrayUnion([reward.data()]),
+    rewards: FieldValue.arrayUnion(reward.data()),
   });
   return profile;
 });
