@@ -9,8 +9,6 @@ export type RecycleRequest = {
 
   status: "pending" | "completed" | "rejected";
 
-  email: string;
-
   createdAt: string;
   updatedAt: string;
   completedAt?: string;
@@ -52,6 +50,13 @@ export type Annotation = {
   confidence: number;
   topicality: number;
   boundingPoly: null;
+};
+
+export type Reward = {
+  id: string | number;
+
+  name: string;
+  points: number;
 };
 
 const CollectionBooking = {
