@@ -32,7 +32,6 @@ input::-webkit-inner-spin-button {
         <nav_bar />
         <div>
 
-
             <h2>Booking Details</h2>
             <div>
                 <p>{{ form.date }}</p>
@@ -97,8 +96,6 @@ input::-webkit-inner-spin-button {
                         Collection</Button>
                 </div>
             </form>
-
-
         </div>
     </div>
 </template>
