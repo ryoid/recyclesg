@@ -23,8 +23,6 @@ export default defineNuxtConfig({
         ? [
             "primevue",
             "chart.js",
-            "naive-ui",
-            "vueuc",
             "@css-render/vue3-ssr",
             "@juggle/resize-observer",
             "@headlessui/vue",
@@ -40,11 +38,8 @@ export default defineNuxtConfig({
     optimizeDeps: {
       include:
         process.env.NODE_ENV === "development"
-          ? ["naive-ui", "vueuc", "date-fns-tz/esm/formatInTimeZone"]
+          ? ["date-fns-tz/esm/formatInTimeZone"]
           : [],
     },
-  },
-  alias: {
-    "firebase/analytics": "firebase/analytics/dist/index.mjs",
   },
 });

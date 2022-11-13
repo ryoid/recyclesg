@@ -7,7 +7,7 @@
       </div>
       <div class="w-full">
         <div class="inline-flex gap-1.5 w-full md:justify-between lg:justify-start">
-          {{ request.title }}
+          {{ request.description }}
           <div class="">
             <Tag :name="request.status" :color="getStatusColor(request.status)" />
           </div>

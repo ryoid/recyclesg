@@ -17,6 +17,33 @@
 
     </div>
 
+    <div v-if="user.user"
+      class="flex bg-teal-500/20 text-teal-800 p-4 rounded-lg justify-between items-center mt-6 mb-2">
+      <div>
+        <div class="text-2xl">
+          Scan to redeem points
+        </div>
+        <div class="text-sm">
+          Scan the barcode on the blue recycle bins to redeem points.
+        </div>
+      </div>
+      <div>
+        <button :disabled="hasSetupScanner || hasScanned" :class="['text-white focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm px-5 py-4 text-center mr-3 md:mr-0 w-full', {
+          'bg-teal-600': hasScanned,
+          'bg-teal-700 hover:bg-teal-800': !hasScanned
+        }]" @click="startScanner">{{ hasScanned ? 'You have earned 150 points' : 'Scan Recycle Bin QR Code'
+}}</button>
+      </div>
+    </div>
+
+    <div v-if="hasScanned">
+      <div class="bg-yellow-500/50 text-yellow-800 text-center p-4 rounded-lg justify-between items-center mt-6 mb-2">
+        You just earned 150 points
+      </div>
+    </div>
+
+    <div v-if="!hasScanned" id="qr-code-full-region"></div>
+
     <h1 class="text-2xl font-semibold py-4">Search results</h1>
     <div v-if="search.data.value.length < 1">
       <p class="text-gray-500">No results found.</p>
@@ -37,14 +64,13 @@
 <script setup lang="ts">
 import { Recyclable } from '~~/server/types';
 import { MagnifyingGlassIcon } from '@heroicons/vue/24/outline'
-import { useGtag } from "vue-gtag-next";
+import { Html5QrcodeScanner } from 'html5-qrcode';
 
-import { getAnalytics, isSupported, logEvent } from 'firebase/analytics'
-
+const user = useFirebaseUser()
 const { $firebaseApp } = useNuxtApp()
 const route = useRoute()
-
-const { event } = useGtag();
+const hasScanned = ref()
+const hasSetupScanner = ref(false)
 
 let search = await useFetch<Recyclable[]>(route.query.tags ? `/api/admin/recyclable/tags` : `/api/admin/recyclable/search`, {
   query: route.query.tags ? { tags: route.query.tags } : { q: route.query.q },
@@ -71,18 +97,33 @@ onMounted(async () => {
       },
     }),
   })
-  if (isSupported()) {
-    const analytics = getAnalytics($firebaseApp)
-    analytics.app.automaticDataCollectionEnabled = true
-    console.log(analytics);
-
-    logEvent(analytics, 'view_search_results' as any, {
-      search_term: route.query.tags ?? route.query.q,
-      number_of_results: search.data.value.length,
-    })
-    console.log('yes');
-  }
 })
+
+let scannerFetch;
+function startScanner() {
+  hasSetupScanner.value = true
+  console.log('start scanner');
+  const config: any = {
+    fps: 10,
+    qrbox: 250,
+  };
+  const html5QrcodeScanner = new Html5QrcodeScanner('qr-code-full-region', config, false);
+  html5QrcodeScanner.render(async (decodedText, decodedResult) => {
+    if (scannerFetch) return
+    scannerFetch = $fetch(`/api/user/reward`, {
+      method: 'POST',
+      body: JSON.stringify({
+        binId: decodedText,
+        uid: user.value.user?.uid,
+      }),
+    })
+    const res = await scannerFetch
+    hasScanned.value = res + '|' + route.query.tags ?? route.query.q
+    scannerFetch = null
+  }, (err) => {
+    console.log('Error scanning', err);
+  });
+}
 
 
 

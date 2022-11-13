@@ -1,4 +1,3 @@
-import { getAnalytics, isSupported } from "firebase/analytics";
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 
