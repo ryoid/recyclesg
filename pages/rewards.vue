@@ -12,7 +12,7 @@
                 
             </div>
             <div class="grid-cols-1 mt-5">
-                <h2 class="text-2xl">My Rewards</h2>
+                <h2 class="text-2xl font-semibold">My Rewards</h2>
             </div>
             <div class="grid grid-cols-3 gap-4 mt-5">
               <div class="col-span-2 lg:col-span-1">
@@ -24,7 +24,7 @@
             </div>
 
             <div class="grid-cols-1 mt-20">
-                <h2 class="text-2xl">List of Rewards</h2>
+                <h2 class="text-2xl font-semibold">List of Rewards</h2>
             </div>
             <div class="grid grid-cols-3 gap-4 mt-5">
               <div class="col-span-2 lg:col-span-1">
