@@ -58,7 +58,6 @@
 import { Recyclable } from '~~/server/types';
 import { MagnifyingGlassIcon } from '@heroicons/vue/24/outline'
 import { Html5QrcodeScanner } from 'html5-qrcode';
-import { getAnalytics, isSupported, logEvent } from 'firebase/analytics'
 
 const user = useFirebaseUser()
 const { $firebaseApp } = useNuxtApp()
@@ -89,17 +88,6 @@ onMounted(async () => {
       },
     }),
   })
-  if (isSupported()) {
-    const analytics = getAnalytics($firebaseApp)
-    analytics.app.automaticDataCollectionEnabled = true
-    console.log(analytics);
-
-    logEvent(analytics, 'view_search_results' as any, {
-      search_term: route.query.tags ?? route.query.q,
-      number_of_results: search.data.value.length,
-    })
-    console.log('yes');
-  }
 })
 
 function startScanner() {
@@ -109,8 +97,17 @@ function startScanner() {
     qrbox: 250,
   };
   const html5QrcodeScanner = new Html5QrcodeScanner('qr-code-full-region', config, false);
-  html5QrcodeScanner.render((decodedText, decodedResult) => {
-    console.log(decodedText, decodedResult);
+  html5QrcodeScanner.render(async (decodedText, decodedResult) => {
+    $fetch(`/api/`, {
+      method: 'POST',
+      body: JSON.stringify({
+        ev: 'scan_recycle_bin',
+        data: {
+          search_term: route.query.tags ?? route.query.q,
+          number_of_results: search.data.value.length,
+        },
+      }),
+    })
   }, () => { });
 }
 

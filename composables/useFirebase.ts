@@ -8,7 +8,6 @@ import {
   ref as storageRef,
   uploadString,
 } from "firebase/storage";
-import { getAnalytics } from "firebase/analytics";
 import {
   getAuth,
   createUserWithEmailAndPassword,
