@@ -28,7 +28,7 @@
         </div>
       </div>
       <div>
-        <button :disabled="hasScanned" :class="['text-white focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm px-5 py-4 text-center mr-3 md:mr-0 w-full', {
+        <button :disabled="hasSetupScanner || hasScanned" :class="['text-white focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm px-5 py-4 text-center mr-3 md:mr-0 w-full', {
           'bg-teal-600': hasScanned,
           'bg-teal-700 hover:bg-teal-800': !hasScanned
         }]" @click="startScanner">{{ hasScanned ? 'You have earned 150 points' : 'Scan Recycle Bin QR Code'
@@ -70,6 +70,7 @@ const user = useFirebaseUser()
 const { $firebaseApp } = useNuxtApp()
 const route = useRoute()
 const hasScanned = ref()
+const hasSetupScanner = ref(false)
 
 let search = await useFetch<Recyclable[]>(route.query.tags ? `/api/admin/recyclable/tags` : `/api/admin/recyclable/search`, {
   query: route.query.tags ? { tags: route.query.tags } : { q: route.query.q },
@@ -100,6 +101,7 @@ onMounted(async () => {
 
 let scannerFetch;
 function startScanner() {
+  hasSetupScanner.value = true
   console.log('start scanner');
   const config: any = {
     fps: 10,
