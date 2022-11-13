@@ -38,6 +38,9 @@
 import { Recyclable } from '~~/server/types';
 import { MagnifyingGlassIcon } from '@heroicons/vue/24/outline'
 
+import { getAnalytics, isSupported, logEvent } from 'firebase/analytics'
+
+const { $firebaseApp } = useNuxtApp()
 const route = useRoute()
 
 let search = await useFetch<Recyclable[]>(route.query.tags ? `/api/admin/recyclable/tags` : `/api/admin/recyclable/search`, {
@@ -54,10 +57,31 @@ const alternativeResults = search.data.value.filter((item) => {
 })
 
 onMounted(async () => {
-  console.log('mounted', route.query);
-  await search.refresh()
-  console.log('fin');
 
+  await search.refresh()
+  await $fetch('/api/events', {
+    method: 'POST',
+    body: JSON.stringify({
+      ev: 'view_search_results',
+      data: {
+        search_term: route.query.tags ?? route.query.q,
+        number_of_results: search.data.value.length,
+      },
+    }),
+  })
+  if (isSupported()) {
+    const analytics = getAnalytics($firebaseApp)
+    analytics.app.automaticDataCollectionEnabled = true
+    console.log(analytics);
+
+    logEvent(analytics, 'view_search_results' as any, {
+      search_term: route.query.tags ?? route.query.q,
+      number_of_results: search.data.value.length,
+    })
+    console.log('yes');
+  }
 })
+
+
 
 </script>
