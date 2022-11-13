@@ -135,11 +135,6 @@ async function searchResults(event) {
 
 function showUploader(event) {
   uploaderVisible.value = true
-  console.log('searchInput', searchInput.value.el)
-  console.log('uploadInput', uploadInput.value.el)
-
-  searchInput.value.el.blur()
-  uploadInput.value.el.focus()
 }
 
 </script>
