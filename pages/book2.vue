@@ -90,6 +90,9 @@ input::-webkit-inner-spin-button {
                 <br />
                 <Button type="submit" label="Submit" style="margin-left: 4px">Book
                     Collection</Button>
+                
+                <p v-if="form.noImage" class="text-red-500 text-center inline ml-6"> {{form.noImage}} </p>
+                
             </div>
         </form>
         
@@ -121,6 +124,8 @@ const form = ref({
     pickupDate: new Date(date),
     postalCode: null,
     description: null,
+    noImage : null
+
 
 });
 
@@ -131,10 +136,17 @@ function getImageUrl(downloadurl) {
     console.log(downloadurl)
 }
 
+
+
 const submitForm  = async () => {
 // prevent default form submission
+
+
     if(form.value.image == null){
-        alert("Please upload an image")
+        event.preventDefault();
+        form.value.noImage = "Please upload an image";
+        console.log(form.value.noImage)
+        
     }
     
     else{
