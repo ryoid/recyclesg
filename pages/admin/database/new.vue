@@ -10,12 +10,12 @@
       <!-- <p v-if="pending">Pending leh bro</p> -->
     
       <div>
-        <div>
+        <!-- <div>
           <h1 class="text-3xl font-bold underline">
             Admin / Requests / [new] detail
           </h1> 
-        </div>
-        <form class="was-validated">
+        </div> -->
+        <form>
             <div class="container">
                 <div class="grid grid-cols-2 gap-4 mt-5">
                     <div class="col-span-2 lg:col-span-1">
@@ -59,8 +59,6 @@
 
                 <div class="grid grid-cols-1 place-items-end mt-6">
                     <button type="submit" @click="submitForm" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-md text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Add Entry</button>
-                    <!-- <button v-else type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-md text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Add Entry</button> -->
-                
                 </div>
             </div>
         </form>
@@ -95,6 +93,7 @@ const form = ref({
 //     description: null,
 
 // });
+
 
 const submitForm  = async () => {
 // prevent default form submission

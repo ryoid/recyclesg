@@ -28,15 +28,14 @@ div {
             <h2>Book Collection</h2>
             <div></div>
             <p>
-                Lorem,ipsum dolor sit amet consectetur adipisicing elit. Itaque harum corrupti temporibus dignissimos,
-                deleniti maiores aut sequi voluptatibus nihil eveniet quasi id esse voluptatem, ipsum unde libero quae
-                doloremque inventore!
+                Make a booking for collection of your recyclables!
             </p>
         </div>
         <br>
-        <br>
+        <br>    
         <div class="flex justify-center">
             <div class="">
+                
                 <Calendar :disabled-dates="data.unavailableDays.map(day => new Date(day))" v-model="form.selectedDate"
                     :inline="true" :minDate="form.minDateValue" :maxDate="form.maxDateValue"
                     class="inline-block margin-right" style="margin: 5px"/>
@@ -87,7 +86,7 @@ function selectDate(slot: {
 
 function submit() {
     console.log(form.value.selectedDateTime)
-    router.push(`/book/book2?date=${form.value.selectedDateTime.toISOString()}`)
+    router.push(`/book2?date=${form.value.selectedDateTime.toISOString()}`)
 }
 
 function showAlert() {

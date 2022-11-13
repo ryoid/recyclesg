@@ -28,9 +28,9 @@
   
     <div v-else>
       <div>
-        <h1 class="text-3xl font-bold underline">
+        <!-- <h1 class="text-3xl font-bold underline">
           Admin / Database / [{{ id }}] detail
-        </h1> 
+        </h1>  -->
       </div>
         <div class="container">
           <div class="grid grid-cols-2 gap-4 mt-5">
@@ -74,7 +74,7 @@
           </div>
 
           <div class="grid grid-cols-1 place-items-end mt-6">
-            <button type="submit" @click="submitForm" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-md text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Update Entry</button>        
+            <button type="submit" @click="updateForm" class="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-md text-sm px-5 py-2.5 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Update Entry</button>        
           </div>
         </div>
     </div>
@@ -101,7 +101,7 @@ onMounted(() => {
 })
 
 
-const submitForm  = async () => {
+const updateForm  = async () => {
   // prevent default
   event.preventDefault()
 
