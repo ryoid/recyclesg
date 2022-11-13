@@ -20,17 +20,21 @@
                 <img class="lg:w-90 md:w-90 sm:w-90 rounded-lg shadow" :src="data.image" alt="">
               </div>
             </div>
-        
+
             <div class="col-span-3">
               <div>
                 <h2 class="text-xl mb-2">Suggested Words</h2>
-                <InputText class="w-full"  type="text" />
+                <div class="flex gap-2 flex-row">
+                  <div v-for="tag in data.tags" class="bg-gray-200 rounded-lg px-2 py-0.5 text-gray-800">
+                    {{ tag }}
+                  </div>
+                </div>
               </div>
 
               <div class="mb-2 mt-4">
                 <h2 class="text-xl mb-2">Description</h2>
                 <!-- <InputText class="w-full"  type="tex" /> -->
-                <Textarea class="w-full" rows="5" cols="30" />
+                <Textarea class="w-full" rows="5" cols="30" disabled />
 
                 <!-- <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-md border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Your message..."></textarea> -->
               </div>
@@ -40,8 +44,8 @@
                 <InputText class="w-full" v-model="data.email" type="text" disabled />
               </div>
               <!-- <hr> -->
-              <Divider/>
-              <div>            
+              <Divider />
+              <div>
                 <h2 class="font-semibold text-xl">Add new Entry</h2>
               </div>
               <div class="grid grid-cols-2 gap-4 mt-5">
@@ -53,11 +57,11 @@
                 </div>
                 <div class="col-span-2 lg:col-span-1">
                   <h2 class="text-xl mb-2">Material</h2>
-                  <InputText class="w-full" type="text" v-model="form.material"/>
+                  <InputText class="w-full" type="text" v-model="form.material" />
                   <!-- <input type="text" class="border-solid border-gray-400 border-2 p-3 md:text-xl w-full" placeholder="Name" :value="data.material"/> -->
 
+                </div>
               </div>
-            </div>
 
               <div class="grid grid-cols-1 mt-5">
                 <div>
@@ -69,8 +73,8 @@
                       <label for="yes" class="ml-2">Yes</label>
                     </div>
                     <div class="flex flex-row items-center ml-6">
-                      <input type="radio" id="no"  v-model="form.recyclable" value="false" />
-                      
+                      <input type="radio" id="no" v-model="form.recyclable" value="false" />
+
 
                       <label for="no" class="ml-2">No</label>
                     </div>
@@ -86,20 +90,28 @@
               <div class="grid grid-cols-3 gap-4 mt-5">
                 <div class="col-span-3 lg:col-span-1">
                   <!-- Added .prevent to stop page from refreshing after submission -->
-                  <button type="submit" @click.prevent="addFormEntry" class="w-full text-white bg-blue-700 hover:bg-blue-800 duration-300 font-medium rounded-md text-sm px-5 py-2.5 mr-2 mb-2">Add Entry</button>
+                  <button type="submit" @click.prevent="addFormEntry"
+                    class="w-full text-white bg-blue-700 hover:bg-blue-800 duration-300 font-medium rounded-md text-sm px-5 py-2.5 mr-2 mb-2">Add
+                    Entry</button>
                 </div>
                 <!-- Check if email is there, if not disable button -->
                 <div class="col-span-3 lg:col-span-1">
-                  <button v-if="data.email == undefined" disabled type="button" class="w-full text-white bg-gray-400 font-medium rounded-md duration-300 text-sm px-5 py-2.5 mr-2 mb-2">Add & Notify</button>
-                  <button v-else type="submit" @click.prevent="addNotify" class="w-full text-white bg-green-700 hover:bg-green-800 duration-300 font-medium rounded-md text-sm px-5 py-2.5 mr-2 mb-2">Add Entry & Notify User</button>
+                  <button v-if="data.email == undefined" disabled type="button"
+                    class="w-full text-white bg-gray-400 font-medium rounded-md duration-300 text-sm px-5 py-2.5 mr-2 mb-2">Add
+                    & Notify</button>
+                  <button v-else type="submit" @click.prevent="addNotify"
+                    class="w-full text-white bg-green-700 hover:bg-green-800 duration-300 font-medium rounded-md text-sm px-5 py-2.5 mr-2 mb-2">Add
+                    Entry & Notify User</button>
                 </div>
                 <div class="col-span-3 lg:col-span-1">
-                  <button type="submit" @click.prevent="rejectForm" class="w-full text-white rounded-md bg-red-600 hover:bg-red-700 duration-300 font-medium text-sm px-5 py-2.5 mr-2 mb-2">Reject Entry      
+                  <button type="submit" @click.prevent="rejectForm"
+                    class="w-full text-white rounded-md bg-red-600 hover:bg-red-700 duration-300 font-medium text-sm px-5 py-2.5 mr-2 mb-2">Reject
+                    Entry
                   </button>
                 </div>
 
                 <!-- Toast Experiment -->
-            
+
 
               </div>
             </div>
@@ -120,6 +132,8 @@ const { data, pending, refresh, error } = await useFetch(`/api/admin/recyclerequ
 
 })
 
+const router = useRouter()
+
 onMounted(() => {
   console.log(data)
   refresh()
@@ -131,10 +145,10 @@ definePageMeta({
 });
 
 const form = ref({
-    name: null,
-    material: null,
-    description: null,  
-    recyclable: null,
+  name: null,
+  material: null,
+  description: null,
+  recyclable: null,
 
 });
 
@@ -146,14 +160,14 @@ const addFormEntry = async () => {
     method: "POST",
     body: JSON.stringify({
       name: form.value.name,
-      material: form.value.material,
-      description: form.value.description,
-      recyclable: form.value.recyclable,
+      material: form.value.material,
+      description: form.value.description,
+      recyclable: form.value.recyclable,
       createdAt: new Date().toISOString(),
       tags: [],
     }),
   });
-  
+
   if (response.ok) {
     const update = await fetch(`/api/admin/recyclerequests/${id}`, {
       method: "POST",
@@ -162,6 +176,7 @@ const addFormEntry = async () => {
       }),
     });
   }
+  router.push("/admin/requests");
   console.log(data);
 };
 
@@ -174,14 +189,14 @@ const addNotify = async () => {
     method: "POST",
     body: JSON.stringify({
       name: form.value.name,
-      material: form.value.material,
-      description: form.value.description,
-      recyclable: form.value.recyclable,
+      material: form.value.material,
+      description: form.value.description,
+      recyclable: form.value.recyclable,
       createdAt: new Date().toISOString(),
       tags: [],
     }),
   });
-  
+
   if (response.ok) {
     const update = await fetch(`/api/admin/recyclerequests/${id}`, {
       method: "POST",
@@ -192,18 +207,22 @@ const addNotify = async () => {
     console.log("Added and Notified!");
 
   }
+  router.push("/admin/requests");
+
 };
 
 // Reject form
-const rejectForm  = async () => {
+const rejectForm = async () => {
   event.preventDefault()
-  await $fetch(`/api/admin/recyclerequests/${id}`, {
-    method: "POST",
-    body: JSON.stringify({
+  await $fetch(`/api/admin/recyclerequests/${id}`, {
+    method: "POST",
+    body: JSON.stringify({
       status: "rejected"
     }),
-  })
-  console.log("reject form", data.value.status)    
+  })
+  console.log("reject form", data.value.status)
+  router.push("/admin/requests");
+
 }
 
 
