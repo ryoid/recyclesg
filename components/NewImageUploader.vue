@@ -1,8 +1,7 @@
 <template>
-  <div class="container w-5/6 mx-auto">
+  <div>
     <!-- Take a picture upload image row -->
     <div class="row mx-auto m-0" v-if="!cameraOn">
-      <p class="mb-3" :style="'font-weight:bold; font-size:20px;'">Search by image</p>
       <div class="flex m-0 border">
         <Button id="fileUploadButton" @click="openCamera()" icon="pi pi-camera" label="Take a picture"></Button>
         <Button :disabled="!imageSrc" id="fileUploadButton" icon="pi pi-upload" @click="getAnnotations"
@@ -33,9 +32,8 @@
       <video :hidden="!cameraOn" class="mx-auto w-5/6 m-3" id="video" autoplay>{{ cameraPreview }}</video>
       <div v-if="cameraOn">
         <div class="w-1/3 flex mx-auto">
-          <Button class="flex p-button-rounded mx-auto" id="snap" v-on:click="capture()"
-            icon="pi pi-camera"></Button>
-            <Button class="p-button-rounded mx-auto" id="snap" v-on:click="back()"
+          <Button class="flex p-button-rounded mx-auto" id="snap" v-on:click="capture()" icon="pi pi-camera"></Button>
+          <Button class="p-button-rounded mx-auto" id="snap" v-on:click="back()"
             icon="pi pi-arrow-circle-left"></Button>
         </div>
         <canvas hidden id="canvas" width="640" height="480"></canvas>
@@ -80,12 +78,12 @@ function dropHandler(ev) {
   })
 }
 
-function back(){
+function back() {
   cameraOn.value = !cameraOn.value
   closeCamera()
 }
 
-function closeCamera(){
+function closeCamera() {
   localStream.getTracks()[0].stop()
 }
 
@@ -94,7 +92,7 @@ function dragOverHandler(ev) {
   ev.preventDefault()
 }
 
-function openCamera() { 
+function openCamera() {
   cameraOn.value = !cameraOn.value
   cameraPreview()
 }
@@ -102,7 +100,7 @@ function openCamera() {
 function capture() {
   let canvas = document.getElementById('canvas') as HTMLCanvasElement
   let video = document.getElementById('video') as HTMLVideoElement
-  
+
   let context = canvas
     .getContext("2d")
     .drawImage(video, 0, 0, 640, 480);

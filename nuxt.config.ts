@@ -14,15 +14,6 @@ export default defineNuxtConfig({
     "primevue/resources/primevue.css",
     "primeicons/primeicons.css",
   ],
-  app: {
-    head: {
-      script: [
-        {
-          src: "https://accounts.google.com/gsi/client",
-        },
-      ],
-    },
-  },
   build: {
     postcss: {
       postcssOptions: require("./postcss.config.js"),
@@ -36,8 +27,14 @@ export default defineNuxtConfig({
             "vueuc",
             "@css-render/vue3-ssr",
             "@juggle/resize-observer",
+            "@headlessui/vue",
           ]
-        : ["primevue", "chart.js", "@juggle/resize-observer"],
+        : [
+            "primevue",
+            "chart.js",
+            "@juggle/resize-observer",
+            "@headlessui/vue",
+          ],
   },
   vite: {
     optimizeDeps: {

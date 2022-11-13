@@ -24,7 +24,6 @@ div {
 
 <template>
     <div class="w-auto">
-        <nav_bar/>
         <div>
             <h2>Book Collection</h2>
             <div></div>

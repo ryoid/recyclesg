@@ -31,7 +31,6 @@ input::-webkit-inner-spin-button {
 
 <template>
     <div class="w-auto">
-        <nav_bar />
         <div>
         
 
