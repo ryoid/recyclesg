@@ -14,11 +14,6 @@
           </span>
         </div>
 
-        <div>
-          <NuxtLink href="/admin/database/new">
-            <Button class="p-button-secondary">Add new item</Button>
-          </NuxtLink>
-        </div>
       </div>
     </template>
     <template #empty>
@@ -31,38 +26,8 @@
     <Column field="id" header="Id" class="" sortable>
     </Column>
     <Column field="name" header="Name" class="" sortable></Column>
-    <Column field="material" header="Material" class="" sortable :filterMenuStyle="{ 'width': '14rem' }">
-      <template #body="{ data }">
-        <span :class="[
-          'px-1.5 rounded',
-          materialsCn[data.material]
-        ]">{{ data.material }}</span>
-      </template>
-      <template #filter="{ filterModel }">
-        <Dropdown v-model="filterModel.value" :options="materials" placeholder="Any" class="p-column-filter"
-          :showClear="true">
-          <template #value="slotProps">
-            <span :class="[
-              'px-1.5 rounded',
-              materialsCn[slotProps.value]
-            ]">{{ slotProps.value }}</span>
-          </template>
-          <template #option="slotProps">
-            <span :class="[
-              'px-1.5 rounded',
-              materialsCn[slotProps.option]
-            ]">{{ slotProps.option }}</span>
-          </template>
-        </Dropdown>
-      </template>
-    </Column>
-    <Column field="tags" header="Tags" class="">
-      <template #body="{ data }">
-        <div class="flex gap-1">
-          <span v-for="tag in data.tags" :class="['bg-gray-300 text-gray-700 px-1.5 rounded ']">{{ tag }}</span>
-        </div>
-      </template>
-    </Column>
+    <Column field="address" header="Address" class="" sortable></Column>
+    <Column field="postalCode" header="PostalCode" class="" sortable></Column>
     <Column field="createdAt" header="Created At" class="" sortable>
       <template #body="{ data }">
         <span>{{ new Date(data.createdAt).toLocaleDateString('en-US', {

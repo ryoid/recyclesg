@@ -34,7 +34,7 @@
               <div class="mb-2 mt-4">
                 <h2 class="text-xl mb-2">Description</h2>
                 <!-- <InputText class="w-full"  type="tex" /> -->
-                <Textarea class="w-full" rows="5" cols="30" />
+                <Textarea class="w-full" rows="5" cols="30" disabled />
 
                 <!-- <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-md border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Your message..."></textarea> -->
               </div>
@@ -90,6 +90,12 @@
               <div class="grid grid-cols-3 gap-4 mt-5">
                 <div class="col-span-3 lg:col-span-1">
                   <!-- Added .prevent to stop page from refreshing after submission -->
+                  <button type="submit" @click.prevent="markCompleted"
+                    class="w-full text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-md text-sm px-5 py-2.5 mr-2 mb-2">Mark
+                    Completed</button>
+                </div>
+                <div class="col-span-3 lg:col-span-1">
+                  <!-- Added .prevent to stop page from refreshing after submission -->
                   <button type="submit" @click.prevent="addFormEntry"
                     class="w-full text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-md text-sm px-5 py-2.5 mr-2 mb-2">Add
                     Entry</button>
@@ -126,6 +132,7 @@
 import { da, tr } from 'date-fns/locale';
 
 const route = useRoute()
+const router = useRouter()
 const id = route.params.id
 
 const { data, pending, refresh, error } = await useFetch(`/api/admin/recyclerequests/${id}`, {
@@ -215,7 +222,22 @@ const rejectForm = async () => {
       status: "rejected"
     }),
   })
+  router.push("/admin/requests")
   console.log("reject form", data.value.status)
+}
+
+
+// Reject form
+const markCompleted = async () => {
+  event.preventDefault()
+  await $fetch(`/api/admin/recyclerequests/${id}`, {
+    method: "POST",
+    body: JSON.stringify({
+      status: "completed"
+    }),
+  })
+  router.push("/admin/requests")
+  console.log("complete form", data.value.status)
 }
 
 
