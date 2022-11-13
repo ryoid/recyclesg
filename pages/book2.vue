@@ -42,7 +42,7 @@ input::-webkit-inner-spin-button {
 
         
 
-        <form>
+        <form :onSubmit="submitForm">
             <div>
 
                 <label for="name" class="form-label">Name:</label><br>
@@ -88,7 +88,7 @@ input::-webkit-inner-spin-button {
                     
                 </div>
                 <br />
-                <Button type="submit" @click="submitForm" label="Submit" style="margin-left: 4px">Book
+                <Button type="submit" label="Submit" style="margin-left: 4px">Book
                     Collection</Button>
             </div>
         </form>
@@ -106,9 +106,9 @@ const route = useRoute()
 
 
 const { date } = route.query
-if (!date) {
-    router.replace('/book/book1')
-}
+// if (!date) {
+//     router.replace('/book')
+// }
 
 const fileUploadRef = ref(null)
 
@@ -124,9 +124,6 @@ const form = ref({
 
 });
 
-// const imageFile = fileUploadRef.value.files[0]
-// const uploadRes = await uploadFile(storage, "user-item-uploads", imageFile)
-// console.log(uploadRes.downloadUrl)
 console.log(form.value.image)
 
 function getImageUrl(downloadurl) {
@@ -136,6 +133,11 @@ function getImageUrl(downloadurl) {
 
 const submitForm  = async () => {
 // prevent default form submission
+    if(form.value.image == null){
+        alert("Please upload an image")
+    }
+    
+    else{
     event.preventDefault();
     try {
         const res = await fetch(`/api/admin/bookings/`, {
@@ -154,9 +156,11 @@ const submitForm  = async () => {
         })
         console.log("works")
         console.log(res)
+        router.push(`/`)
     } catch (err) {
         console.log(err)
-    }
+    }}
+    
 
 }
 </script>

@@ -24,7 +24,7 @@
             
           </div>
           <div v-if="imageSrc" class="aspect-square h-full mx-auto relative overflow-hidden rounded">
-            <img :src="imageSrc" class="absolute inset-0 object-cover h-full w-full" />
+            <img :src="imageSrc" class="absolute inset-0 h-full w-full" />
           </div>
         </div>
       </form>
