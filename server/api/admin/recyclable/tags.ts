@@ -117,10 +117,21 @@ export default defineEventHandler(async (event) => {
       }
     }
     console.log("Searching for", Object.keys(stems).join(" "));
-    const matches = await search(Object.keys(stems).join(" "));
+    const [exact, fuzzy] = await Promise.all([
+      search(tag.toString().toLocaleLowerCase()) as Promise<Recyclable[]>,
+      search(Object.keys(stems).join(" ")) as Promise<Recyclable[]>,
+    ]);
+
+    fuzzy.forEach((a) => {
+      // Dont push if already included
+      if (exact.find((b) => b.id === a.id)) {
+        return;
+      }
+      exact.push(a);
+    });
 
     // Dont add duplicates
-    for (let match of matches) {
+    for (let match of exact) {
       if (result.find((r) => r.id === match.id)) continue;
       result.push(match);
     }

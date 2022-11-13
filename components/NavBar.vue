@@ -5,9 +5,13 @@
                 <img src="@/assets/img/illustration/logo.jpg" class="mr-3 h-6 sm:h-9" alt="Flowbite Logo">
             </a>
             <div class="flex items-center md:order-2">
-                <button v-if="!user.user" type="button"
-                    class="text-white bg-teal-700 hover:bg-teal-800 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 md:mr-0 ">Login
-                    / Signup</button>
+                <client-only>
+                    <NuxtLink v-if="!user.user && !user.loading" to="/login">
+                        <button type="button"
+                            class="text-white bg-teal-700 hover:bg-teal-800 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 md:mr-0">Login
+                            / Signup</button>
+                    </NuxtLink>
+                </client-only>
                 <Menu v-if="user.user" as="div" class="relative inline-block text-left mr-4 md:mr-0">
                     <div class="flex items-center justify-center">
                         <MenuButton class="focus:ring-5 focus:ring-black rounded-full">
@@ -92,7 +96,7 @@
             <div class="hidden justify-between items-center w-full md:flex md:w-auto md:order-1 mt-2"
                 id="navbar-sticky">
                 <div
-                    class="flex flex-col h-full rounded-lg border border-gray-100 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0">
+                    class="flex flex-col h-full rounded-lg border border-gray-100 md:flex-row md:space-x-8 md:mt-0 md:font-medium md:border-0">
                     <NuxtLink href="/" aria-current="page">
                         <div
                             class="flex py-2 md:py-4 pr-4 pl-3 text-white bg-teal-700 rounded md:bg-transparent md:text-teal-700 h-full">

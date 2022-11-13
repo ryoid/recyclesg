@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="h-full">
     <!-- Take a picture upload image row -->
     <div class="row mx-auto m-0" v-if="!cameraOn">
       <div class="flex m-0 border">
@@ -23,22 +23,27 @@
             <p id="warntext" class="col-12 text-center mx-auto" >*Maximum file limit: 1</p>
             
           </div>
-          
-          <img v-if="imageSrc" :src="imageSrc" class="absolute inset-0 z-10 m-auto lg:w-96" />
+          <div v-if="imageSrc" class="aspect-square h-full mx-auto relative overflow-hidden rounded">
+            <img :src="imageSrc" class="absolute inset-0 object-cover h-full w-full" />
+          </div>
         </div>
       </form>
     </div>
 
     <!-- Camera preview video row -->
-    <div class="row">
-      <video :hidden="!cameraOn" class="mx-auto w-5/6 m-3" id="video" autoplay>{{ cameraPreview }}</video>
+    <div :hidden="!cameraOn" class="aspect-square relative overflow-hidden rounded-xl p-4 mx-2 my-2">
+      <video :hidden="!cameraOn" class="absolute inset-0 object-cover h-full w-full" id="video" autoplay>{{
+          cameraPreview
+      }}</video>
       <div v-if="cameraOn">
-        <div class="w-1/3 flex mx-auto">
-          <Button class="flex p-button-rounded mx-auto" id="snap" v-on:click="capture()" icon="pi pi-camera"></Button>
-          <Button class="p-button-rounded mx-auto" id="snap" v-on:click="back()"
-            icon="pi pi-arrow-circle-left"></Button>
+        <div class="absolute bottom-0 inset-x-0 flex justify-center">
+          <div class="flex  gap-4 pb-4">
+            <Button class="flex p-button-rounded mx-auto" id="snap" v-on:click="capture()" icon="pi pi-camera"></Button>
+            <Button class="p-button-rounded mx-auto" id="snap" v-on:click="back()"
+              icon="pi pi-arrow-circle-left"></Button>
+          </div>
         </div>
-        <canvas hidden id="canvas" width="640" height="480"></canvas>
+        <canvas hidden id="canvas" width="640" height="640"></canvas>
       </div>
     </div>
 
@@ -111,7 +116,7 @@ function capture() {
     fileObj['image'] = (new File([blob], 'image', { type: 'image/jpeg' }))
   }, 'image/png');
   closeCamera()
-  back()
+  cameraOn.value = false
 }
 
 function cameraPreview() {
