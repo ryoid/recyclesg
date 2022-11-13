@@ -17,7 +17,7 @@
       <form class="bg-gray-100 p-3 border" @click="selectImage" @dragover="dragOverHandler" @drop="dropHandler">
         <input class="hidden" type="file" @change="imageChange" ref="imageInputRef" accept="image/*" />
         <div class="mx-auto bg-gray-100 h-64 sm:h-80 md:h-96 lg:h-80 w-2/3 relative">
-          <div v-if="!imageSrc" class="absolute inset-0 top-20 items-center justify-center">
+          <div v-if="!imageSrc" class="absolute inset-0 top-20 items-center justify-center ">
             <i id="uploadicon" class="col-12 pi pi-upload"></i>
             <p class="col-12 text-center">Click or drag and drop here to upload from storage.</p>
             <p id="warntext">*Maximum file limit: 1</p>
@@ -44,6 +44,11 @@
 </template>
 
 <script lang="ts" setup>
+export type Props = {
+  annotate: boolean
+}
+const props = defineProps<Props>()
+
 const { storage } = useFirebase()
 const imageInputRef = ref(null)
 let imageSrc = ref(null)
@@ -53,6 +58,7 @@ let cameraOn = ref(false)
 let fileObj = ref({})
 let localStream = null
 const emit = defineEmits(['uploaded'])
+
 
 function dropHandler(ev) {
   ev.preventDefault()
@@ -137,31 +143,44 @@ async function getAnnotations(e) {
     console.log("Select an image");
     return
   }
-
-  submitting.value = true
-  try {
-    const uploadRes = await uploadFile(storage, "user-item-uploads", imageFile)
-    console.log(uploadRes);
-    const imageUri = `gs://${uploadRes.metadata.bucket}/${uploadRes.metadata.fullPath}`;
-    // Send to cloud vision api to get text
-    const visionRes = await $fetch('/api/vision', {
-      method: 'POST',
-      body: JSON.stringify({
-        imageUri: imageUri
+  if (props.annotate) {
+    submitting.value = true
+    try {
+      const uploadRes = await uploadFile(storage, "user-item-uploads", imageFile)
+      console.log(uploadRes);
+      const imageUri = `gs://${uploadRes.metadata.bucket}/${uploadRes.metadata.fullPath}`;
+      // Send to cloud vision api to get text
+      const visionRes = await $fetch('/api/vision', {
+        method: 'POST',
+        body: JSON.stringify({
+          imageUri: imageUri
+        })
       })
-    })
-    console.log('receive visionRes', visionRes);
+      console.log('receive visionRes', visionRes);
 
-    // Sort etc
-    annotations.value = visionRes.labelAnnotations
-    emit('uploaded', annotations.value, uploadRes.downloadUrl);
+      // Sort etc
+      annotations.value = visionRes.labelAnnotations
+      emit('uploaded', annotations.value, uploadRes.downloadUrl);
 
-  } catch (err) {
-    console.log("Failed to upload", err);
-  } finally {
-    submitting.value = false
+    } catch (err) {
+      console.log("Failed to upload", err);
+    } finally {
+      submitting.value = false
+    }
+  } else {
+    submitting.value = true
+    try {
+      const uploadRes = await uploadFile(storage, "collections", imageFile)
+      console.log(uploadRes);
+
+      emit('uploaded', uploadRes.downloadUrl);
+
+    } catch (err) {
+      console.log("Failed to upload", err);
+    } finally {
+      submitting.value = false
+    }
   }
-
 }
 </script>
 
@@ -189,4 +208,12 @@ async function getAnnotations(e) {
   min-width: 50px;
   min-height: 50px;
 }
+
+img,
+video {
+  object-fit: contain;
+  max-width: 100%;
+  max-height: 100%;
+}
+
 </style>

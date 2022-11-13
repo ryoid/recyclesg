@@ -20,6 +20,7 @@ hr {
     border-top: 2px solid rgb(138, 138, 138);
 }
 
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
@@ -79,10 +80,11 @@ input::-webkit-inner-spin-button {
 
             <div>
                 <h3>Collection Items</h3>
-                <FileUpload name="demo[]" url="./upload" :multiple="true" accept="image/*"  ref="fileUploadRef" :fileLimit="1"/>
+                <!-- <FileUpload name="demo[]" url="./upload" :multiple="true" accept="image/*"  ref="fileUploadRef" :fileLimit="1"/> -->
+                <NewImageUploader :annotate='false' @uploaded="getImageUrl"/>
                 <div>
                     <label for="desc" class="form-label">Description (Optional):</label><br>
-                    <Textarea v-model="form.description" rows="10" cols="80" class = "form-control" id="desc"  />
+                    <Textarea v-model="form.description" rows="10" cols="80" class = "form-control w-[500px]" id="desc"  />
                     
                 </div>
                 <br />
@@ -116,53 +118,21 @@ const form = ref({
     email: null,
     image: null,
     name: null,
-    pickupDate: new Date(),
+    pickupDate: new Date(date),
     postalCode: null,
     description: null,
 
 });
 
-
-
-// async function onSubmit(e: SubmitEvent) {
-//     e.preventDefault()
-//     console.log('Submit');
-//     console.log(form)
-
-//     // Validate form
-    
-//     const payload: Omit<CollectionBooking, 'id'> = {
-//         // name: string;
-//         // email: string;
-//         // contactNo: string;
-
-//         // address: string;
-//         // postalCode: string;
-//         pickupDate: form.value.date.toISOString(),
-
-//         image: uploadRes.downloadUrl,
-//         // description: string;
-//     }
-//     // const visionRes = await $fetch('/api/admin/bookings', {
-//     //   method: 'POST',
-//     //   body: JSON.stringify(payload)
-//     // })
-// }
-
-
-// name: null,
-//     email: null,
-//     phone: null,
-//     address: null,
-//     postal: null,
-//     image: null,
-//     desc: null,
-
-
 // const imageFile = fileUploadRef.value.files[0]
 // const uploadRes = await uploadFile(storage, "user-item-uploads", imageFile)
 // console.log(uploadRes.downloadUrl)
 console.log(form.value.image)
+
+function getImageUrl(downloadurl) {
+    form.value.image = downloadurl
+    console.log(downloadurl)
+}
 
 const submitForm  = async () => {
 // prevent default form submission

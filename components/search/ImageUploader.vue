@@ -190,5 +190,11 @@ onMounted(() => {
     min-width: 50px;
     min-height: 50px;
   }
-  
+
+img,
+video {
+  object-fit: contain;
+  max-width: 100%;
+  max-height: 100%;
+}
 </style>
