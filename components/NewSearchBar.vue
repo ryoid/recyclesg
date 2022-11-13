@@ -1,6 +1,6 @@
 <template>
   <div class="relative">
-    <div class="absolute inset-x-0 h-[500px] bg-white z-20 shadow-lg rounded-xl border" v-if="uploaderVisible">
+    <div class="absolute inset-x-0 bg-white z-20 shadow-lg rounded-xl border" v-if="uploaderVisible">
       <div class="text-center text-lg py-3">
         Upload your photo
       </div>
@@ -46,10 +46,11 @@
 
               <ComboboxOption v-for="recyclable in suggestions" as="template" :key="recyclable.id" :value="recyclable"
                 v-slot="{ selected, active }">
-                <li class="relative cursor-default select-none py-2 pl-10 pr-4" :class="{
+                <li class="relative cursor-default select-none py-2 pl-4 pr-4 flex items-center gap-2" :class="{
                   'bg-teal-600 text-white': active,
                   'text-gray-900': !active,
                 }">
+                  <MagnifyingGlassIcon class="h-4 w-4 text-gray-400" />
                   <span class="block truncate" :class="{ 'font-medium': selected, 'font-normal': !selected }">
                     {{ recyclable.name }}
                   </span>
@@ -82,6 +83,7 @@ import {
   ComboboxOptions,
   ComboboxOption,
 } from '@headlessui/vue'
+import { MagnifyingGlassIcon } from '@heroicons/vue/24/outline'
 
 let debounceTimeout: NodeJS.Timeout;
 const searchInput = ref(null)
