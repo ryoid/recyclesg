@@ -80,7 +80,7 @@ input::-webkit-inner-spin-button {
             <div>
                 <h3>Collection Items</h3>
                 <!-- <FileUpload name="demo[]" url="./upload" :multiple="true" accept="image/*"  ref="fileUploadRef" :fileLimit="1"/> -->
-                <NewImageUploader :annotate='false' @uploaded="getImageUrl"/>
+                <NewImageUploader :annotate='false' @uploaded="getImageUrl" class = "w-full md:w-[800px]"/>
                 
                 <div>
                     <label for="desc" class="form-label">Description (Optional):</label><br>
