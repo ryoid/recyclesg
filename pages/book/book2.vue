@@ -22,8 +22,8 @@ hr {
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+  -webkit-appearance: none;
+  margin: 0;
 }
 </style>
 
@@ -31,13 +31,17 @@ input::-webkit-inner-spin-button {
     <div class="w-auto">
         <nav_bar />
         <div>
+        
 
         <h2>Booking Details</h2>
         <div>
-            <p>{{ form.pickupDate }}</p>
+            <p>{{form.pickupDate }}</p>
             <br />
             <h3>Your details</h3>
         </div>
+        
+
+        
 
         <form>
             <div>
@@ -81,12 +85,14 @@ input::-webkit-inner-spin-button {
                     <label for="desc" class="form-label">Description (Optional):</label><br>
                     <Textarea v-model="form.description" rows="10" cols="80" class = "form-control" id="desc"  />
                     
-                    </div>
-                    <br />
-                    <Button type="submit" @click="submitForm" label="Submit" style="margin-left: 4px">Book
-                        Collection</Button>
                 </div>
-            </form>
+                <br />
+                <Button type="submit" @click="submitForm" label="Submit" style="margin-left: 4px">Book
+                    Collection</Button>
+            </div>
+        </form>
+        
+        
         </div>
     </div>
 </template>
@@ -111,50 +117,11 @@ const form = ref({
     email: null,
     image: null,
     name: null,
-    pickupDate: new Date(),
+    pickupDate: new Date(date),
     postalCode: null,
     description: null,
 
 });
-
-function onFileSelected(event){
-    const selectedFile = event.target.files[0]
-
-
-// async function onSubmit(e: SubmitEvent) {
-//     e.preventDefault()
-//     console.log('Submit');
-//     console.log(form)
-
-//     // Validate form
-    
-//     const payload: Omit<CollectionBooking, 'id'> = {
-//         // name: string;
-//         // email: string;
-//         // contactNo: string;
-
-//         // address: string;
-//         // postalCode: string;
-//         pickupDate: form.value.date.toISOString(),
-
-//         image: uploadRes.downloadUrl,
-//         // description: string;
-//     }
-//     // const visionRes = await $fetch('/api/admin/bookings', {
-//     //   method: 'POST',
-//     //   body: JSON.stringify(payload)
-//     // })
-// }
-
-
-// name: null,
-//     email: null,
-//     phone: null,
-//     address: null,
-//     postal: null,
-//     image: null,
-//     desc: null,
-
 
 // const imageFile = fileUploadRef.value.files[0]
 // const uploadRes = await uploadFile(storage, "user-item-uploads", imageFile)
@@ -186,28 +153,4 @@ const submitForm  = async () => {
     }
 
 }
-// create new booking
-const submitForm = async () => {
-    // prevent default form submission
-    event.preventDefault();
-    console.log(JSON.stringify({
-                name: form.value.name,
-                email: form.value.email,
-                phone: form.value.phone,
-
-                address: form.value.address,
-                postal: form.value.postal,
-                date: new Date(form.value.date),
-                
-                image: form.value.image,
-                desc: form.value.desc
-    }));
-}
-
-//     // Validate form
-
-    // const imageFile =  fileUploadRef.target.files[0]
-    // const uploadRes = await uploadFile(storage, "user-item-uploads", imageFile)
-    // console.log(uploadRes.downloadUrl)
-
 </script>
