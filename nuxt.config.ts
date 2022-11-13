@@ -26,12 +26,14 @@ export default defineNuxtConfig({
             "@css-render/vue3-ssr",
             "@juggle/resize-observer",
             "@headlessui/vue",
+            "@heroicons/vue",
           ]
         : [
             "primevue",
             "chart.js",
             "@juggle/resize-observer",
             "@headlessui/vue",
+            "@heroicons/vue",
           ],
   },
   vite: {
