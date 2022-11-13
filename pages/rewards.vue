@@ -56,12 +56,19 @@
 </template>
 
 <script lang="ts" setup>
+import { da } from 'date-fns/locale';
+
 
 const router = useRouter()
 const route = useRoute()
+
 function redeemRewards(e) {
     router.push(`/redeem`)
-
 }
+
+const { data, pending, refresh, error } = await useFetch('/api/admin/user/me', {
+})
+
+console.log("wtf is going on", data)
 
 </script>
