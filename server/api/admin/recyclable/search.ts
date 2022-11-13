@@ -69,7 +69,7 @@ const queryCache = new LRUCache({
   ttl: 1000 * 5,
 });
 
-async function search(str: string) {
+async function search(str: string): Promise<Recyclable[]> {
   if (queryCache.has(str)) {
     return queryCache.get(str);
   }
@@ -85,7 +85,7 @@ async function search(str: string) {
   let order = uf.sort(info, strings, str);
 
   // render post-filtered & ordered matches
-  const matches = [];
+  const matches: Recyclable[] = [];
   for (let i = 0; i < order.length; i++) {
     // using info.idx here instead of idxs because uf.info() may have
     // further reduced the initial idxs based on prefix/suffix rules
@@ -114,5 +114,5 @@ export default defineEventHandler(async (event) => {
   }
 
   console.log("Searching for", Object.keys(stems).join(" "));
-  return search(Object.keys(stems).join(" "));
+  return search(Object.keys(stems).join(" ")) as Promise<Recyclable[]>;
 });

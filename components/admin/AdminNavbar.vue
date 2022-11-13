@@ -6,10 +6,13 @@
           RecycleSG
         </div>
         <div class="mr-1 mt-2">
-            <div class="bg-gradient-to-r from-gray-100 to-gray-200 rounded-full h-10 w-10 ring ring-gray-100 ring-offset-1">
-              <client-only>
-                  <img :src="`https://source.boringavatars.com/beam/120/${firebaseUser.email}?colors=1A325F,9cc4e4,e9f2f9,3a89c9,f26c4f`"  v-if="firebaseUser"/>
-              </client-only>
+          <div
+            class="bg-gradient-to-r from-gray-100 to-gray-200 rounded-full h-10 w-10 ring ring-gray-100 ring-offset-1">
+            <client-only>
+              <img
+                :src="`https://source.boringavatars.com/beam/120/${firebaseUser.email}?colors=1A325F,9cc4e4,e9f2f9,3a89c9,f26c4f`"
+                v-if="firebaseUser" />
+            </client-only>
           </div>
         </div>
       </div>
@@ -29,7 +32,7 @@
         <div class="ml-auto flex items-center">
           <div>
             <div class="py-2 px-3 hover:bg-gray-200/75 rounded-lg cursor-pointer">
-              <button class="button" @click="signOut" >Sign out</button>
+              <button class="button" @click="signOut">Sign out</button>
             </div>
           </div>
         </div>
