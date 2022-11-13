@@ -12,6 +12,7 @@
       </client-only>
     </div>
     <div v-else>User is signed out</div>
+    
   </div>
 </template>
 
@@ -22,5 +23,7 @@ definePageMeta({
 
 const firebaseUser = useFirebaseUser();
 </script>
+
+
 
 <style></style>

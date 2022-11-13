@@ -31,7 +31,7 @@
                 <a class="block p-6 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md">
                     <h5 class="mb-5 text-2xl font-bold tracking-tight text-gray-900 text-center">$10 Voucher</h5>
                     <p class="font-normal text-xl text-green-700 text-center">100p</p>
-                    <button type="submit" class="mt-5 w-full text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-md text-sm px-5 py-2.5 mr-2 mb-2">Redeem now!</button>
+                    <button type="submit" @click="redeemRewards" class="mt-5 w-full text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-md text-sm px-5 py-2.5 mr-2 mb-2">Redeem now!</button>
                 </a>
               </div>
               <div class="col-span-2 lg:col-span-1">
@@ -54,3 +54,14 @@
         
     </div>
 </template>
+
+<script lang="ts" setup>
+
+const router = useRouter()
+const route = useRoute()
+function redeemRewards(e) {
+    router.push(`/redeem`)
+
+}
+
+</script>
