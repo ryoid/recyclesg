@@ -1,4 +1,5 @@
 <template>
+
   <div>
     <div v-if="error">
       <h1 class=" text-2xl text-red-500 text-center">Error</h1>
@@ -69,8 +70,7 @@
                     </div>
                     <div class="flex flex-row items-center ml-6">
                       <input type="radio" id="no"  v-model="form.recyclable" value="false" />
-                      <!-- {{items.recyclable}}
-                      -->
+                      
 
                       <label for="no" class="ml-2">No</label>
                     </div>
@@ -85,20 +85,22 @@
 
               <div class="grid grid-cols-3 gap-4 mt-5">
                 <div class="col-span-3 lg:col-span-1">
-                  <button type="submit" @click="addFormEntry" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-md text-sm px-5 py-2.5 mr-2 mb-2">Add Entry</button>
+                  <!-- Added .prevent to stop page from refreshing after submission -->
+                  <button type="submit" @click.prevent="addFormEntry" class="w-full text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-md text-sm px-5 py-2.5 mr-2 mb-2">Add Entry</button>
+                </div>
+                <!-- Check if email is there, if not disable button -->
+                <div class="col-span-3 lg:col-span-1">
+                  <button v-if="data.email == undefined" disabled type="button" class="w-full text-white bg-gray-400 font-medium rounded-md text-sm px-5 py-2.5 mr-2 mb-2">Add & Notify</button>
+                  <button v-else type="submit" @click.prevent="addNotify" class="w-full text-white opacity-80 bg-green-700 hover:bg-green-800 font-medium rounded-md text-sm px-5 py-2.5 mr-2 mb-2">Add & Notify</button>
                 </div>
                 <div class="col-span-3 lg:col-span-1">
-                  <button v-if="data.email == undefined" type="button" class="w-full opacity-80 text-slate-200 bg-slate-600 font-medium rounded-md text-sm px-5 py-2.5 mr-2 mb-2">Add & Notify</button>
+                  <button type="submit" @click.prevent="rejectForm" class="w-full text-white rounded-md bg-red-600 hover:bg-red-700 duration-300 font-medium text-sm px-5 py-2.5 mr-2 mb-2">Reject Entry      
+                  </button>
+                </div>
 
-                  <button v-else type="submit" @click="addNotify" class="w-full text-white opacity-80 bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-md text-sm px-5 py-2.5 mr-2 mb-2">Add & Notify</button>
-                </div>
-                <!-- <div class="inline-block" >   
-                        <Button v-if="form.selectedDateTime == null" @click="showAlert()" label="Continue" style="margin-left: 100px" />
-                        <Button v-else @click="submit" label="Continue"  style="margin-left: 100px"/>
-                    </div> -->
-                <div class="col-span-3 lg:col-span-1">
-                  <button type="submit" @click="rejectForm" class="w-full text-white rounded-md bg-red-600 hover:bg-red-700 duration-300 font-medium text-sm px-5 py-2.5 mr-2 mb-2">Reject Entry</button>
-                </div>
+                <!-- Toast Experiment -->
+            
+
               </div>
             </div>
           </div>
@@ -110,7 +112,6 @@
 
 <script setup lang="ts">
 import { da, tr } from 'date-fns/locale';
-
 
 const route = useRoute()
 const id = route.params.id
