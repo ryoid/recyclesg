@@ -96,7 +96,7 @@
             <div class="hidden justify-between items-center w-full md:flex md:w-auto md:order-1 mt-2"
                 id="navbar-sticky">
                 <div
-                    class="flex flex-col h-full rounded-lg border border-gray-100 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0">
+                    class="flex flex-col h-full rounded-lg border border-gray-100 md:flex-row md:space-x-8 md:mt-0 md:font-medium md:border-0">
                     <NuxtLink href="/" aria-current="page">
                         <div
                             class="flex py-2 md:py-4 pr-4 pl-3 text-white bg-teal-700 rounded md:bg-transparent md:text-teal-700 h-full">
