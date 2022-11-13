@@ -28,11 +28,9 @@
 
         <div class="ml-auto flex items-center">
           <div>
-            <client-only>
-              <div v-if="firebaseUser" class="py-2 px-3 hover:bg-gray-200/75 rounded-lg cursor-pointer">
-                <button class="button" @click="signOut" >Sign out</button>
-              </div>
-            </client-only>
+            <div class="py-2 px-3 hover:bg-gray-200/75 rounded-lg cursor-pointer">
+              <button class="button" @click="signOut" >Sign out</button>
+            </div>
           </div>
         </div>
       </div>

@@ -1,7 +1,8 @@
-<style>
+<style scoped>
 h2 {
     font-size: 50px;
 }
+
 div {
     margin: 5px;
 }
