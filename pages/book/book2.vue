@@ -20,6 +20,8 @@ hr {
     border-top: 2px solid rgb(138, 138, 138);
 }
 
+
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
@@ -80,7 +82,8 @@ input::-webkit-inner-spin-button {
 
             <div>
                 <h3>Collection Items</h3>
-                <FileUpload name="demo[]" url="./upload" :multiple="true" accept="image/*"  ref="fileUploadRef" :fileLimit="1"/>
+                <!-- <FileUpload name="demo[]" url="./upload" :multiple="true" accept="image/*"  ref="fileUploadRef" :fileLimit="1"/> -->
+                <NewImageUploader :annotate='false' @uploaded="getImageUrl"/>
                 <div>
                     <label for="desc" class="form-label">Description (Optional):</label><br>
                     <Textarea v-model="form.description" rows="10" cols="80" class = "form-control" id="desc"  />
@@ -127,6 +130,11 @@ const form = ref({
 // const uploadRes = await uploadFile(storage, "user-item-uploads", imageFile)
 // console.log(uploadRes.downloadUrl)
 console.log(form.value.image)
+
+function getImageUrl(downloadurl) {
+    form.value.image = downloadurl
+    console.log(downloadurl)
+}
 
 const submitForm  = async () => {
 // prevent default form submission
