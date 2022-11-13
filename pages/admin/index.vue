@@ -48,7 +48,7 @@
       <AdminDashboardCard title="Search Activity" class="hidden md:flex lg:hidden col-span-2" accent-line="glow">
         <p v-if="!data.completed_requests && pending">Fetching data...</p>
         <p v-else-if="error">An error occurred :(</p>
-        <AdminDashboardActivityChart id="search-activity-mobile" :data="searchActivity" />
+        <AdminDashboardActivityChart id="search-activity-mobile" :data="data.search_activity" />
       </AdminDashboardCard>
 
       <AdminDashboardCard title="Pending Requests" :subtitle="`There are ${data.pending_requests_count} pending tasks`"
