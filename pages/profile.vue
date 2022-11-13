@@ -39,8 +39,13 @@ definePageMeta({
 const firebaseUser = useFirebaseUser();
 // console.log(firebaseUser);
 
-const { data, pending, refresh, error } = await useFetch('/api/admin/user/me', {
+// const { data, pending, refresh, error } = await useFetch('/api/admin/user/me', {
+// })
+
+const userFetch = await useFetch(`/api/user/${user.value.user?.uid}}`, {
+    key: user.value.user?.uid
 })
+
 
 console.log(data)
 </script>

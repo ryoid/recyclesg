@@ -86,12 +86,12 @@
               <div class="grid grid-cols-3 gap-4 mt-5">
                 <div class="col-span-3 lg:col-span-1">
                   <!-- Added .prevent to stop page from refreshing after submission -->
-                  <button type="submit" @click.prevent="addFormEntry" class="w-full text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-md text-sm px-5 py-2.5 mr-2 mb-2">Add Entry</button>
+                  <button type="submit" @click.prevent="addFormEntry" class="w-full text-white bg-blue-700 hover:bg-blue-800 duration-300 font-medium rounded-md text-sm px-5 py-2.5 mr-2 mb-2">Add Entry</button>
                 </div>
                 <!-- Check if email is there, if not disable button -->
                 <div class="col-span-3 lg:col-span-1">
-                  <button v-if="data.email == undefined" disabled type="button" class="w-full text-white bg-gray-400 font-medium rounded-md text-sm px-5 py-2.5 mr-2 mb-2">Add & Notify</button>
-                  <button v-else type="submit" @click.prevent="addNotify" class="w-full text-white opacity-80 bg-green-700 hover:bg-green-800 font-medium rounded-md text-sm px-5 py-2.5 mr-2 mb-2">Add & Notify</button>
+                  <button v-if="data.email == undefined" disabled type="button" class="w-full text-white bg-gray-400 font-medium rounded-md duration-300 text-sm px-5 py-2.5 mr-2 mb-2">Add & Notify</button>
+                  <button v-else type="submit" @click.prevent="addNotify" class="w-full text-white bg-green-700 hover:bg-green-800 duration-300 font-medium rounded-md text-sm px-5 py-2.5 mr-2 mb-2">Add Entry & Notify User</button>
                 </div>
                 <div class="col-span-3 lg:col-span-1">
                   <button type="submit" @click.prevent="rejectForm" class="w-full text-white rounded-md bg-red-600 hover:bg-red-700 duration-300 font-medium text-sm px-5 py-2.5 mr-2 mb-2">Reject Entry      
@@ -168,30 +168,30 @@ const addFormEntry = async () => {
 // add and notify
 const addNotify = async () => {
   console.log("Added and Notified!");
-  alert("Added and Notified!");
-//   event.preventDefault();
-//   const response = await fetch(`/api/admin/recyclable/`, {
-//     method: "POST",
-//     body: JSON.stringify({
-//       name: form.value.name,
-//       material: form.value.material,
-//       description: form.value.description,
-//       recyclable: form.value.recyclable,
-//       createdAt: new Date().toISOString(),
-//       tags: [],
-//     }),
-//   });
+  // alert("Added and Notified!");
+  event.preventDefault();
+  const response = await fetch(`/api/admin/recyclable/`, {
+    method: "POST",
+    body: JSON.stringify({
+      name: form.value.name,
+      material: form.value.material,
+      description: form.value.description,
+      recyclable: form.value.recyclable,
+      createdAt: new Date().toISOString(),
+      tags: [],
+    }),
+  });
   
-//   if (response.ok) {
-//     const update = await fetch(`/api/admin/recyclerequests/${id}`, {
-//       method: "POST",
-//       body: JSON.stringify({
-//         status: "completed",
-//       }),
-//     });
-//     console.log("Added and Notified!");
+  if (response.ok) {
+    const update = await fetch(`/api/admin/recyclerequests/${id}`, {
+      method: "POST",
+      body: JSON.stringify({
+        status: "completed",
+      }),
+    });
+    console.log("Added and Notified!");
 
-//   }
+  }
 };
 
 // Reject form

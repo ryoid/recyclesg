@@ -36,6 +36,7 @@
           <div class="grid grid-cols-2 gap-4 mt-5">
               <div class="col-span-2 lg:col-span-1">
                 <h2 class="text-xl mb-2">Name</h2>
+                
                 <InputText class="w-full" type="text" v-model="data.name" />
                 <!-- <div v-if="errors.name" class="text-red-500">{{ errors.name }}</div><br> -->
 
