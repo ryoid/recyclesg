@@ -9,17 +9,18 @@ export default defineNuxtPlugin(() => {
 
   addRouteMiddleware("auth", async () => {
     const { $auth } = useNuxtApp();
+    const user = useFirebaseUser();
 
-    if (!$auth?.currentUser) {
+    if (!user.value.loading && !$auth?.currentUser) {
       return navigateTo("/login");
     }
   });
 
-  addRouteMiddleware("admin", () => {
+  addRouteMiddleware("admin", async () => {
     const { $auth } = useNuxtApp();
     const user = useFirebaseUser();
 
-    if (!$auth?.currentUser) {
+    if (!user.value.loading && !$auth?.currentUser) {
       return navigateTo("/login");
     }
   });
