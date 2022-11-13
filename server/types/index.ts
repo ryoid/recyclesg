@@ -42,6 +42,18 @@ export type CollectionBooking = {
   description: string;
 };
 
+export type Annotation = {
+  locations: any[];
+  properties: any[];
+  mid: string;
+  locale: string;
+  description: string;
+  score: number;
+  confidence: number;
+  topicality: number;
+  boundingPoly: null;
+};
+
 const CollectionBooking = {
   id: "1",
   name: "Ryan",
