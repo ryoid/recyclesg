@@ -5,11 +5,8 @@ import { firestore } from "~~/server/utils/firebase";
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);
 
-  // @ts-ignore
-  const user = event.req.user;
-
   const table = firestore.collection("users");
-  const snapshot = await table.where("uid", "==", user.uid).get();
+  const snapshot = await table.where("uid", "==", body.uid).get();
 
   if (snapshot.empty) throw new Error("Failed to find user");
 
