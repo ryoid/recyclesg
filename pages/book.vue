@@ -33,7 +33,7 @@ div {
                     :inline="true" :minDate="form.minDateValue" :maxDate="form.maxDateValue "
                     class="inline-block sm:w-full md:w-[500px]  " style="margin: 10px"/>
                 <div class="inline-block" >
-                    <ul class="grid grid-cols-3 gap-2 w-[300px] content-center " style="margin: 5px">
+                    <ul class="grid grid-cols-3 gap-2 w-[300px]" style="margin: 5px">
                         <li style="margin-left:5" :class="['bg-white py-4 px-3 rounded-xl border border-gray-200 cursor-pointer text-center select-none', {
                             'bg-gray-200 text-gray-700 cursor-not-allowed': !slot.available,
                             'bg-blue-500 text-white': form.selectedDateTime?.toISOString() === slot.date
