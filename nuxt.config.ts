@@ -44,4 +44,7 @@ export default defineNuxtConfig({
           : [],
     },
   },
+  alias: {
+    "firebase/analytics": "firebase/analytics/dist/index.mjs",
+  },
 });

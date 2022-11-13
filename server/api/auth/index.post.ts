@@ -13,6 +13,7 @@ export default defineEventHandler(async (event) => {
     await table.add({
       uid: user.uid,
       role: "user",
+      points: 0,
     });
   }
 
