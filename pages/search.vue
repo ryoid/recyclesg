@@ -37,11 +37,14 @@
 <script setup lang="ts">
 import { Recyclable } from '~~/server/types';
 import { MagnifyingGlassIcon } from '@heroicons/vue/24/outline'
+import { useGtag } from "vue-gtag-next";
 
 import { getAnalytics, isSupported, logEvent } from 'firebase/analytics'
 
 const { $firebaseApp } = useNuxtApp()
 const route = useRoute()
+
+const { event } = useGtag();
 
 let search = await useFetch<Recyclable[]>(route.query.tags ? `/api/admin/recyclable/tags` : `/api/admin/recyclable/search`, {
   query: route.query.tags ? { tags: route.query.tags } : { q: route.query.q },
@@ -59,27 +62,34 @@ const alternativeResults = search.data.value.filter((item) => {
 onMounted(async () => {
 
   await search.refresh()
-  await $fetch('/api/events', {
-    method: 'POST',
-    body: JSON.stringify({
-      ev: 'view_search_results',
-      data: {
-        search_term: route.query.tags ?? route.query.q,
-        number_of_results: search.data.value.length,
-      },
-    }),
-  })
-  if (isSupported()) {
-    const analytics = getAnalytics($firebaseApp)
-    analytics.app.automaticDataCollectionEnabled = true
-    console.log(analytics);
-
-    logEvent(analytics, 'view_search_results' as any, {
-      search_term: route.query.tags ?? route.query.q,
-      number_of_results: search.data.value.length,
+  const trackScreenview = () => {
+    event('aaa', {
+      'event_category': 'bbb',
+      'event_label': 'ccc'
     })
-    console.log('yes');
-  }
+  };
+  trackScreenview()
+  // await $fetch('/api/events', {
+  //   method: 'POST',
+  //   body: JSON.stringify({
+  //     ev: 'view_search_results',
+  //     data: {
+  //       search_term: route.query.tags ?? route.query.q,
+  //       number_of_results: search.data.value.length,
+  //     },
+  //   }),
+  // })
+  // if (isSupported()) {
+  //   const analytics = getAnalytics($firebaseApp)
+  //   analytics.app.automaticDataCollectionEnabled = true
+  //   console.log(analytics);
+
+  //   logEvent(analytics, 'view_search_results' as any, {
+  //     search_term: route.query.tags ?? route.query.q,
+  //     number_of_results: search.data.value.length,
+  //   })
+  //   console.log('yes');
+  // }
 })
 
 
