@@ -53,7 +53,7 @@ export type Annotation = {
 };
 
 export type Reward = {
-  id: string | number;
+  id: string;
 
   name: string;
   points: number;
