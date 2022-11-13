@@ -17,7 +17,7 @@
       <form class="bg-gray-100 p-3 border" @click="selectImage" @dragover="dragOverHandler" @drop="dropHandler">
         <input class="hidden" type="file" @change="imageChange" ref="imageInputRef" accept="image/*" />
         <div class="mx-auto bg-gray-100 h-64 sm:h-80 md:h-96 lg:h-80 w-2/3 relative">
-          <div v-if="!imageSrc" class="absolute inset-0 top-20 items-center justify-center">
+          <div v-if="!imageSrc" class="absolute inset-0 sm:top-10 md:top-20 items-center justify-center">
             <i id="uploadicon" class="col-12 pi pi-upload"></i>
             <p class="col-12 text-center mx-auto">Click or drag and drop here to upload from storage.</p>
             <p id="warntext" class="col-12 text-center mx-auto" >*Maximum file limit: 1</p>
