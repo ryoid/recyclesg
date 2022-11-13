@@ -25,10 +25,10 @@ div {
             </p>
         </div>
         <br>
-        <br>    
+        <br>
         <div class="flex justify-center">
             <div class="">
-                
+
                 <Calendar :disabled-dates="data.unavailableDays.map(day => new Date(day))" v-model="form.selectedDate"
                     :inline="true" :minDate="form.minDateValue" :maxDate="form.maxDateValue "
                     class="inline-block sm:w-full md:w-[500px]  " style="margin: 10px"/>
