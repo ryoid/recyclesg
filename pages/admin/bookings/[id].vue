@@ -8,9 +8,9 @@
       <!-- do placeholder content here, ultimately make new component -->
     </div>
     <div v-else>
-      <h1 class="text-3xl font-bold underline">
+      <!-- <h1 class="text-3xl font-bold underline">
         Admin / Bookings / {{id}} detail
-      </h1>
+      </h1> -->
       <form>
         <div class="container">
           <div class="grid md:grid-cols-1 lg:grid-cols-4 gap-20 mt-6">
@@ -77,6 +77,11 @@ const id = route.params.id
 
 const { data, pending, refresh, error } = await useFetch(`/api/admin/bookings/${id}`, {
 })
+
+onMounted(() => {
+  refresh()
+})
+
 
 const updateBooking  = async () => {
   // prevent default

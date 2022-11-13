@@ -60,36 +60,28 @@ const alternativeResults = search.data.value.filter((item) => {
 })
 
 onMounted(async () => {
-
   await search.refresh()
-  const trackScreenview = () => {
-    event('aaa', {
-      'event_category': 'bbb',
-      'event_label': 'ccc'
-    })
-  };
-  trackScreenview()
-  // await $fetch('/api/events', {
-  //   method: 'POST',
-  //   body: JSON.stringify({
-  //     ev: 'view_search_results',
-  //     data: {
-  //       search_term: route.query.tags ?? route.query.q,
-  //       number_of_results: search.data.value.length,
-  //     },
-  //   }),
-  // })
-  // if (isSupported()) {
-  //   const analytics = getAnalytics($firebaseApp)
-  //   analytics.app.automaticDataCollectionEnabled = true
-  //   console.log(analytics);
+  await $fetch('/api/events', {
+    method: 'POST',
+    body: JSON.stringify({
+      ev: 'view_search_results',
+      data: {
+        search_term: route.query.tags ?? route.query.q,
+        number_of_results: search.data.value.length,
+      },
+    }),
+  })
+  if (isSupported()) {
+    const analytics = getAnalytics($firebaseApp)
+    analytics.app.automaticDataCollectionEnabled = true
+    console.log(analytics);
 
-  //   logEvent(analytics, 'view_search_results' as any, {
-  //     search_term: route.query.tags ?? route.query.q,
-  //     number_of_results: search.data.value.length,
-  //   })
-  //   console.log('yes');
-  // }
+    logEvent(analytics, 'view_search_results' as any, {
+      search_term: route.query.tags ?? route.query.q,
+      number_of_results: search.data.value.length,
+    })
+    console.log('yes');
+  }
 })
 
 

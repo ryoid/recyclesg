@@ -58,9 +58,9 @@
         <div class="mx-3 text-gray-400 rounded-lg text-sm">Popular Searches</div>
       </div>
       <div class="flex gap-2 px-2 flex-wrap">
-        <NuxtLink v-for="r in topSearches.data.value" :href="`/search?q=${r.name}`"
+        <NuxtLink v-for="r in topSearches.data.value" :href="`/search?q=${r.term}`"
           class="px-4 py-2 bg-gray-100  rounded-lg hover:bg-gray-200 text-gray-500 cursor-pointer text-sm">
-          {{ r.name }}
+          {{ r.term }}
         </NuxtLink>
       </div>
     </div>
@@ -87,8 +87,7 @@ const suggestions = ref<Recyclable[]>([])
 const uploaderVisible = ref<boolean>(false)
 const uploadInput = ref(null)
 
-const topSearches = await useFetch('/api/admin/recyclable/top')
-
+const topSearches = await useFetch('/api/admin/popular-searches')
 
 async function searchResults(event) {
   query.value = event.target.value

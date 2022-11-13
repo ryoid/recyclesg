@@ -12,7 +12,7 @@
             accent-line="glow">
             <p v-if="!data.completed_requests && pending">Fetching data...</p>
             <p v-else-if="error">An error occurred :(</p>
-            <AdminDashboardActivityChart v-else id="search-activity" :data="searchActivity" />
+            <AdminDashboardActivityChart v-else id="search-activity" :data="data.search_activity" />
           </AdminDashboardCard>
           <AdminDashboardCard class="row-span-1 md:row-span-3 lg:row-span-1 flex md:flex-col lg:flex-row flex-wrap"
             accent-line="glow">
@@ -23,21 +23,21 @@
                   {{ data.counts.users }}
                 </div>
                 <h2 class="font-semibold">Users</h2>
-                <p class="text-gray-600">In the past 24 hrs</p>
+                <p class="text-gray-600">All time</p>
               </div>
               <div class="flex flex-col items-center justify-center">
                 <div class="font-semibold" style="font-size: 60px">
                   {{ data.counts.bookings }}
                 </div>
                 <h2 class="font-semibold">Bookings</h2>
-                <p class="text-gray-600">Today</p>
+                <p class="text-gray-600">All time</p>
               </div>
               <div class="flex flex-col items-center justify-center">
                 <div class="font-semibold" style="font-size: 60px">
-                  {{ data.counts.otherthing }}
+                  {{ data.counts.requests }}
                 </div>
-                <h2 class="font-semibold">Bookings</h2>
-                <p class="text-gray-600">Today</p>
+                <h2 class="font-semibold">Requests</h2>
+                <p class="text-gray-600">All time</p>
               </div>
             </div>
           </AdminDashboardCard>
@@ -115,13 +115,12 @@ const { data, pending, refresh, error } = await useFetch('/api/admin/dashboard',
 })
 
 
-const { data: searchActivity, ...searchActivityFetch } = await useFetch('/api/admin/search-activity', {
-})
 
 onMounted(() => {
   window.setInterval(() => {
+    console.log('refreshing');
+
     refresh()
-    searchActivityFetch.refresh()
   }, 2000)
 })
 </script>

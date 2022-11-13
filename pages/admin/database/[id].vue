@@ -28,9 +28,9 @@
   
     <div v-else>
       <div>
-        <h1 class="text-3xl font-bold underline">
+        <!-- <h1 class="text-3xl font-bold underline">
           Admin / Database / [{{ id }}] detail
-        </h1> 
+        </h1>  -->
       </div>
         <div class="container">
           <div class="grid grid-cols-2 gap-4 mt-5">

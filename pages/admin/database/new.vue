@@ -10,11 +10,11 @@
       <!-- <p v-if="pending">Pending leh bro</p> -->
     
       <div>
-        <div>
+        <!-- <div>
           <h1 class="text-3xl font-bold underline">
             Admin / Requests / [new] detail
           </h1> 
-        </div>
+        </div> -->
         <form>
             <div class="container">
                 <div class="grid grid-cols-2 gap-4 mt-5">

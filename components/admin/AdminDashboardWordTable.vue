@@ -9,14 +9,14 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="(item, index)  in data.words">
+      <tr v-for="(item, index)  in data.searches">
         <td :class="['border-gray-100 p-2 pl-8 text-gray-500', {
-          'border-b': (index < (data.words.length - 1)),
+          'border-b': (index < (data.searches.length - 1)),
         }]">{{
-    item.word
+    item.term
 }}</td>
         <td :class="['border-gray-100 p-2 pr-8 text-gray-500', {
-          'border-b': (index < (data.words.length - 1)),
+          'border-b': (index < (data.searches.length - 1)),
         }]">{{ item.count }}</td>
       </tr>
     </tbody>
@@ -24,7 +24,7 @@
 </template>
 
 <script setup lang="ts">
-const { data, pending, refresh, error } = await useFetch('/api/admin/top-words', {
+const { data, pending, refresh, error } = await useFetch('/api/admin/dashboard', {
 })
 
 onMounted(() => {
