@@ -78,6 +78,11 @@ const id = route.params.id
 const { data, pending, refresh, error } = await useFetch(`/api/admin/bookings/${id}`, {
 })
 
+onMounted(() => {
+  refresh()
+})
+
+
 const updateBooking  = async () => {
   // prevent default
   event.preventDefault()

@@ -85,7 +85,6 @@ input::-webkit-inner-spin-button {
                 <div>
                     <label for="desc" class="form-label">Description (Optional):</label><br>
                     <Textarea v-model="form.description" rows="10" cols="80" class = "form-control w-[500px]" id="desc"  />
-                    
                 </div>
                 <br />
                 <Button type="submit" @click="submitForm" label="Submit" style="margin-left: 4px">Book
@@ -134,6 +133,8 @@ function getImageUrl(downloadurl) {
     console.log(downloadurl)
 }
 
+
+
 const submitForm  = async () => {
 // prevent default form submission
     event.preventDefault();
@@ -159,4 +160,6 @@ const submitForm  = async () => {
     }
 
 }
+
+
 </script>
