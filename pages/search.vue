@@ -17,6 +17,26 @@
 
     </div>
 
+    <div v-if="user.user"
+      class="flex bg-teal-500/20 text-teal-800 p-4 rounded-lg justify-between items-center mt-6 mb-2">
+      <div>
+        <div class="text-2xl">
+          Scan to redeem points
+        </div>
+        <div class="text-sm">
+          Scan the barcode on the blue recycle bins to redeem points.
+        </div>
+      </div>
+      <div>
+        <button
+          class="text-white bg-teal-700 hover:bg-teal-800 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm px-5 py-4 text-center mr-3 md:mr-0 w-full"
+          @click="startScanner">Scan
+          Recycle Bin QR Code</button>
+      </div>
+    </div>
+
+    <div id="qr-code-full-region"></div>
+
     <h1 class="text-2xl font-semibold py-4">Search results</h1>
     <div v-if="search.data.value.length < 1">
       <p class="text-gray-500">No results found.</p>
@@ -37,14 +57,12 @@
 <script setup lang="ts">
 import { Recyclable } from '~~/server/types';
 import { MagnifyingGlassIcon } from '@heroicons/vue/24/outline'
-import { useGtag } from "vue-gtag-next";
-
+import { Html5QrcodeScanner } from 'html5-qrcode';
 import { getAnalytics, isSupported, logEvent } from 'firebase/analytics'
 
+const user = useFirebaseUser()
 const { $firebaseApp } = useNuxtApp()
 const route = useRoute()
-
-const { event } = useGtag();
 
 let search = await useFetch<Recyclable[]>(route.query.tags ? `/api/admin/recyclable/tags` : `/api/admin/recyclable/search`, {
   query: route.query.tags ? { tags: route.query.tags } : { q: route.query.q },
@@ -83,6 +101,18 @@ onMounted(async () => {
     console.log('yes');
   }
 })
+
+function startScanner() {
+  console.log('start scanner');
+  const config: any = {
+    fps: 10,
+    qrbox: 250,
+  };
+  const html5QrcodeScanner = new Html5QrcodeScanner('qr-code-full-region', config, false);
+  html5QrcodeScanner.render((decodedText, decodedResult) => {
+    console.log(decodedText, decodedResult);
+  }, () => { });
+}
 
 
 

@@ -31,6 +31,7 @@
     "firebase": "^9.13.0",
     "firebase-admin": "^11.2.0",
     "font-awesome": "^4.7.0",
+    "html5-qrcode": "^2.3.0",
     "lru-cache": "^7.14.1",
     "natural": "^5.2.3",
     "primeicons": "^5.0.0",
