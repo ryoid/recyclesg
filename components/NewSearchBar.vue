@@ -35,15 +35,7 @@
           leave-active-class="transition duration-75 ease-out" leave-from-class="transform scale-100 opacity-100"
           leave-to-class="transform scale-95 opacity-0">
           <ComboboxOptions class="z-10 absolute mt-1 max-h-60 w-full overflow-auto bg-white shadow-lg rounded-lg py-2">
-            <div v-if="!loading && query.length > 0 && query !== ''">
-              <div v-if="loading" class="relative cursor-default select-none py-2 px-4 text-gray-700">
-                Searching...
-              </div>
-              <div v-else-if="suggestions.length === 0 && query !== ''"
-                class="relative cursor-default select-none py-2 px-4 text-gray-700">
-                Nothing found.
-              </div>
-
+            <div v-if="query.length > 0 && query !== ''">
               <ComboboxOption v-for="recyclable in suggestions" as="template" :key="recyclable.id" :value="recyclable"
                 v-slot="{ selected, active }">
                 <li class="relative cursor-default select-none py-2 pl-4 pr-4 flex items-center gap-2" :class="{
@@ -105,12 +97,34 @@ async function searchResults(event) {
     return
   }
 
+  suggestions.value = [{
+    id: 'temp',
+    name: event.target.value,
+    material: '', tags: [],
+    description: '', recyclable: false
+  }]
+
   if (debounceTimeout) clearTimeout(debounceTimeout);
   debounceTimeout = setTimeout(async () => {
     loading.value = true
     try {
       const results = (await $fetch(`/api/admin/recyclable/search?q=${event.target.value}`)) as Recyclable[]
-      suggestions.value = results;
+      suggestions.value = [{
+        id: 'temp',
+        name: event.target.value,
+        material: '', tags: [],
+        description: '', recyclable: false
+      }, ...results]
+      await $fetch('/api/events', {
+        method: 'POST',
+        body: JSON.stringify({
+          ev: 'search',
+          data: {
+            search_term: event.target.value,
+            number_of_results: results.length,
+          },
+        }),
+      })
     } catch (err) {
       console.log(err);
     } finally {

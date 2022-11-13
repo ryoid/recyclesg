@@ -224,7 +224,6 @@ export const signOutUser = async () => {
 
 export const useFirebase = () => {
   const firebaseApp = initializeApp(firebaseConfig);
-  // const analytics = getAnalytics(firebaseApp);
   const firestore = getFirestore(firebaseApp);
   const storage = getStorage(firebaseApp);
   // const auth = getAuth(firebaseApp);
@@ -233,7 +232,6 @@ export const useFirebase = () => {
   return {
     firebaseApp,
     storage,
-    // auth,
     firestore,
     // auth,
     // messaging,

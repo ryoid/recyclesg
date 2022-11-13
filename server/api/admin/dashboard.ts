@@ -1,4 +1,4 @@
-import { isToday } from "date-fns";
+import { addDays, isToday } from "date-fns";
 import { firestore } from "~~/server/utils/firebase";
 import {
   TABLE_NAME as REQUESTS_TABLE_NAME,
@@ -7,11 +7,20 @@ import {
 
 export default defineEventHandler(async () => {
   const requestsTable = firestore.collection(REQUESTS_TABLE_NAME);
-  const snapshot = await requestsTable.get();
-  const requests = snapshot.docs.map(normalizeRecycleRequest);
+  const searchTable = firestore.collection("view_search_results");
+  const [requestsSnap, searchesSnap] = await Promise.all([
+    requestsTable.get(),
+    searchTable.where("createdAt", ">", addDays(new Date(), -7)).get(),
+  ]);
+  const requests = requestsSnap.docs.map(normalizeRecycleRequest);
 
   return {
-    searches: requests.filter((request) => request.status),
+    searches: searchesSnap.docs.map((d) => {
+      return {
+        ...d.data(),
+        createdAt: d.createTime.toDate(),
+      };
+    }),
     pending_requests: requests
       .filter((request) => request.status === "pending")
       .slice(0, 4),

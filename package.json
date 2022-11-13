@@ -36,6 +36,7 @@
     "primeicons": "^5.0.0",
     "primevue": "^3.18.1",
     "uuid": "^9.0.0",
-    "vue-chartjs": "^4.1.2"
+    "vue-chartjs": "^4.1.2",
+    "vue-gtag-next": "^1.14.0"
   }
 }
