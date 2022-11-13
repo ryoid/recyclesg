@@ -78,8 +78,6 @@ export async function uploadFile(
 }
 
 export const createUser = async (email, password) => {
-  console.log("createUser", email, password);
-
   const auth = getAuth();
   try {
     const credentials = await createUserWithEmailAndPassword(
@@ -87,6 +85,27 @@ export const createUser = async (email, password) => {
       email,
       password
     );
+    const firebaseUser = useFirebaseUser();
+    firebaseUser.value = {
+      loading: true,
+    };
+    const userCookie = useCookie("userCookie");
+    const res = await $fetch("/api/auth", {
+      method: "POST",
+      body: { user: credentials.user },
+    });
+
+    const _user = {
+      ...credentials.user,
+      ...res,
+    };
+
+    firebaseUser.value = {
+      user: _user,
+    };
+
+    // @ts-ignore
+    userCookie.value = _user; //ignore error because nuxt will serialize to json
     return credentials;
   } catch (err) {
     const errorCode = err.code;
@@ -105,6 +124,28 @@ export const signInUser = async (email, password) => {
   const auth = getAuth();
   try {
     const credentials = await signInWithEmailAndPassword(auth, email, password);
+
+    const firebaseUser = useFirebaseUser();
+    firebaseUser.value = {
+      loading: true,
+    };
+    const userCookie = useCookie("userCookie");
+    const res = await $fetch("/api/auth", {
+      method: "POST",
+      body: { user: credentials.user },
+    });
+
+    const _user = {
+      ...credentials.user,
+      ...res,
+    };
+
+    firebaseUser.value = {
+      user: _user,
+    };
+
+    // @ts-ignore
+    userCookie.value = _user; //ignore error because nuxt will serialize to json
     return credentials;
   } catch (err) {
     const errorCode = err.code;
@@ -125,7 +166,6 @@ export const initUser = async () => {
   firebaseUser.value = {
     loading: true,
   };
-
   const userCookie = useCookie("userCookie");
 
   const route = useRoute();
@@ -175,6 +215,10 @@ export const initUser = async () => {
 export const signOutUser = async () => {
   const auth = getAuth();
   const result = await auth.signOut();
+  const firebaseUser = useFirebaseUser();
+  const userCookie = useCookie("userCookie");
+  firebaseUser.value.user = null;
+  userCookie.value = null;
   return result;
 };
 
