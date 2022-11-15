@@ -146,7 +146,7 @@ const submitForm  = async () => {
     } catch (err) {
         console.log(err)
     }
-    router.push("/")
+    
 
 }}
 
