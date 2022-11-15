@@ -108,7 +108,7 @@
                 <!-- Check if email is there, if not disable button -->
                 <div class="col-span-3 lg:col-span-1">
                   <button v-if="data.email == undefined" disabled type="button"
-                    class="w-full text-white bg-gray-400 font-medium rounded-md duration-300 text-sm px-5 py-2.5 mr-2 mb-2">Add
+                    class="w-full text-white opacity-50 bg-gray-600 font-medium rounded-md duration-300 text-sm px-5 py-2.5 mr-2 mb-2">Add
                     & Notify</button>
                   <button v-else type="submit" @click.prevent="addNotify"
                     class="w-full text-white bg-green-700 hover:bg-green-800 duration-300 font-medium rounded-md text-sm px-5 py-2.5 mr-2 mb-2">Add
@@ -124,7 +124,7 @@
                     Entry
                   </button>
                   <button v-if="data.status == 'rejected'" type="submit" disabled
-                    class="w-full text-white rounded-md bg-gray-600 font-medium text-sm px-5 py-2.5 mr-2 mb-2">Reject
+                    class="w-full text-white rounded-md opacity-50 bg-gray-600 font-medium text-sm px-5 py-2.5 mr-2 mb-2">Reject
                     Entry
                   </button>
                 </div>
