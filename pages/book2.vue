@@ -148,7 +148,7 @@ const submitForm  = async () => {
     }
     router.push("/")
 
-}
+}}
 
 
 </script>
