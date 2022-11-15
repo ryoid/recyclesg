@@ -2,9 +2,11 @@
   <nav class="bg-white border-neutral-100 w-full border-b">
     <div class="container mx-auto">
       <div class="flex justify-between">
-        <div class="ml-3 mt-4">
-          RecycleSG
-        </div>
+        <NuxtLink href="/">
+          <div class="ml-3 mt-4">
+            RecycleSG
+          </div>
+        </NuxtLink>
         <div class="mr-1 mt-2">
           <div
             class="bg-gradient-to-r from-gray-100 to-gray-200 rounded-full h-10 w-10 ring ring-gray-100 ring-offset-1">

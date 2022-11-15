@@ -38,13 +38,13 @@
                 <br />
                 <div>
                     <h3>Collection Location</h3>
-                    <div class="inline">
-                        <label for="address" class="form-label">Address:</label><br>
+                    <div class="flex flex-col">
+                        <label for="address" class="form-label">Address:</label>
                         <InputText type="text" v-model="form.address" size="50" required class="w-[500px] form-control"
                             id="address" />
                     </div>
-                    <div class="inline">
-                        <label for="postal" class="form-label">Postal Code:</label><br>
+                    <div class="flex flex-col">
+                        <label for="postal" class="form-label">Postal Code:</label>
                         <InputText :useGrouping="false" v-model="form.postalCode" required
                             class="w-[300px] form-control" id="postal" pattern="[0-9]{6}" title="Postal Code" />
 
@@ -145,8 +145,8 @@ const submitForm  = async () => {
         router.push(`/`)
     } catch (err) {
         console.log(err)
-    }}
-    
+    }
+    router.push("/")
 
 }
 

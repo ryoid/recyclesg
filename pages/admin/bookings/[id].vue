@@ -19,9 +19,9 @@
                 <img class="lg:w-90 md:w-90 sm:w-90 rounded-lg shadow" :src="data.image" alt="">
               </div>
             </div>
-        
+
             <div class="col-span-3">
-              <div>            
+              <div>
                 <h2 class="font-semibold text-xl">Add new Entry</h2>
               </div>
               <div class="grid grid-cols-2 gap-4 mt-5">
@@ -31,19 +31,19 @@
                 </div>
                 <div class="col-span-2 lg:col-span-1">
                   <h2 class="text-xl mb-2">Email</h2>
-                  <InputText class="w-full" type="text" v-model="data.email"/>
+                  <InputText class="w-full" type="text" v-model="data.email" />
                 </div>
               </div>
-            
+
               <div class="grid grid-cols-2 gap-4 mt-5">
                 <div class="col-span-2 lg:col-span-1">
-                    <h2 class="text-xl mb-2">Address</h2>
-                    <InputText class="w-full" type="text" v-model="data.address"/>
+                  <h2 class="text-xl mb-2">Address</h2>
+                  <InputText class="w-full" type="text" v-model="data.address" />
                 </div>
                 <div class="col-span-2 lg:col-span-1">
-                    <h2 class="text-xl mb-2">Postal</h2>
-                    <InputText class="w-full" type="text" v-model="data.postalCode"/>
-                  </div>
+                  <h2 class="text-xl mb-2">Postal</h2>
+                  <InputText class="w-full" type="text" v-model="data.postalCode" />
+                </div>
               </div>
               <div class="mt-5">
                 <label for="message" class="block mb-2 font-medium text-gray-900 text-xl">Description</label>
@@ -51,7 +51,9 @@
               </div>
               <div class="grid grid-cols-1 place-items-end mt-6">
                 <div class="col-span-3 lg:col-span-1">
-                  <button type="submit" @click="updateBooking" class="w-full text-white rounded-md bg-blue-600 hover:bg-blue-700 duration-300 font-medium text-sm px-5 py-2.5 mr-2 mb-2">Update Booking      
+                  <button type="submit" @click="updateBooking"
+                    class="w-full text-white rounded-md bg-blue-600 hover:bg-blue-700 duration-300 font-medium text-sm px-5 py-2.5 mr-2 mb-2">Update
+                    Booking
                   </button>
                 </div>
               </div>
@@ -66,11 +68,12 @@
 <script setup lang="ts">
 import { da } from 'date-fns/locale';
 
-function fileUpload(){
+function fileUpload() {
   console.log("fileUpload")
   //file upload
 }
 
+const router = useRouter()
 const route = useRoute()
 const id = route.params.id
 
@@ -83,22 +86,25 @@ onMounted(() => {
 })
 
 
-const updateBooking  = async () => {
+
+
+const updateBooking = async () => {
   // prevent default
   event.preventDefault()
 
-  console.log("submit form", data)
-  await $fetch(`/api/admin/bookings/${id}`, {
-    method: "POST",
-    body: JSON.stringify({
-        name: data.value.name,
-        email: data.value.email,
-        description: data.value.description,
-        address: data.value.address,
-        postalCode: data.value.postalCode,
+  console.log("submit form", data)
+  await $fetch(`/api/admin/bookings/${id}`, {
+    method: "POST",
+    body: JSON.stringify({
+      name: data.value.name,
+      email: data.value.email,
+      description: data.value.description,
+      address: data.value.address,
+      postalCode: data.value.postalCode,
     }),
-  })
-  console.log("submit form", data.value.name)    
+  })
+  console.log("submit form", data.value.name)
+  router.push("/admin/bookings");
 }
 
 console.log(data)

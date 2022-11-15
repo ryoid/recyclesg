@@ -14,7 +14,7 @@ export default defineEventHandler(async (event) => {
   const profile = uSnapshot.docs[0].data();
   if (!profile.points) profile.points = 0;
 
-  const newPoints = profile.points + Math.abs(159);
+  const newPoints = Number(profile.points) + Math.abs(Number(150));
 
   const ref = table.doc(uSnapshot.docs[0].id);
   await ref.update({
