@@ -97,17 +97,9 @@
                 id="navbar-sticky">
                 <div
                     class="flex flex-col h-full rounded-lg border border-gray-100 md:flex-row md:space-x-8 md:mt-0 md:font-medium md:border-0">
-                    <NuxtLink href="/" aria-current="page">
-                        <div
-                            class="flex py-2 md:py-4 pr-4 pl-3 text-white bg-teal-700 rounded md:bg-transparent md:text-teal-700 h-full">
-                            Search</div>
-                    </NuxtLink>
-                    <NuxtLink href="/book"
-                        class="flex py-2 md:py-4 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-teal-700 ">
-                        Book Collection</NuxtLink>
-                    <NuxtLink href="/rewards"
-                        class="flex py-2 md:py-4 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-teal-700 ">
-                        Rewards</NuxtLink>
+                    <NavBarLink link="/" label="Search" name="index" />
+                    <NavBarLink link="/book" label="Book Collection" name="book" />
+                    <NavBarLink link="/rewards" label="Rewards" name="rewards" />
                 </div>
             </div>
         </div>
