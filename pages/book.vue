@@ -47,7 +47,7 @@
                         {{ format(new Date(slot.date), 'h:mm a') }}
                     </li>
                 </ul>
-                <div class="w-full flex items-end justify-end" v-if="form.selectedDate">
+                <div class="w-full flex items-end justify-end mt-10" v-if="form.selectedDate">
                     <Button class="w-full md:w-auto" v-if="form.selectedDateTime == null" @click="showAlert()"
                         label="Continue" />
                     <Button class="w-full md:w-auto" v-else @click="submit" label="Continue" />
