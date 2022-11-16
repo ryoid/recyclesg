@@ -8,14 +8,48 @@
           </div>
         </NuxtLink>
         <div class="mr-1 mt-2">
-          <div
-            class="bg-gradient-to-r from-gray-100 to-gray-200 rounded-full h-10 w-10 ring ring-gray-100 ring-offset-1">
-            <client-only>
-              <img
-                :src="`https://source.boringavatars.com/beam/120/${firebaseUser.email}?colors=1A325F,9cc4e4,e9f2f9,3a89c9,f26c4f`"
-                v-if="firebaseUser" />
-            </client-only>
-          </div>
+          <Menu v-if="firebaseUser.user" as="div" class="relative inline-block text-left mr-4 md:mr-0">
+            <div class="flex items-center justify-center">
+              <MenuButton class="focus:ring-5 focus:ring-black rounded-full">
+                <div
+                  class="bg-gradient-to-r from-gray-100 to-gray-200 rounded-full h-8 w-8 ring ring-gray-100 ring-offset-1">
+                  <client-only>
+                    <img
+                      :src="`https://source.boringavatars.com/beam/120/${firebaseUser.user.email}?colors=1A325F,9cc4e4,e9f2f9,3a89c9,f26c4f`"
+                      v-if="firebaseUser.user" />
+                  </client-only>
+                </div>
+              </MenuButton>
+            </div>
+
+            <transition enter-active-class="transition duration-100 ease-out"
+              enter-from-class="transform scale-95 opacity-0" enter-to-class="transform scale-100 opacity-100"
+              leave-active-class="transition duration-75 ease-in" leave-from-class="transform scale-100 opacity-100"
+              leave-to-class="transform scale-95 opacity-0">
+              <MenuItems
+                class="z-20 absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+
+                <div class="py-3 px-4">
+                  <span class="block text-sm text-gray-900">{{ firebaseUser.user.displayName }}</span>
+                  <span class=" block text-sm font-medium text-gray-500 truncate ">{{
+                      firebaseUser.user.email
+                  }}</span>
+                </div>
+
+                <div class="px-1 py-1">
+                  <MenuItem v-slot="{ active }">
+                  <button :class="[
+                    active ? 'bg-gray-200/50' : 'text-gray-900',
+                    'group flex w-full items-center rounded-md px-2 py-2 text-sm',
+                  ]" @click="signOut">
+                    <ArrowLeftOnRectangleIcon :active="active" class="mr-2 h-5 w-5 text-gray-400" aria-hidden="true" />
+                    Signout
+                  </button>
+                  </MenuItem>
+                </div>
+              </MenuItems>
+            </transition>
+          </Menu>
         </div>
       </div>
       <div class="flex justify-center">
@@ -33,9 +67,6 @@
 
         <div class="ml-auto flex items-center">
           <div>
-            <div class="py-2 px-3 hover:bg-gray-200/75 rounded-lg cursor-pointer">
-              <button class="button" @click="signOut">Sign out</button>
-            </div>
           </div>
         </div>
       </div>
@@ -45,6 +76,9 @@
 
 
 <script setup lang="ts">
+import { Menu, MenuItems, MenuItem, MenuButton } from '@headlessui/vue'
+import { ArrowLeftOnRectangleIcon, UserCircleIcon, BuildingLibraryIcon } from '@heroicons/vue/24/outline'
+
 const firebaseUser = useFirebaseUser();
 
 
