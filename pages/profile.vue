@@ -68,6 +68,17 @@ watch(user, async (newUser) => {
   }
 })
 
+onMounted(async () => {
+  if (user.value.user?.uid) {
+    if (!profile.value.user) {
+      profile.value.pending = true
+    }
+    profile.value.user = await $fetch(`/api/user/${user.value.user?.uid}`).catch(err => {
+      profile.value.error = err
+    })
+    profile.value.pending = false
+  }
+})
 
 // console.log(data)
 </script>
