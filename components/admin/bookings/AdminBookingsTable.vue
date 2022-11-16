@@ -23,8 +23,6 @@
       Loading recyclables data. Please wait.
     </template>
 
-    <Column field="id" header="Id" class="" sortable>
-    </Column>
     <Column field="name" header="Name" class="" sortable></Column>
     <Column field="address" header="Address" class="" sortable></Column>
     <Column field="postalCode" header="PostalCode" class="" sortable></Column>

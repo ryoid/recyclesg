@@ -28,8 +28,6 @@
       Loading recyclables data. Please wait.
     </template>
 
-    <Column field="id" header="Id" class="" sortable>
-    </Column>
     <Column field="name" header="Name" class="" sortable></Column>
     <Column field="material" header="Material" class="" sortable :filterMenuStyle="{ 'width': '14rem' }">
       <template #body="{ data }">
