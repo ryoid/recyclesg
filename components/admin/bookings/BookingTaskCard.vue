@@ -2,7 +2,7 @@
   <NuxtLink :href="`/admin/bookings/${booking.id}`">
     <div
       class="h-24 flex px-3 py-3 gap-3 cursor-pointer rounded-lg transition hover:bg-neutral-100 group saturate-[0.8] hover:saturate-100">
-      <div class="relative h-full aspect-square bg-neutral-50 rounded-lg ">
+      <div class="relative h-full aspect-square bg-neutral-50 rounded-lg overflow-hidden">
         <img class="absolute inset-0 aspect-square object-cover rounded-lg" :src="booking.image" />
       </div>
       <div class="w-full flex flex-col justify-between">
