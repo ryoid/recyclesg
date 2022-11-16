@@ -97,9 +97,9 @@
                 id="navbar-sticky">
                 <div
                     class="flex flex-col h-full rounded-lg border border-gray-100 md:flex-row md:space-x-8 md:mt-0 md:font-medium md:border-0">
-                    <NavBarLink link="/" label="Search" name="index" />
-                    <NavBarLink link="/book" label="Book Collection" name="book" />
-                    <NavBarLink link="/rewards" label="Rewards" name="rewards" />
+                    <NavBarLink link="/" label="Search" name="index" @click="hideMenu" />
+                    <NavBarLink link="/book" label="Book Collection" name="book" @click="hideMenu" />
+                    <NavBarLink link="/rewards" label="Rewards" name="rewards" @click="hideMenu" />
                 </div>
             </div>
         </div>
@@ -120,6 +120,13 @@ function toggleMenu() {
     const navbar = document.getElementById('navbar-sticky');
     if (navbar) {
         navbar.classList.toggle('hidden');
+    }
+}
+
+function hideMenu() {
+    const navbar = document.getElementById('navbar-sticky');
+    if (navbar) {
+        navbar.classList.add('hidden');
     }
 }
 </script>
